@@ -1,0 +1,196 @@
+
+{% extends "base.html" %}
+{% load static%}
+{% load humanize %}
+{% block title %}| Запитване{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/cards_steps.css' %}">
+  <!-- Showcase -->
+  <section id="showcase">
+    <!--Alerts-->
+    {% include "partials/_alerts.html" %}
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5 slide-in-bottom">
+          <h1 class="display-4 mb-4 focus-in-expand">
+            Продай имота си директно на нас
+          </h1>
+          <p class="lead animation slide-in-right"
+          
+          >Вземи безплатна оферта сега. Без ангажименти.</p>
+          <div class="search">
+            <form method="POST" action="{% url 'inquiry' %}">
+              {% csrf_token %}
+              <div class="form-row">
+                  <div class="col-md-6 mb-3">
+                      <label class="sr-only">Име</label>
+                      <input type="text" name="name" class="form-control" placeholder="Име" required>
+                  </div>
+                  <div class="col-md-6 mb-3">
+                      <label class="sr-only">Телефон</label>
+                      <input type="text" name="phone" class="form-control" placeholder="Телефон" required>
+                  </div>
+              </div>
+              <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <label class="sr-only">Тип на имота</label>
+                    <select name="type_property" class="form-control" required>
+                        <option value="" disabled selected>Изберете тип на имота</option>
+                        <option value="3-bed">3-стаен</option>
+                        <option value="2-bed">2-стаен</option>
+                        <option value="maisonette">Мезонет</option>
+                        <option value="garage">Гараж</option>
+                        <option value="shop">Магазин</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-12 mb-3">
+                    <label class="sr-only">Съобщение</label>
+                    <textarea name="message" class="form-control" placeholder="Съобщение" rows="3" required></textarea>
+                </div>
+            </div>
+            <!-- Agree to Terms Checkbox -->
+            <div class="form-row">
+              <div class="col-md-12 mb-2">
+                  <div class="form-check">
+                      <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
+                      <label class="form-check-label " for="agree">
+                          Съгласен съм с <a href="{% url 'terms' %}" target="_blank" class="text-white">Условията</a>
+                      </label>
+                  </div>
+              </div>
+            </div>
+
+              <button class="btn btn-secondary btn-block mt-3" type="submit">Изпрати</button>
+          </form>
+          </div>
+        </div> 
+      </div>
+    </div>
+    
+  </section>
+
+
+  <section id="listings ">
+    <div class="container">
+      <h3 class="text-center mb-3 py-5 focus-in-expand">Най-лесният начин да продадеш имот</h3>
+
+<div class="container steps scroll-animated">
+  <div class="box ">
+    <div class="content">
+      <i class="fa-solid fa-ruler-combined icon"></i>
+      <h2 >01</h2>
+      <h3>Първа стъпка</h3>
+      <p>Описвате параметрите на вашия апартамент по телефона или тук на нашия сайт.</p>
+     
+    </div>
+  </div>
+  <div class="box ">
+    <div class="content ">
+      <i class="fa-solid fa-magnifying-glass-dollar icon"></i>
+      <h2>02</h2>
+      <h3>Втора стъпка</h3>
+      <p>Наш експерт прави оглед на имота на място.</p>
+    
+    </div>
+  </div>
+  <div class="box">
+    <div class="content">
+      <i class="fas fa-clock icon"></i>
+      <h2>03</h2>
+      <h3>Трета стъпка</h3>
+      <p>В рамките на 24 часа получавате оферта за покупка директно от нас.</p>
+    </div>
+  </div>
+
+</div> </div> 
+</section> <br><br>
+
+
+  <section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+      <h2 class="text-center focus-in-expand">Защо продавачите на имоти избират Green Home </h2><br>
+      <div class="row text-center scroll-animated">
+        <div class="col-md-4">
+          <i class="fas fa-couch fa-4x mr-4"></i>
+          <hr>
+          <h3 >Удобство</h3>
+          <p>Продавате имота си без да пускате обяви, да правите огледи и съседите ви да разпитват.</p>
+        </div>
+        <div class="col-md-4 ">
+          <i class="fas fa-comments-dollar fa-4x mr-4"></i>
+          <hr>
+          <h3>Справедлива цена</h3>
+          <p>Цената, която получавате е базирана на пазарната оценка.</p>
+        </div>
+        <div class="col-md-4 ">
+          <i class="fas fa-route fa-4x mr-4"></i>
+          <hr>
+          <h3>Гъвкавост</h3>
+          <p>Можете да освободите имота тогава, когато сте готови за това.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <section id="listings ">
+    <div class="container">
+      <h3 class="text-center mb-3 py-5 focus-in-expand">Често Задавани Въпроси</h3>
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              Попълването на заявка обвързва ли ме с нещо?
+            </a>
+          </h4>
+          </div>
+          <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+              Не. Заявете безплатна оферта и наш консултант ще се свърже с вас без това да ви обвързва по никакъв начин.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Колко ще ми струва вашата услуга?
+            </a>
+          </h4>
+          </div>
+          <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+              Нищо. Оценката на имота, офертата, която ще получите и нашата консултация са напълно безплатни. Не дължите никаква такса.
+            </div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+              Мога ли да се откажа в последствие ако условията не ме устройват?
+            </a>
+          </h4>
+          </div>
+          <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+              Разбира се. Ако офертата не ви устройва може да се откажете без това да ви струва нищо.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><br><br>
+
+
+
+
+{% endblock %}
+
+
+

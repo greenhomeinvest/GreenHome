@@ -1,0 +1,299 @@
+
+{% extends "base.html" %}
+{% load static%}
+{% load humanize %}
+{% block content %}
+<style>
+
+  .common-ellipsis {
+    white-space: nowrap;       /* Prevent text from wrapping to the next line */
+    overflow: hidden;          /* Hide overflowed text */
+    text-overflow: ellipsis;   /* Display ellipsis when text overflows */
+    width: 100%;              /* Adjust the width to limit the text, this can be changed as needed */
+    display: inline-block;     /* Ensure the width takes effect */
+}
+</style>
+  <!-- Showcase -->
+  <section id="showcase">
+    <!--Alerts-->
+    {% include "partials/_alerts.html" %}
+    <div class="container text-center">
+      <div class="home-search p-5">
+        <div class="overlay p-5 slide-in-bottom">
+          <h1 class="display-4 mb-4 focus-in-expand">
+            Търсенето на имоти стана толкова лесно
+          </h1>
+          <p class="lead animation slide-in-right"
+          
+          >Успехът в недвижимите имоти зависи от грижата и ценността, които отдаваме на клиента. Ние сме тук, за да ви помогнем във всеки етап.</p>
+          <div class="search">
+            <form action="{% url 'search' %}" method="get">
+              <div class="form-row">
+                  <!-- City -->
+                  <div class="col-md-4 mb-3">
+                      <label class="sr-only">City</label>
+                      <select name="city" class="form-control">
+                          <option value="" {% if not values.city %}selected{% endif %}>Град</option>
+                          {% for city in city_choices %}
+                          <option value="{{ city }}" {% if city == values.city %}selected{% endif %}>{{ city }}</option>
+                          {% endfor %}
+                      </select>
+                  </div>
+          
+                  <!-- State -->
+                  {% comment %} <div class="col-md-4 mb-3">
+                      <label class="sr-only">State</label>
+                      <select name="state" class="form-control">
+                          <option value="" {% if not values.state %}selected{% endif %}>Квартал</option>
+                          {% for state in state_choices %}
+                          <option value="{{ state }}" {% if state == values.state %}selected{% endif %}>{{ state }}</option>
+                          {% endfor %}
+                      </select>
+                  </div> {% endcomment %}
+
+                  <!-- State -->
+
+                  <!-- State Dropdown -->
+                  <div class="col-md-4 mb-3">
+                      <label class="sr-only">State</label>
+                      <div class="dropdown form-control p-0">
+                          <button class="btn btn-default dropdown-toggle w-100 text-left" type="button" data-toggle="dropdown">
+                              <span class="dropdown-text-state">Квартал</span>
+                              <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu w-100" style='z-index: 10000;'>
+                              <li><a href="#"><label class="m-0 w-100"><input type="checkbox" class="selectall-state" /><span class="select-text-state">Избери всички</span></label></a></li>
+                              <li class="divider"></li>
+                              {% for state in state_choices %}
+                              <li><a href="#"><label class="m-0 w-100"><input name="state[]" type="checkbox" class="option-state" value="{{ state }}" {% if state in values.state %}checked{% endif %} /> {{ state }}</label></a></li>
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 mb-3">
+                      <label class="sr-only">Building Type</label>
+                      <div class="dropdown form-control p-0">
+                          <button class="btn btn-default dropdown-toggle w-100 text-left" type="button" data-toggle="dropdown">
+                              <span class="dropdown-text">Тип имот</span>
+                              <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu w-100" style='z-index: 10000;'>
+                              <li><a href="#"><label class="m-0 w-100"><input type="checkbox" class="selectall" /><span class="select-text">Избери всички</span></label></a></li>
+                              <li class="divider"></li>
+                              {% for type_key, type_value in type_choice %}
+                              <li><a href="#"><label class="m-0 w-100"><input name="type_choice[]" type="checkbox" class="option justone" value="{{ type_key }}" /> {{ type_value }}</label></a></li>
+                              {% endfor %}
+                          </ul>
+                      </div></div>
+                  </div>
+          
+              <div class="form-row">
+                  <!-- Min Price -->
+                  <div class="col-md-4 mb-3">
+                      <label class="sr-only">Минимална цена</label>
+                      <input type="number" name="min_price" class="form-control" placeholder="Минимална цена" value="{{ values.min_price }}">
+                  </div>
+          
+                  <!-- Max Price -->
+                  <div class="col-md-4 mb-3">
+                      <label class="sr-only">Максимална цена</label>
+                      <input type="number" name="max_price" class="form-control" placeholder="Максимална цена" value="{{ values.max_price }}">
+                  </div>
+              <!-- Keywords -->
+                  <div class="col-md-4 mb-3">
+                      <label class="sr-only">Keywords</label>
+                      <input type="text" name="keywords" class="form-control" placeholder="Ключови думи(гараж,басейн,двор,брокер)" value="{{ values.keywords }}">
+                  </div>
+              
+              </div>
+
+                  
+                  {% comment %} <div class="form-row"> 
+                  <!-- Keywords -->
+                  <!-- Keywords -->
+
+
+                  </div> {% endcomment %}
+                  {% comment %} <div class="col-md-6 mb-3">
+                      <label class="sr-only">Select Options</label>
+                      <div class="dropdown form-control p-0">
+                          <button class="btn btn-default dropdown-toggle w-100 text-left" type="button" data-toggle="dropdown">
+                              <span class="dropdown-text">Select Options</span>
+                              <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu w-100">
+                              <li><a href="#"><label class="m-0 w-100"><input type="checkbox" class="selectall" /><span class="select-text"> Select All</span></label></a></li>
+                              <li class="divider"></li>
+                              <li><a class="option-link" href="#"><label class="m-0 w-100"><input name='options[]' type="checkbox" class="option justone" value='Option 1 '/> Option 1</label></a></li>
+                              <li><a href="#"><label class="m-0 w-100"><input name='options[]' type="checkbox" class="option justone" value='Option 2 '/> Option 2</label></a></li>
+                              <li><a href="#"><label class="m-0 w-100"><input name='options[]' type="checkbox" class="option justone" value='Option 3 '/> Option 3</label></a></li>
+                          </ul>
+                      </div>
+                  </div> {% endcomment %}
+
+              {% comment %} <div class="form-row">
+                  <!-- Min Year -->
+                  <div class="col-md-6 mb-3">
+                      <label class="sr-only">Min Year</label>
+                      <input type="number" name="min_year" class="form-control" placeholder="Min Year" value="{{ values.min_year }}">
+                  </div>
+          
+                  <!-- Max Year -->
+                  <div class="col-md-6 mb-3">
+                      <label class="sr-only">Max Year</label>
+                      <input type="number" name="max_year" class="form-control" placeholder="Max Year" value="{{ values.max_year }}">
+                  </div>
+              </div> {% endcomment %}
+          
+              <!-- Submit Button -->
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Търси</button>
+          </form>
+            {% comment %} <form action="{% url 'search' %}">
+              <!-- Form Row 1 -->
+              <div class="form-row">
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Keywords</label>
+                  <input type="text" name="keywords" class="form-control" placeholder="Ключови думи(гараж,басейн,двор)">
+                </div> 
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">City</label>
+                  <select name="city" class="form-control">
+                    <option selected="true" disabled="disabled">Град</option>
+                    {% for key,value in cities_choices.items %}
+                    <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                  <label class="sr-only">Квартал</label>
+                  <select name="state" class="form-control">
+                    <option selected="true" disabled="disabled">Квартали (Всички)</option>
+                    {% for key,value in states_choices.items %}
+                    <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <!-- Form Row 2 -->
+              <div class="form-row">
+                <div class="col-md-6 mb-3">
+                  <label class="sr-only">Стаи</label>
+                  <select name="bedrooms" class="form-control">
+                    <option selected="true" disabled="disabled">Тип имот (Всички)</option>
+                    {% for key,value in bedrooms_choices.items %}
+                    <option value="{{ key }}">{{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <select name="price" class="form-control" id="type">
+                    <option selected="true" disabled="disabled">Максимална цена € (Няма)</option>
+                    {% for key,value in price_choices.items %}
+                    <option value="{{ key }}">€ {{ value }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-secondary btn-block mt-4" type="submit">Търси</button>
+            </form> {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listings -->
+  <section id="listings ">
+    <div class="container">
+      <h3 class="text-center mb-3 py-5 focus-in-expand">Най-нови</h3>
+      <div class="row ">
+        {% if listings %}
+        {% for listing in listings %}
+        <div class="col-md-6 col-lg-4 mb-4 scroll-animated">
+          <a href="{% url 'current_listing' listing.id %}" class="card-link">
+          <div class="card listing-preview ">
+            {% with first_photo=listing.photos.all|first %}
+            <img class="card-img-top" src="{% if listing.photo_main %}{{ listing.photo_main.url }}{% elif first_photo %}{{ first_photo.image.url }}{% else %}{% static 'default-image.jpg' %}{% endif %}" alt="">
+        {% endwith %}
+            {% comment %} <img class="card-img-top" src="{{ listing.photo_main.url }}" alt=""> {% endcomment %}
+            <div class="card-img-overlay">
+              <h2>
+                <span class="badge badge-secondary text-white">{{listing.currency}} {{listing.price | intcomma }}</span>
+              </h2>
+            </div>
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                <h4 class="text-primary common-ellipsis">{% if listing.title %}
+                  {{ listing.title }}
+              {% else %}
+                 ID: {{ listing.uid }}
+              {% endif %}
+            </h4>
+                <p class='common-ellipsis'>
+                  <i class="fas fa-map-marker text-secondary "></i> {{listing.state}}, {{listing.city}}</p>
+              </div>
+              <hr>
+              <div class="row py-2 text-secondary">
+                <div class="col-12">
+                    <i class="fas fa-bed"></i> Тип: {{ listing.type_choice }}</div>
+                <div class="col-12">
+                    <i class="fas fa-bath"></i> Бани: {{ listing.bathrooms }}</div>
+                <div class="col-12">
+                    <i class="fas fa-th-large"></i> Площ: {{ listing.sqft }} m²</div>
+            </div>
+              {% comment %} <hr>
+              <div class="row py-2 text-secondary">
+                <div class="col-12">
+                  <i class="fas fa-user"></i> {{listing.realtor}}</div>
+              </div> {% endcomment %}
+              {% comment %} <div class="row text-secondary pb-2">
+                <div class="col-6">
+                  <i class="fas fa-clock"></i> {{listing.list_date | timesince }}</div>
+              </div> {% endcomment %}
+              <hr>
+              <a href="{% url 'current_listing' listing.id %}" class="btn btn-primary btn-block">Повече информация</a>
+            </div>
+          </div></a>
+        </div>
+      {% endfor %}
+        {% else %}
+          <div class="col-md-12">
+            <p>Няма обяви</p>
+          </div>
+        {% endif %}
+
+
+
+
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+      <div class="row text-center scroll-animated">
+        <div class="col-md-4 animated-section">
+          <i class="fas fa-comment fa-4x mr-4"></i>
+          <hr>
+          <h3 >Консултации</h3>
+          <p>Предлагаме ви персонализирани стратегии и професионални съвети, насочени към постигане на вашите цели в недвижимата сфера.</p>
+        </div>
+        <div class="col-md-4 animated-section">
+          <i class="fas fa-home fa-4x mr-4"></i>
+          <hr>
+          <h3>Управление на имоти</h3>
+          <p>Специализираме се в управлението на недвижими имоти, осигурявайки ефективно администриране, поддръжка и максимизиране на стойността на вашия имотен портфейл.</p>
+        </div>
+        <div class="col-md-4 animated-section">
+          <i class="fas fa-suitcase fa-4x mr-4"></i>
+          <hr>
+          <h3>Отдаване под наем и продажба</h3>
+          <p>Предоставяме професионално отдаване под наем и ефективна продажба на недвижими имоти. За собствениците осигуряваме безгрижно управление и качествени наемници, а за покупателите - успешно пласиране на имотите на пазара и ефективни транзакции.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

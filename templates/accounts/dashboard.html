@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load static%}
+{% load humanize %}
+{% block title %}
+| Табло
+{% endblock %}
+{% block content %}
+
+
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">Моите обяви</h1>
+          <p class="lead">Управлявай своя GreenHome акаунт</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">
+              <i class="fas fa-home"></i> Начало</a>
+          </li>
+          <li class="breadcrumb-item active"> Табло</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+    <!--Alerts-->
+    {% include "partials/_alerts.html" %}
+  <section id="dashboard" class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Добре дошъл  {{ user.first_name }}</h2>
+          {% if contacts %}
+          <p>Тук са обявите за които е направено запитване</p>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">№</th>
+                <th scope="col">Имот</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+          
+                {% for contact in contacts %}
+                  <tr>
+                    <td>{{contact.id}}</td>
+                    <td>{{ contact.listing }}</td>
+                    <td>
+                      <a class="btn btn-light" href="{% url 'current_listing' contact.listing.id %}">Виж обява</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+              {% else %}
+                <p>Няма напревени запитвания за имоти</p>
+  
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}

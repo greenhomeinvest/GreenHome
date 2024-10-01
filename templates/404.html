@@ -1,0 +1,16 @@
+
+{% extends "base.html" %}
+{% load static%}
+{% load humanize %}
+{% block title %}
+| 404
+{% endblock %}
+{% block content %}
+    <!-- Main message -->
+     <div class="col-md-12" style="padding-top: 15px; margin-top:250px; margin-bottom:250px">
+        <h1 class="text-center">Ooпс! Страницата не е намерена</h1>
+    <p class="text-center">Моля проверете дали сте въвели правилно адреса на страницата, която търсите
+        или отидете на <a href="{% url 'home' %}"><b>началната страница.</b></a></p>
+     </div>
+    
+{% endblock %}

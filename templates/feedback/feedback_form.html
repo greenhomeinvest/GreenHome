@@ -1,0 +1,149 @@
+
+
+
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}| Feedback {% endblock %}
+{% block content %}
+
+<section id="feedback" class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4><i class="fas fa-comment-dots"></i> Feedback</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Alerts -->
+                        {% include 'partials/_alerts.html' %}
+
+                        <form action="{% url 'feedback' %}" method="POST">
+                            {% csrf_token %}
+
+                            <!-- Realtor Name Field -->
+                            <div class="form-group">
+                                <label for="realtor_name" class="col-form-label">Realtor Name:</label>
+                                <select name="realtor" class="form-control" required>
+                                  {% for realtor in realtors %}
+                                      <option value="{{ realtor.id }}">{{ realtor.name }}</option>
+                                  {% endfor %}
+                              </select>
+                            </div>
+
+                            <!-- Customer Name Field (Not Required) -->
+                            <div class="form-group">
+                                <label for="customer_name" class="col-form-label">Customer Name:</label>
+                                <input type="text" name="customer_name" class="form-control">
+                            </div>
+
+                            <!-- Listing Field -->
+                            <div class="form-group">
+                                <label for="listing" class="col-form-label">Choose Listing:</label>
+                                <select name="listing" class="form-control" required>
+                                    {% for listing in listings %}
+                                        <option value="{{ listing.uid }}">{{ listing.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <!-- Message Field -->
+                            <div class="form-group">
+                                <label for="message" class="col-form-label">Message:</label>
+                                <textarea name="message" class="form-control" required></textarea>
+                            </div>
+
+                            <hr>
+                            <input type="submit" value="Submit Feedback" class="btn btn-secondary btn-block">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %} 
+
+
+
+
+
+
+
+
+
+{% comment %} <!-- Feedback Modal -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="feedbackModalLabel">Feedback</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'feedback' %}" method="POST">
+          {% csrf_token %}
+          {% if user.is_authenticated %}
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+          {% else %}
+            <input type="hidden" name="user_id" value="0">
+          {% endif %}
+
+          <div class="form-group">
+            <label for="listing" class="col-form-label">Choose Listing:</label>
+            <select name="listing" class="form-control" required>
+              {% for listing in listings %}
+                <option value="{{ listing.id }}">{{ listing.title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="realtor" class="col-form-label">Choose Realtor:</label>
+            <select name="realtor" class="form-control">
+              {% for realtor in realtors %}
+                <option value="{{ realtor.id }}">{{ realtor.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="name" class="col-form-label">Name:</label>
+            <input type="text" name="name" class="form-control" 
+            {% if user.is_authenticated %} 
+            value="{{ user.first_name }} {{ user.last_name }}" readonly
+            {% endif %}
+            required>
+          </div>
+
+          <div class="form-group">
+            <label for="email" class="col-form-label">Email:</label>
+            <input type="email" name="email" class="form-control" 
+            {% if user.is_authenticated %} readonly
+            value="{{ user.email }}"
+            {% endif %}
+            required>
+          </div>
+
+          <div class="form-group">
+            <label for="phone" class="col-form-label">Phone:</label>
+            <input type="text" name="phone" class="form-control" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message" class="col-form-label">Message:</label>
+            <textarea name="message" class="form-control" required></textarea>
+          </div>
+
+          <hr>
+          <input type="submit" value="Submit" class="btn btn-block btn-secondary">
+        </form>
+      </div>
+    </div>
+  </div>
+</div> {% endcomment %}
+

@@ -1,0 +1,49 @@
+<!-- Footer -->
+{% comment %} <footer id="main-footer" class="py-4 bg-primary text-white text-center">
+    Copyright &copy;
+    <span class="year"></span> Green Home Real Estate
+  </footer> {% endcomment %}
+
+
+  <footer id="main-footer" class="py-3 bg-primary text-white text-center " >
+    <div class="container">
+      <section class="footer-top  padding-y ">
+        <div class="row">
+          <aside class="col-md-4 col-12 scroll-animated " style=' padding-top:10px'>
+            <article class="mr-md-4">
+              <h5 class="title" style='text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7) '>Адрес</h5>
+              <div> <i class="icon fa fa-map-marker"> </i> гр.Варна ул.Георги Сава Раковски 4А, офис 2</div>
+               <div><i class="icon fa fa-clock"> </i> Понеделник-Петък 09:00 - 18:00</div>
+            </article>
+          </aside>
+          <aside class="col-md-4 col-12 scroll-animated " style=' padding-top:10px'>
+            <h5 class="title" style='text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7)'>Контакти</h5>
+            <div><i class="icon fa fa-phone"> </i> (359) 897-245-924</div>
+            <div><i class="icon fa fa-phone"> </i> (359) 883-497-577</div>
+            <span><i class="icon fa fa-envelope"> </i>  greenhomeinvestltd@gmail.com</span>
+          </aside>
+          
+          <aside class="col-md-4 col-12 scroll-animated" style=' padding-top:10px'>
+            <h5 class="title" style='text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7)'>Запитване</h5>
+            <p>Ако искате да продате своя имот или да закупите перфектното жилище свържете се с нас <a href="{% url 'inquiry' %}" style="color: white;font-weight:700; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">ТУК</a></p>
+          </aside>
+        </div> <!-- row.// -->
+      </section>	<!-- footer-top.// -->
+      <section class="footer-bottom border-top row scroll-animated">
+
+        <div class="col-md-12"style="padding-top: 15px;">
+          <p class="text-white text-center">
+            Copyright &copy;
+            <span class="year"></span> Green Home Real Estate 
+          </p>
+
+        </div>
+        <div class="col-md-12">
+          <p class="text-white text-center">
+            <a href="{% url 'terms' %}">Terms and Conditions</a>
+          </p>
+          
+        </div>
+      </section>
+    </div><!-- //container -->
+  </footer>

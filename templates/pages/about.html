@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static%}
+{% block title %}
+| За нас
+{% endblock %}
+{% block content %}
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center animated-section">
+        <div class="col-md-12 ">
+          <h1 class="display-4 focus-in-expand">Green Home Real Estate</h1>
+          <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ <!-- Breadcrumb -->
+ <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url "home" %}">
+              <i class="fas fa-home"></i> Начало</a>
+          </li>
+          <li class="breadcrumb-item active"> За нас</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <section id="about" class="py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <h2>В търсене на перфектния дом</h2>
+          <p class="lead">Ние сме вашите партньори в намирането на идеалния дом.</p>
+          <img src="{% static "img/about.jpg" %}" alt="">
+          <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
+          <p class="mt-4">Нашата мисия е да създадем положително преживяване за всеки клиент чрез професионализъм, интегритет и преданост. Специализираме се в управление на имоти, продажба и отдаване под наем на разнообразни имоти, включително жилищни, комерсиални и инвестиционни.</p>
+          <p class="mt-4">С нашия богат опит и експертно знание в индустрията, предлагаме персонализирани решения, които отговарят на специфичните изисквания на всеки клиент. Нашата цел е да бъдем вашите надеждни партньори в недвижимата сфера, предоставяйки надеждни и иновативни услуги.</p>
+          <p class="mt-4">Независимо дали сте на пазара за покупка, продажба или наем на имот, ние сме тук, за да ви подкрепим на всеки стъпка от пътя. Разчитайте на нас за професионализъм, стратегическо мислене и ангажираност към вашите цели в сферата на недвижимите имоти.</p>
+        </div>
+        <div class="col-md-4">
+          {% if mvp_realtors %}
+          {% for realtor in mvp_realtors %}
+          <div class="card">
+              <img
+                class="card-img-top"
+                src="{{realtor.photo.url }}"
+                alt="Seller of the month"
+                style='width: 100%; height:auto;'
+              />
+          <div class="card-body">
+              <h5 class="card-title">Брокер на месеца</h5>
+              <h6 class="text-secondary">{{realtor.name}}</h6>
+              <p class="card-text">
+               {{realtor.description}}
+              </p>
+            </div>
+  
+          {% endfor %}
+          {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Work -->
+  <section id="work" class="bg-dark text-white text-center">
+    <h2 class="display-4 animated-section">Работим за вас</h2>
+    <h4 class='animated-section'>Нашата цел е да осигурим най-доброто обслужване и решения за вас!</h4>
+    <hr>
+    <a href="{% url 'listings' %}" class="btn btn-secondary text-white btn-lg animated-section">Вижте нашите оферти</a>
+  </section>
+
+{% comment %} --------------------------------------------------------------------------------- {% endcomment %}
+<!-- Team --> 
+
+<section id="team" class="py-5">
+  <div class="container">
+      <h2 class="text-center focus-in-expand ">Нашия екип</h2>
+    <button class="pre-btn custom-carousel-icon" >
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#48752C">
+        <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/>
+      </svg>
+    </button>
+    <button class="nxt-btn custom-carousel-icon" >
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#48752C">
+        <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/>
+      </svg>
+    </button>
+    <div class="team-container text-center">
+      {% if realtors %}
+      {% for realtor in realtors %}
+      <div class="team-card">
+        <img src="{{ realtor.photo.url }}" alt="{{ realtor.name }}" class="rounded-circle mb-3" />
+        <h4>{{ realtor.name }}</h4>
+        <p class="text-success">
+          {% if realtor.is_mvp %}
+              <i class="fas fa-award text-success mb-3"></i> Брокер
+          {% else %}
+              <p class="text-success">Брокер</p>
+          {% endif %}
+      </p>
+        <hr />
+        <p><i class="fas fa-phone"></i> +{{ realtor.phone }}</p>
+        <p><i class="fas fa-envelope-open"></i>  {{ realtor.email }}</p>
+        <p><i class="fas fa-house"></i>  {{ realtor.listing_count }}</p>
+        <a href="{% url 'realtor_listings' realtor.id %}" class="btn btn-primary">Виж обявите</a>
+
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="col-12">
+        <p>Няма брокери</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+
+
+
+{% comment %} ----------------------------------------------------------------------------------- {% endcomment %}
+
+ {% comment %} <section id="team" class="py-5">
+    <div class="container">
+        <h2 class="text-center">Нашия екип</h2>
+
+<!-- Carousel -->
+<div id="teamCarousel" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner text-center">
+
+      {% if realtors %}
+          {% for realtor in realtors %}
+              {% if forloop.first or forloop.counter0|divisibleby:3 %}
+                  <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                      <div class="row">
+              {% endif %}
+                          <div class="col-12 col-md-4 mb-4 d-md-block d-none">
+                              <img src="{{ realtor.photo.url }}" alt="" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
+                              <h4>{{ realtor.name }}</h4>
+                              <p class="text-success">
+                                  {% if realtor.is_mvp %}
+                                      <i class="fas fa-award text-success mb-3"></i> Брокер
+                                  {% else %}
+                                      <p class="text-success">Брокер</p>
+                                  {% endif %}
+                              </p>
+                              <hr />
+                              <p><i class="fas fa-phone"></i> {{ realtor.phone }}</p>
+                              <p><i class="fas fa-envelope-open"></i> {{ realtor.email }}</p>
+                          </div>
+              {% if forloop.last or forloop.counter0|add:1|divisibleby:3 %}
+                      </div>
+                  </div>
+              {% endif %}
+          {% endfor %}
+      {% else %}
+          <div class="carousel-item active">
+              <div class="col-12">
+                  <p>Няма Брокери</p>
+              </div>
+          </div>
+      {% endif %}
+
+    </div>
+
+            <!-- Navigation Arrows -->
+            <a class="carousel-control-prev" href="#teamCarousel" role="button" data-slide="prev">
+              <span class="custom-carousel-icon" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#48752C">
+                      <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/>
+                  </svg>
+              </span>
+              <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#teamCarousel" role="button" data-slide="next">
+            <span class="custom-carousel-icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#48752C">
+                    <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
+                </svg>
+            </span>
+            <span class="sr-only">Next</span>
+        </a>
+
+        </div>
+        <!-- End Carousel -->
+
+    </div>
+</section>   {% endcomment %}
+
+{% endblock %}
+

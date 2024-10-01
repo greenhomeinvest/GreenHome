@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
+    <!-- Bootstrap -->
+    
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+     
+    <!-- Custom -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Lightbox -->
+    <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}">
+    {% comment %} Swipe {% endcomment %}
+
+    <title>GreenHome {% block title %}{% endblock %}</title>
+  
+</head>
+<body>
+
+    <!-- Top Bar -->
+    {% include "partials/_topbar.html" %}
+    <!-- Navbar -->
+    {% include "partials/_navbar.html" %}
+    <!-- Main -->
+    {% block content %}
+    {% endblock %}
+    <!-- Footer -->
+    {% include "partials/_footer.html" %}
+
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/lightbox.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <!-- Wow Libraries -->
+    <script src="{% static "lib/wow/wow.min.js" %}"></script>
+    <!-- Lightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+    <!-- Lightbox JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+    <!-- Start cookieyes banner --> 
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/893474947a4c381b193476bf/script.js"></script> 
+    <!-- End cookieyes banner -->
+
+</body>
+</html>

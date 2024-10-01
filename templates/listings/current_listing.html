@@ -96,33 +96,27 @@
                               </div> {% endcomment %}
        {% comment %} </div> {% endcomment %}
         <!-- Carousel for listing.photos.all -->
-<div id="propertyPhotosCarousel" class="carousel slide mb-5 wow animate__animated animate__fadeInLeft" data-ride="carousel">
-  <!-- Carousel Indicators -->
-  <ol class="carousel-indicators">
-    {% for photo in listing.photos.all %}
-      <li data-target="#propertyPhotosCarousel" data-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}"></li>
-    {% endfor %}
-  </ol>
-
-  <!-- Carousel Inner (Slides) -->
-  <div class="carousel-inner">
-    {% for photo in listing.photos.all %}
-    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-      <img class="d-block w-100" src="{{ photo.image.url }}" alt="Slide {{ forloop.counter }}">
-    </div>
-    {% endfor %}
-  </div>
-
-  <!-- Carousel Controls -->
-  <a class="carousel-control-prev" href="#propertyPhotosCarousel" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#propertyPhotosCarousel" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
+        <div id="propertyPhotosCarousel" class="carousel slide mb-5 wow animate__animated animate__fadeInLeft" data-ride="carousel">
+          <!-- Carousel Inner (Slides) -->
+          <div class="carousel-inner">
+            {% for photo in listing.photos.all %}
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <a href="{{ photo.image.url }}" data-lightbox="property-images">
+                <img class="d-block w-100" src="{{ photo.image.url }}" alt="Slide {{ forloop.counter }}">
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+          <!-- Carousel Controls -->
+          <a class="carousel-control-prev" href="#propertyPhotosCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#propertyPhotosCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
           <!-- Fields -->
           <div class="row mb-5 fields scroll-animated">
             <div class="col-md-6">

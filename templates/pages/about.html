@@ -68,18 +68,45 @@
     </div>
   </section>
 
+<!-- Team --> 
+
+<section id="showcase-inner" class="py-5 text-white">
+  <div class="container">
+    <div class="row text-center animated-section">
+      <div class="col-md-12 ">
+        <h2 class="display-4 animated-section">Нашият екип е винаги насреща</h2>
+        <h4 class='animated-section'>Нашата цел е да осигурим най-доброто обслужване и решения за вас!</h4>
+        <hr>
+        <a href="{% url 'realtors' %}" class="btn btn-secondary text-white btn-lg animated-section">Вижте нашите брокери</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Work -->
-  <section id="work" class="bg-dark text-white text-center">
+  {% comment %} <section id="work" class=" text-center py-5">
     <h2 class="display-4 animated-section">Работим за вас</h2>
     <h4 class='animated-section'>Нашата цел е да осигурим най-доброто обслужване и решения за вас!</h4>
     <hr>
     <a href="{% url 'listings' %}" class="btn btn-secondary text-white btn-lg animated-section">Вижте нашите оферти</a>
-  </section>
+  </section> {% endcomment %}
 
 {% comment %} --------------------------------------------------------------------------------- {% endcomment %}
 <!-- Team --> 
 
-<section id="team" class="py-5">
+
+
+
+{% comment %} <section id="work" class="text-center">
+  <h2 class="display-4 animated-section">Нашият екип е винаги насреща</h2>
+  <h4 class='animated-section'>Нашата цел е да осигурим най-доброто обслужване и решения за вас!</h4>
+  <hr>
+  <a href="{% url 'realtors' %}" class="btn btn-secondary text-white btn-lg animated-section">Вижте нашите брокери</a>
+</section> {% endcomment %}
+
+
+
+{% comment %} <section id="team" class="py-5">
   <div class="container">
       <h2 class="text-center focus-in-expand ">Нашия екип</h2>
     <button class="pre-btn custom-carousel-icon" >
@@ -120,7 +147,7 @@
       {% endif %}
     </div>
   </div>
-</section>
+</section> {% endcomment %}
 
 
 

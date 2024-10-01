@@ -202,7 +202,11 @@
             <div class="card-body">
               <h5 class="card-title">Брокер</h5>
               <h6 class="text-secondary">{{listing.realtor}}</h6>
-              <h6 class="text-primary">+{{listing.realtor.phone}}</h6>
+              <h6 class="text-primary">
+                <a href="tel:+{{ listing.realtor.phone }}" class="text-primary">
+                    +{{ listing.realtor.phone }}
+                </a>
+            </h6>
             </div>
           </div>
           <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Направи запитване</button>

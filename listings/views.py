@@ -10,6 +10,7 @@ from django.core.files.storage import default_storage
 from django.core.files.temp import NamedTemporaryFile
 from realtors.models import Realtor
 from .models import Listing, Photos
+from listings.models import apply_filters 
 from listings.choices import bedrooms_choices , price_choices,states_choices,cities_choices
 # from listings.models.Listing import OPTION_CHOICES
 import requests
@@ -256,12 +257,24 @@ def listings(request):
     fetch_estate_assistance_listings()
 
     all_listings = Listing.objects.order_by('-list_date').filter(is_published=True)
+    queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
+
+    # Apply filters from the utility function
+    queryset_list = apply_filters(queryset_list, request)
     paginator = Paginator(all_listings, 6)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
-
+    # Extract choices
+    type_choice = Listing.TYPE_CHOICES
+    city_choices = Listing.objects.values_list('city', flat=True).distinct()
+    state_choices = states_choices
+    building_type_choices = Listing.BUILDING_TYPE_CHOICES  # Add this line
     context = {
         'listings': paged_listings,
+        'city_choices': city_choices,
+        'state_choices': state_choices,
+        'building_type_choices': building_type_choices,  # Include building type choices
+        'type_choice': type_choice,
     }
     return render(request, 'listings/listings.html', context)
 
@@ -279,15 +292,6 @@ def fetch_estate_assistance_listings():
     except requests.exceptions.RequestException as e:
         print(f"Error fetching estate assistance listings: {e}")
     
-# def listings(request):
-#     listings = Listing.objects.order_by('-list_date').filter(is_published=True)
-#     paginator = Paginator(listings, 6)
-#     page = request.GET.get('page')
-#     paged_listings = paginator.get_page(page)
-#     context = {
-#         'listings': paged_listings,
-#     }
-#     return render(request, 'listings/listings.html', context)
 
 def current_listing(request,id):
     listing = get_object_or_404(Listing,pk=id)
@@ -332,8 +336,13 @@ def search(request):
         if property_types:
             queryset_list = queryset_list.filter(state__in=property_types)
            
-
- # Building Type
+    # Building Type
+    if 'building_type[]' in request.GET:
+        building_types = request.GET.getlist('building_type[]')
+        if building_types:
+            queryset_list = queryset_list.filter(type_building__in=building_types)
+            
+    # Type Choice 
     if 'type_choice[]' in request.GET:
         property_types = request.GET.getlist('type_choice[]')
         if property_types:
@@ -347,6 +356,12 @@ def search(request):
     if max_price:
         queryset_list = queryset_list.filter(price__lte=max_price)
     
+    # Filter by UID (Unique ID of Listing)
+    if 'uid' in request.GET:
+        uid = request.GET['uid']
+        if uid:
+            queryset_list = queryset_list.filter(uid__iexact=uid)
+    
     # Pagination
     paginator = Paginator(queryset_list, 9)
     page = request.GET.get('page')
@@ -357,22 +372,25 @@ def search(request):
     city_choices = Listing.objects.values_list('city', flat=True).distinct()
     state_choices = states_choices
     price_choices = Listing.objects.values_list('price', flat=True).distinct()
-
+    building_type_choices = Listing.BUILDING_TYPE_CHOICES
     # Debug: Print out the SQL query being executed
     # print(queryset_list.query)
     selected_states = request.GET.getlist('state[]')
+    selected_building_types = request.GET.getlist('building_type[]')
     context = {
         'queryset_list': paged_listings,
         'type_choice': type_choice,
         'city_choices': city_choices,
         'state_choices': state_choices,
         'price_choices': price_choices,
+        'building_type_choices': building_type_choices,
          'values': {
             'city': request.GET.get('city', ''),
             'state': selected_states,
             'min_price': request.GET.get('min_price', ''),
             'max_price': request.GET.get('max_price', ''),
             'keywords': request.GET.get('keywords', ''),
+            'uid': request.GET.get('uid', ''),
             # other values
         },
 

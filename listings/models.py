@@ -1,7 +1,12 @@
 from datetime import datetime
 from django.db import models
+import random
+import string
 from realtors.models import Realtor
 from multiselectfield import MultiSelectField
+from django.db.models import Q
+import uuid  # Import UUID for unique ID generation
+
 class Listing(models.Model):
      # Define your choices
     OPTION_CHOICES = [
@@ -33,8 +38,6 @@ class Listing(models.Model):
         ('Намалена цена', 'Намалена цена'),
         ('За инвестиции', 'За инвестиции'),
     ]
-
-
     TYPE_CHOICES = [
         ('1-стаен', '1-стаен'),
         ('2-стаен', '2-стаен'),
@@ -53,13 +56,11 @@ class Listing(models.Model):
         ('Гараж', 'Гараж'),
         ('Земеделска земя','Земеделска земя'),
     ]
-
     CURRENCY_CHOICES = [
         ('EUR', 'Euro'),
         ('USD', 'US Dollar'),
         ('BGN', 'Лев'),
     ]
-    
     SIDE_CHOICES = [
         ('Западно изложение', 'Западно изложение'),
         ('Южно изложение', 'Южно изложение'),
@@ -75,6 +76,7 @@ class Listing(models.Model):
         ('ЕПК', 'ЕПК'),
         ('Сглобяема конструкция', 'Сглобяема конструкция'),
     ]
+    
     uid = models.CharField(max_length=255, unique=True, null=True, blank=True)  # Add this line
     realtor = models.ForeignKey(Realtor, on_delete=models.SET_DEFAULT, default=3, null=True, blank=True)
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -97,6 +99,20 @@ class Listing(models.Model):
     # more_options = models.ManyToManyField('MoreOptions', related_name='listings', blank=True)  # Changed related_name
     side_view = models.CharField(max_length=50, choices=SIDE_CHOICES, blank=True, null=True)
     extra_options = MultiSelectField(choices=OPTION_CHOICES, blank=True, null=True)
+    
+    def generate_uid(self):
+        """Generate a UID in the format of 4 digits followed by 1 letter."""
+        digits = ''.join(random.choices(string.digits, k=3))  # Generate 4 random digits
+        letter = random.choice(string.ascii_uppercase)  # Generate 1 random uppercase letter
+        return f"{digits}{letter}"  # Concatenate and return
+
+    def save(self, *args, **kwargs):
+        # Auto-generate a UID if not provided
+        if not self.uid:
+            self.uid = self.generate_uid()  # Call the method to generate UID
+        super().save(*args, **kwargs)  # Call the original save method
+    
+    
     def __str__(self):
         return self.title or str(self.uid)
     
@@ -116,22 +132,56 @@ class Photos(models.Model):
         verbose_name = "Снимки"
         verbose_name_plural = "Снимки"
 
-# class MoreOptions(models.Model):
-#     # OPTION_CHOICES = [
-#     #     ('Гараж', 'Гараж'),
-#     #     ('Басейн', 'Басейн'),
-#     #     ('Паркинг', 'Паркинг'),
-#     #     ('Градина', 'Градина'),
-#     #     ('В строеж','В строеж'),
-#     #     ('С преход','С преход'),
-#     #     ('Асансьор','Асансьор'),
-#     # ]
+def apply_filters(queryset, request):
+    # Keywords
+    if 'keywords' in request.GET:
+        keywords = request.GET['keywords']
+        if keywords:
+            queryset = queryset.filter(
+                Q(description__icontains=keywords) |
+                Q(realtor__name__icontains=keywords) |
+                Q(title__icontains=keywords) |
+                Q(type_choice__icontains=keywords) |
+                Q(extra_options__icontains=keywords) |
+                Q(uid__iexact=keywords)
+            ).distinct()
 
-#     name = models.CharField(max_length=20, unique=True, blank=True, null=True)
+    # City
+    if 'city' in request.GET:
+        city = request.GET['city']
+        if city:
+            queryset = queryset.filter(city__iexact=city)
 
-#     def __str__(self):
-#         return self.name
-    
-#     class Meta:
-#         verbose_name = "Допълнителни опции"
-#         verbose_name_plural = "Допълнителни опции"
+    # State
+    if 'state[]' in request.GET:
+        property_types = request.GET.getlist('state[]')
+        if property_types:
+            queryset = queryset.filter(state__in=property_types)
+
+    # Building Type
+    if 'building_type[]' in request.GET:
+        building_types = request.GET.getlist('building_type[]')
+        if building_types:
+            queryset = queryset.filter(type_building__in=building_types)
+
+    # Type Choice
+    if 'type_choice[]' in request.GET:
+        property_types = request.GET.getlist('type_choice[]')
+        if property_types:
+            queryset = queryset.filter(type_choice__in=property_types)
+
+    # Price Range
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    if min_price:
+        queryset = queryset.filter(price__gte=min_price)
+    if max_price:
+        queryset = queryset.filter(price__lte=max_price)
+
+    # Filter by UID
+    if 'uid' in request.GET:
+        uid = request.GET['uid']
+        if uid:
+            queryset = queryset.filter(uid__iexact=uid)
+
+    return queryset

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+        <div class="row text-center animated-section">
+            <div class="col-md-12">
+                <h1 class="display-4 focus-in-expand">Контакти</h1>
+                <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
+                <div class="search"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Contact Start -->
+<div class="container-xxl py-4 mt-4">
+    <div class="container mt-5">
+        <div class="row g-0">
+            <div class="col-lg-6 wow animate__animated animate__fadeInLeft" data-wow-delay="0.1s">
+                <div class="bg-secondary p-5">
+                    <p class="d-inline-block bg-dark text-primary py-1 px-4">Свържи се с нас</p>
+                    <h1 class="text-uppercase mb-4">Имаш въпроси? Свържи се с нас!</h1>
+                    
+                    
+                </div>
+            </div>
+            <div class="col-lg-6 wow animate__animated animate__fadeInRight" data-wow-delay="0.2s">
+                <div class="h-100" style="min-height: 400px;">
+                    {% comment %} <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2763.5738400957284!2d27.910854875978306!3d43.22142017112585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a45468b59af9c7%3A0xcba10cefde6c4d5!2sTsveten%20kvartalPrimorski%2C%20ul.%20%22Lyulyak%22%2014%2C%209010%20Varna!5e1!3m2!1sen!2sbg!4v1727291230195!5m2!1sen!2sbg" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> {% endcomment %}
+                    <iframe class="google-map w-100 h-100"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2763.5738400957284!2d27.910854875978306!3d43.22142017112585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a45468b59af9c7%3A0xcba10cefde6c4d5!2sTsveten%20kvartalPrimorski%2C%20ul.%20%22Lyulyak%22%2014%2C%209010%20Varna!5e1!3m2!1sen!2sbg!4v1727291230195!5m2!1sen!2sbg"
+                        frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0" 
+                        style="filter: grayscale(100%) invert(92%) contrast(83%); border: 0; width: 100%; height: 100%;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
+
+{% endblock %}

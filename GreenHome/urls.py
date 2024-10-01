@@ -14,7 +14,7 @@ urlpatterns = [
     path('listings/',include('listings.urls')),
     path('realtors/',include('realtors.urls')),
     path('accounts/',include('accounts.urls')),
-    path('contacts/',include('contacts.urls')),
+    path('contact/',include('contacts.urls')),
     path('feedback/',include('feedback_message.urls')),
     path('inquiry/',include('inquiry_message.urls')),
 ]

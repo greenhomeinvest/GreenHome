@@ -29,7 +29,7 @@ class PhotosInline(admin.TabularInline):
 class ListingAdmin(admin.ModelAdmin):
     # form = MyForm
     exclude = ('uid',) 
-    list_display = ('side_view','id','uid','extra_options','title', 'type_choice', 'city', 'state', 'price', 'currency', 'is_published', 'list_date')
+    list_display = ('id','uid','extra_options','title', 'type_choice', 'city', 'state', 'price', 'currency', 'is_published', 'list_date')
     list_filter = ('type_choice', 'city', 'state', 'is_published')
     search_fields = ('id','uid','title', 'city', 'state', 'description')
     list_editable = ('is_published',)

@@ -173,7 +173,7 @@ img {
 
 .team-card {
   flex: 0 0 auto;
-  width: 250px;
+  width: 300px;
   margin: 0 10px;
   text-align: center;
 }
@@ -184,7 +184,7 @@ img {
   object-fit: fill;
 }
 
-.pre-btn,
+/* .pre-btn,
 .nxt-btn {
   border: none;
   width: 50px;
@@ -205,18 +205,18 @@ img {
 .pre-btn {
   left: 10px;
   /* transform: translateY(-50%) rotate(180deg); */
-}
+/* } */
 
-.nxt-btn {
+/* .nxt-btn {
   right: 10px;
   transform: translateY(-50%) rotate(180deg);
-}
+}  */
 
-.custom-carousel-icon svg {
+/* .custom-carousel-icon svg {
   width: 24px;
   height: 24px;
   fill: #48752C;
-}
+} */
 
 #team > div > div > div:nth-child(5) > p.text-success > i {
  
@@ -578,3 +578,66 @@ img {
 /* .parent-element {
   overflow: visible;
 } */
+
+
+/*** Team ***/
+
+/* .team-item {
+  border-top-left-radius: 100px;
+  border-top-right-radius: 100px; 
+  overflow: hidden;
+} */
+.team-item .team-img::before,
+.team-item .team-img::after {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .85);
+    transition: .5s;
+}
+
+.team-item .team-img::after {
+    left: auto;
+    right: 0;
+}
+
+.team-item:hover .team-img::before,
+.team-item:hover .team-img::after {
+    width: 50%;
+}
+
+.team-item .team-img .team-social {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: .5s;
+    z-index: 3;
+    opacity: 0;
+}
+
+.team-item:hover .team-img .team-social {
+    transition-delay: .3s;
+    opacity: 1;
+}
+
+.team-item .team-social .btn {
+    display: flex;
+    flex-direction: column;
+    margin: 0 3px;
+    color: var(--primary);
+    background: var(--dark);
+}
+
+.team-item .team-social .btn:hover {
+    color: #FFFFFF;
+    background: var(--primary);
+}

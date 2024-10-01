@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+| Брокери
+{% endblock %}
+
+{% block content %}
+
+<section id="showcase-inner" class="py-5 text-white">
+    <div class="container">
+        <div class="row text-center animated-section">
+            <div class="col-md-12">
+                <h1 class="display-4 focus-in-expand">Запознайте се с Нашият екип</h1>
+                <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p>
+                <div class="search"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+      <div class="text-center mx-auto mb-2 " data-wow-delay="0.1s" style="max-width: 600px;">
+          {% comment %} <p class="d-inline-block bg-secondary text-primary py-1 px-4">Брокери</p> {% endcomment %}
+          {% comment %} <h1 class="text-uppercase">Запознайте се с Нашият екип</h1> {% endcomment %}
+      </div>
+      <div class="row g-4 ">
+          {% for realtor in realtors %}
+              <div class="col-lg-3 col-md-6 wow animate__animated animate__fadeInUp" data-wow-delay="0.2s">
+                  <div class="team-item my-5">
+                      <div class="team-img position-relative overflow-hidden">
+                          <img class="img-fluid" src="{{ realtor.photo.url }}" alt="">
+                          <div class="team-social text-white p-4">
+                              <p>
+                                  <a href="tel:+{{ realtor.phone }}" class="text-white">
+                                      <i class="fas fa-phone"></i> +{{ realtor.phone }}
+                                  </a>
+                              </p>
+                              <p>
+                                <a href="mailto:{{ realtor.email }}" class="text-white">
+                                  <i class="fas fa-envelope-open"></i> {{ realtor.email }}
+                              </a>
+                              </p>
+                              <p>
+                                  <a href="{% url 'realtor_listings' realtor.id %}" class="text-white">
+                                      <i class="fas fa-house"></i> Обяви: {{ realtor.listing_count }}
+                                  </a>
+                              </p>
+                              {% comment %} <a href="{% url 'realtor_listings' realtor.id %}" class="btn btn-primary">Виж обявите</a> {% endcomment %}
+                          </div>
+                      </div>
+                      <div class="bg-secondary text-center py-2 ">
+                          <h5 class="text-uppercase pt-2">{{ realtor.name }}</h5>
+                          <p class="text-primary">{{ realtor.description }}</p>
+                      </div>
+                  </div>
+              </div>
+          {% empty %}
+              <p>No realtors available.</p>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+<!-- Team End -->
+
+
+{% endblock %}

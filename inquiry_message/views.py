@@ -2,7 +2,6 @@ from django.shortcuts import redirect, render
 from django.contrib import messages
 from inquiry_message.models import Inquiry
 
-# Inquiry view to handle form submission
 def inquiry(request):
     if request.method == 'POST':
         # Get form data from POST request
@@ -16,16 +15,15 @@ def inquiry(request):
         if not agree:
             messages.error(request, 'You must agree to the terms and conditions to submit the form.')
             return redirect('inquiry')
-        
-        
+
         # Create an Inquiry instance
         inquiry_instance = Inquiry(
             name=name,
             phone=phone,
             message=message,
-            type_property=type_property,
+            type_property=type_property,  # Save the selected type_property
         )
-        
+
         try:
             # Save the instance to the database
             inquiry_instance.save()
@@ -36,4 +34,9 @@ def inquiry(request):
             print(f'Error: {e}')
             return redirect('inquiry')  # Redirect back to the inquiry page on error
 
-    return render(request, 'inquiry/inquiry_message.html')  # Render the form page if not a POST request
+    # Pass the property choices to the form
+    context = {
+        'property_choices': Inquiry.PROPERTY_CHOICES,  # Fetch choices directly from the model
+    }
+
+    return render(request, 'inquiry/inquiry_message.html', context)

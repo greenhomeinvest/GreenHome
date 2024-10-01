@@ -37,6 +37,15 @@
           >
             <a class="nav-link" href="{% url 'listings' %}">Обяви</a>
           </li>
+          {% comment %} <li
+          {% if 'realtorts' in request.path %}
+            class="nav-item active mr-3"
+          {% else %}
+            class="nav-item mr-3"
+          {% endif %}
+        >
+          <a class="nav-link" href="{% url 'realtorts/' %}">Контакти</a>
+        </li> {% endcomment %}
         </ul>
 
         <ul class="navbar-nav ml-auto">

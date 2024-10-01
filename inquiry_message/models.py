@@ -5,11 +5,27 @@ from django.db import models
 
 class Inquiry(models.Model):
     PROPERTY_CHOICES = [
-        ('3-bed', '3-стаен'),
+        # ('3-bed', '3-стаен'),
+        # ('2-bed', '2-стаен'),
+        # ('maisonette', 'Мезонет'),
+        # ('garage', 'Гараж'),
+        # ('shop', 'Магазин'),
+        ('1-bed', '1-стаен'),
         ('2-bed', '2-стаен'),
+        ('3-bed', '3-стаен'),
+        ('4-bed', '4-стаен'),
+        ('multi-bed', 'Многостаен'),
+        ('office', 'Офис'),
+        ('studio', 'Студио'),
+        ('atelier', 'Ателие'),
         ('maisonette', 'Мезонет'),
+        ('house', 'Къща'),
+        ('floor-house', 'Етаж от къща'),
+        ('hotel', 'Хотел'),
+        ('parcel', 'Парцел'),
+        ('restaurant', 'Заведение'),
         ('garage', 'Гараж'),
-        ('shop', 'Магазин'),
+        ('agricultural-land', 'Земеделска земя'),
     ]
    
     name = models.CharField(max_length=200, db_column='first_name')  # Allow blank and null

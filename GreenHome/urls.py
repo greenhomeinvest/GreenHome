@@ -9,7 +9,7 @@ admin.sites.AdminSite.index_title = 'Администрация'
 admin.sites.AdminSite.site_title = 'Green Home'
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('adminGH2022/', admin.site.urls),
     path('',include('pages.urls')),
     path('listings/',include('listings.urls')),
     path('realtors/',include('realtors.urls')),

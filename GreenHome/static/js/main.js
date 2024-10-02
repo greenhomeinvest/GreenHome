@@ -143,7 +143,7 @@ new WOW().init();
 // DROPDOWN MENU WITH MULTISELEC FOR STATE-CHOICES 
 $(document).ready(function() {
   // Default text for the dropdown button
-  var defaultText = 'Квартал';
+  var defaultText = 'Квартал/Район';
 
   // Function to update the dropdown text with the number of selected options
   function updateSelectedCount(checkboxClass, textClass, selectAllClass) {
@@ -151,7 +151,7 @@ $(document).ready(function() {
       var isSelectAllChecked = $(selectAllClass).is(':checked');
       
       if (selectedCount > 0) {
-          $(textClass).html('(' + selectedCount + ') Квартали');
+          $(textClass).html('(' + selectedCount + ') Квартали//Райони');
       } else if (isSelectAllChecked) {
           $(textClass).html(defaultText);
       } else {

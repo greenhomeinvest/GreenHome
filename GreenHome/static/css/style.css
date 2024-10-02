@@ -641,3 +641,77 @@ img {
     color: #FFFFFF;
     background: var(--primary);
 }
+
+
+
+/* CONTACT-FORM  */
+
+.contact-form {
+  background-color: #79a48a3b !important;
+  box-shadow: 1px 1px 19px 5px #4a4e4669;
+}
+
+.contact-form-button {
+  background-color: #888;
+}
+
+
+/* ABOUT BOX */
+
+.about-box {
+  margin-bottom: 25px;
+  position: relative;
+  height: 260px;
+  background: #c7d0cb5c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid #0b321eee; */
+  overflow: hidden; /* Ensure content doesn't overflow */
+  border-radius: 8px;
+  box-shadow: 1px 1px 19px 5px #4a4e4669;
+
+  .content {
+    position: relative;
+    padding: 20px;
+    transform: translateY(40px);
+    text-align: center; /* Center text inside .content */
+
+
+
+    p {
+      font-size: 16px;
+      color: black; /* #ffffff white */
+      text-transform: uppercase;
+    }
+
+    
+  }
+  
+  &:hover {
+    .content {
+      h2 {
+        top: -100px;
+      }
+    }
+  }
+
+
+
+  /* &:hover:before {
+    transform: skew(2deg,2deg);
+  } */
+
+
+
+  
+  /* Add similar hover styling for other child elements if necessary */
+}
+.about-card {
+  background-color: #eceeed88  !important;
+  box-shadow:  0px 0px 11px 5px #00000061;
+ }
+
+ .about-title {
+  text-shadow: 2px 2px 5px rgba(0, 0, 0);
+ }

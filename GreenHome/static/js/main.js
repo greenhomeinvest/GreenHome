@@ -1,3 +1,5 @@
+
+
 const date = new Date();
 document.querySelector('.year').innerHTML = date.getFullYear();
 
@@ -135,6 +137,8 @@ function isInViewport(element) {
 //   // Load selected checkboxes on page load
 //   loadSelectedCheckboxes();
 // });
+
+new WOW().init();
 
 // DROPDOWN MENU WITH MULTISELEC FOR STATE-CHOICES 
 $(document).ready(function() {

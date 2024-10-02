@@ -230,7 +230,7 @@
                     <div class="col-12">
                       <i class="fas fa-hammer"></i> Тип на стоеж: {{ listing.type_building }}</div>
                     <div class="col-12">
-                        <i class="fas fa-calendar-days"></i> Година на стоеж: {{ listing.year_of_construction }}</div>
+                        <i class="fas fa-calendar-days"></i> Година на стоеж: {{ listing.year_of_construction|date:"Y" }}</div>
                     <div class="col-12">
                         <i class="fas fa-bath"></i> Бани: {{ listing.bathrooms }}</div>
                     <div class="col-12">

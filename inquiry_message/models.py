@@ -30,6 +30,7 @@ class Inquiry(models.Model):
    
     name = models.CharField(max_length=200, db_column='first_name')  # Allow blank and null
     phone = models.CharField(max_length=10 , db_column='phone')
+    city = models.CharField(max_length=50, db_column='city', blank=True, null=True)
     message = models.TextField(blank=True, db_column='feedback_message')
     inquiry_date = models.DateTimeField(auto_now_add=True, blank=True)
     type_property = models.CharField(max_length=20, choices=PROPERTY_CHOICES, db_column='type_property', default='Вид имот')

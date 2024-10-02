@@ -39,13 +39,17 @@ from inquiry_message.models import ImagesInquiry, Inquiry
 #     return render(request, 'inquiry/inquiry_message.html')  # Render the form page if not a POST request
 def inquiry(request):
     if request.method == 'POST':
+         # Print received files for debugging
+        print("Files received:", request.FILES)
+        images = request.FILES.getlist('images')
+        print("Image list:", images)
         # Get form data from POST request
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         type_property = request.POST.get('type_property')
         agree = request.POST.get('agree')
-        images = request.FILES.getlist('images') 
+        images = request.FILES.getlist('images')  # Retrieve multiple files
         # Check if the user has agreed to the terms
         if not agree:
             messages.error(request, 'You must agree to the terms and conditions to submit the form.')
@@ -62,13 +66,16 @@ def inquiry(request):
         try:
             # Save the instance to the database
             inquiry_instance.save()
-             # Save the uploaded images
+            # Save the uploaded images
+                        # Save the uploaded images and associate them with the inquiry
             for image in images:
                 ImagesInquiry.objects.create(inquiry=inquiry_instance, image=image)
-            messages.success(request, 'Your inquiry was successfully submitted.')
+                
+                
+            messages.success(request, 'Вашето запитване беше успешно изпратено.')
             return redirect('home')  # Redirect to 'home' after successful submission
         except Exception as e:
-            messages.error(request, f'Error saving inquiry: {e}')
+            messages.error(request, f'Грешка: {e}')
             print(f'Error: {e}')
             return redirect('inquiry')  # Redirect back to the inquiry page on error
 

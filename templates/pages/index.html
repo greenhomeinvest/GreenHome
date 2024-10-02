@@ -99,72 +99,6 @@
       </ul>
   </div>
 </div>
-
-              </div>
-          
-              <div class="form-row">
-                  <!-- Min Price -->
-                  {% comment %} <div class="col-md-3 mb-3">
-                      <label class="sr-only">Минимална цена</label>
-                      <input type="number" name="min_price" class="form-control" placeholder="Минимална цена" value="{{ values.min_price }}">
-                  </div>
-                  <!-- Max Price -->
-                  <div class="col-md-3 mb-3">
-                      <label class="sr-only">Максимална цена</label>
-                      <input type="number" name="max_price" class="form-control" placeholder="Максимална цена" value="{{ values.max_price }}">
-                  </div> {% endcomment %}
-
-                                             
-{% comment %}                   
-                                                  <!-- Building Type Structure Dropdown -->
-                                                  <div class="col-md-3 mb-3">
-                                                      <label class="sr-only">Building Structure Type</label>
-                                                      <div class="dropdown form-control p-0">
-                                                          <button class="btn btn-default dropdown-toggle w-100 text-left" type="button" data-toggle="dropdown">
-                                                              <span class="dropdown-text-building-type">
-                                                                  {% if values.building_type %}
-                                                                  ({{ values.building_type|length }}) Тип на сградата
-                                                                  {% else %}
-                                                                  Тип на сградата
-                                                                  {% endif %}
-                                                              </span>
-                                                              <span class="caret"></span>
-                                                          </button>
-                                                          <ul class="dropdown-menu w-100" style='z-index: 10000;'>
-                                                              <li>
-                                                                  <a href="#">
-                                                                      <label class="m-0 w-100">
-                                                                          <input type="checkbox" class="selectall-building-type" />
-                                                                          <span class="select-text-building-type">Избери всички</span>
-                                                                      </label>
-                                                                  </a>
-                                                              </li>
-                                                              <li class="divider"></li>
-                                                              {% for type_key, type_value in building_type_choices %}
-                                                              <li>
-                                                                  <a href="#">
-                                                                      <label class="m-0 w-100">
-                                                                          <input name="building_type[]" type="checkbox" class="option-building-type" value="{{ type_key }}" {% if type_key in values.building_type %}checked{% endif %} />
-                                                                          {{ type_value }}
-                                                                      </label>
-                                                                  </a>
-                                                              </li>
-                                                              {% endfor %}
-                                                          </ul>
-                                                      </div>
-                                                  </div> {% endcomment %}
-                                              </div>
-
-
-              <div class="form-row">
-
-                  {% comment %} <!-- Keywords -->
-                  <div class="col-md-12 mb-3">
-                      <label class="sr-only">Keywords</label>
-                      <input type="text" name="keywords" class="form-control" placeholder="Ключови думи(гараж,басейн,двор,име на брокер...)" value="{{ values.keywords }}">
-                  </div>
-     {% endcomment %}
-
               </div>
               <!-- Submit Button -->
               <button class="btn btn-secondary btn-block mt-4" type="submit">Търси</button>
@@ -258,82 +192,82 @@
   </div>
 </section>
 
-{% comment %} <div class="container-xxl  ">
-  <div class="container">
-  
-      <div class="row g-5 py-5 my-3">
-          <div class="col-lg-5 wow  animate__animated" data-wow-delay="0.1s">
-            <div class="p-5 contact-form text-center text-uppercase">
-              <p>С личен подход и професионално обслужване сме направили 1000+ човека наши доволни клиенти</p>
-            </div>
-          </div>
-          
-      </div>
-  </div>
-</div> {% endcomment %}
-{% comment %} <div class="container-xxl py-4 mt-4">
+
+
+
+<section id=" ">
   <div class="container my-5">
-      <div class="row g-0">
-          <div class="col-lg-6 wow animate__animated animate__fadeInLeft" data-wow-delay="0.1s">
-              <div class="p-5 contact-form">
-                  <a href="{% url 'inquiry' %}" class="btn contact-form-button text-primary py-2 px-4 d-inline-block">Свържи се с нас</a>
-
-                  <h1 class="text-uppercase mb-4">Имаш въпроси? Свържи се с нас!</h1>
-                  
-                  <div class="mb-3">
-                      <a href="tel:+359897245924"><i class="icon fa fa-phone"></i> (359) 897-245-924</a>
-                  </div>
-                  <div class="mb-3">
-                      <a href="tel:+359883497577"><i class="icon fa fa-phone"></i> (359) 883-497-577</a>
-                  </div>
-                  <div class="mb-3">
-                      <a href="mailto:greenhomeinvestltd@gmail.com"><i class="icon fa fa-envelope"></i> greenhomeinvestltd@gmail.com</a>
-                  </div>
-                  <div class="mb-3">
-                      <i class="icon fa fa-map-marker"></i> Георги Сава Раковски 4, Варна
-                  </div>
-                  <div class="mb-3">
-                      <i class="fa-regular fa-clock"></i> Понеделник-Петък: 09:00 - 17:00
-                  </div>
-              </div>
+<div class=" py-5 wow animate__animated animate__fadeInUp">
+  <h3 class="text-center wow animate__animated animate__focusInExpand ">Оцени имота си</h3>
+  <p class=" text-center"
+  
+  >Вземи безплатна оферта сега. Без ангажименти.</p>
+  <div class="search">
+    <form method="POST" action="{% url 'inquiry' %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-row">
+          <div class="col-md-6 mb-3  wow animate__animated animate__fadeInLeft">
+              <label class="sr-only">Име и фамилия</label>
+              <input type="text" name="name" class="form-control" placeholder="Име и фамилия" required>
           </div>
-          <div class="col-lg-6 wow animate__animated animate__fadeInRight" data-wow-delay="0.2s">
-              <div class="h-100" style="min-height: 400px;">
-                  
-                  <iframe class="google-map w-100 h-100"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3578.322386452914!2d27.916245076612622!3d43.207456381145384!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a4540a33e60407%3A0x764c8e6c48ec97fb!2sVarna%20CenterOdesos%2C%20ul.%20%22Georgi%20S.%20Rakovski%22%204%2C%209002%20Varna!5e1!3m2!1sen!2sbg!4v1727859213172!5m2!1sen!2sbg"
-                  frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0" 
-                  style="border: 0; width: 100%; height: 100%;"></iframe>
-              
-              </div>
+          <div class="col-md-6 mb-3  wow animate__animated animate__fadeInRight">
+              <label class="sr-only">Телефон</label>
+              <input type="text" name="phone" class="form-control" placeholder="Телефон" required>
           </div>
       </div>
-  </div>
-</div> {% endcomment %}
-
-  {% comment %} <section id="services" class="py-5 bg-secondary text-white">
-    <div class="container">
-      <div class="row text-center scroll-animated">
-        <div class="col-md-4 animated-section">
-          <i class="fas fa-comment fa-4x mr-4"></i>
-          <hr>
-          <h3 >Консултации</h3>
-          <p>Предлагаме ви персонализирани стратегии и професионални съвети, насочени към постигане на вашите цели в недвижимата сфера.</p>
+      <div class="form-row">
+        <div class="col-md-6 mb-3  wow animate__animated animate__fadeInLeft">
+          <label class="sr-only">Тип на имота</label>
+          <select name="type_property" class="form-control" required>
+            <option value="" disabled selected>Изберете тип на имота</option>
+            {% for value, label in property_choices %}
+                <option value="{{ value }}" {% if value == request.POST.type_property %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
         </div>
-        <div class="col-md-4 animated-section">
-          <i class="fas fa-home fa-4x mr-4"></i>
-          <hr>
-          <h3>Управление на имоти</h3>
-          <p>Специализираме се в управлението на недвижими имоти, осигурявайки ефективно администриране, поддръжка и максимизиране на стойността на вашия имотен портфейл.</p>
-        </div>
-        <div class="col-md-4 animated-section">
-          <i class="fas fa-suitcase fa-4x mr-4"></i>
-          <hr>
-          <h3>Отдаване под наем и продажба</h3>
-          <p>Предоставяме професионално отдаване под наем и ефективна продажба на недвижими имоти. За собствениците осигуряваме безгрижно управление и качествени наемници, а за покупателите - успешно пласиране на имотите на пазара и ефективни транзакции.</p>
-        </div>
+        <div class="col-md-6 mb-3  wow animate__animated animate__fadeInRight">
+          <label class="sr-only">Град</label>
+          <input type="text" name="city" class="form-control" placeholder="Град" required>
       </div>
     </div>
-  </section> {% endcomment %}
+    <div class="form-row">
+        <div class="col-md-12 mb-3" >
+            <label class="sr-only">Съобщение</label>
+            <textarea name="message" class="form-control" placeholder="Съобщение" rows="3" required></textarea>
+        </div>
+    </div>
+{% comment %} UPLOAD MULTIPLE IMAGES {% endcomment %}
+<!-- Upload Multiple Images -->
+<div class="form-row position-relative file-input-container">
+<div class="col-md-6 mb-2 ">
+<div class="container ">
+<!-- Button to trigger file input -->
+<button id="upload-button" type="button">Качи снимки</button>
+
+<!-- Actual file input (hidden) -->
+<input type="file" id="image-upload" name="images" accept="image/*" multiple> <!-- Correct name="images" -->
+<div id="image-preview" class='mb-2'></div>
+</div>
+</div>
+</div>
+
+    <!-- Agree to Terms Checkbox -->
+    <div class="form-row">
+      <div class="col-md-12 mb-2">
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
+              <label class="form-check-label " for="agree">
+                  Съгласен съм с <a href="{% url 'terms' %}" target="_blank" class="text-white">Условията</a>
+              </label>
+          </div>
+      </div>
+    </div>
+
+      <button class="btn btn-secondary btn-block mt-3" type="submit">Изпрати</button>
+  </form>
+  </div>
+</div> 
+</section>
+
 
 {% endblock %}

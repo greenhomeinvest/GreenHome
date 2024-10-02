@@ -167,7 +167,12 @@ img {
   #showcase-inner h1 {
     font-size: 40px; } }
 
-
+@media (max-width: 450px) {
+      #showcase  {
+        height: 115vh;
+       }
+}
+    
 /* Carousel */
 /* -------------------------------------------------------------------- */
 #team {
@@ -662,7 +667,9 @@ img {
     background: var(--primary);
 }
 
-
+img.img-fluid-team {
+  height: 250px;
+}
 
 /* CONTACT-FORM  */
 
@@ -742,3 +749,91 @@ img {
   font-weight: 400;   
   text-shadow: 0px 0px 8px rgba(0, 0, 0);
  }
+
+
+
+ /* INQUIRIES IMAGES UPLOADED */
+ #image-preview {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.image-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+
+.image-container img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+#image-count {
+  margin-top: 10px;
+}
+
+/* Hide the actual file input */
+#image-upload {
+  display: none;
+}
+
+/* Style the custom button */
+#upload-button {
+  background-color: #30caa0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#upload-button:hover {
+  background-color: #29ab88;
+}
+
+@media (max-width: 406px) {
+  .image-container {
+    position: relative;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .image-container img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+}
+
+
+/* #submit-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+#submit-button:hover {
+  background-color: #218838;
+} */

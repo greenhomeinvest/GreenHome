@@ -1,9 +1,12 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from inquiry_message.models import ImagesInquiry, Inquiry
 from listings.models import Listing
 from realtors.models import Realtor
 from django.db.models import Count
 from django.db.models import Q
+from django.shortcuts import redirect, render
+from django.contrib import messages
 import re
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 from listings.choices import bedrooms_choices , price_choices,states_choices,cities_choices
@@ -12,6 +15,48 @@ from listings.choices import bedrooms_choices , price_choices,states_choices,cit
 from listings.models import apply_filters  # Import the utility function
 
 def index(request):
+    # Handle the inquiry form submission
+    if request.method == 'POST':
+        # Print received files for debugging
+        print("Files received:", request.FILES)
+        images = request.FILES.getlist('images')
+        print("Image list:", images)
+        
+        # Get form data from POST request
+        name = request.POST.get('name')
+        phone = request.POST.get('phone')
+        message = request.POST.get('message')
+        type_property = request.POST.get('type_property')
+        agree = request.POST.get('agree')
+
+        # Check if the user has agreed to the terms
+        if not agree:
+            messages.error(request, 'You must agree to the terms and conditions to submit the form.')
+            return redirect('index')
+
+        # Create an Inquiry instance
+        inquiry_instance = Inquiry(
+            name=name,
+            phone=phone,
+            message=message,
+            type_property=type_property,  # Save the selected type_property
+        )
+
+        try:
+            # Save the instance to the database
+            inquiry_instance.save()
+            
+            # Save the uploaded images and associate them with the inquiry
+            for image in images:
+                ImagesInquiry.objects.create(inquiry=inquiry_instance, image=image)
+
+            messages.success(request, 'Вашето запитване беше успешно изпратено.')
+            return redirect('index')  # Redirect to 'index' after successful submission
+        except Exception as e:
+            messages.error(request, f'Грешка: {e}')
+            print(f'Error: {e}')
+            return redirect('index')  # Redirect back to the index page on error
+
     # Get the first 3 listings to display on the index page
     listings = Listing.objects.order_by('-list_date').filter(is_published=True)[:3]
     queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
@@ -31,8 +76,10 @@ def index(request):
         'state_choices': state_choices,
         'building_type_choices': building_type_choices,  # Include building type choices
         'type_choice': type_choice,
+        'property_choices': Inquiry.PROPERTY_CHOICES,  
         # Add any other context variables you need
     }
+    
     return render(request, 'pages/index.html', context)
 
 def about(request):
@@ -53,47 +100,4 @@ def terms(request):
 
 
 def contacts(request):
-#     if request.method == 'POST':
-       
-#         name = request.POST['name']
-#         phone = request.POST['phone']
-#         subject = request.POST['subject']
-#         message = request.POST['message']
- 
-#   # Validate phone number
-#         if not re.match(r'^\d{10}$', phone):  # Check if phone consists of 10 to 15 digits
-#             messages.error(request, 'Моля, въведете валиден телефонен номер (10 цифри).')
-#             return render(request, 'pages/contacts.html')  # Render the form again with an error message
-
- 
-#         contact = Contact(name=name,phone=phone, message=message,subject=subject)
-#         contact.save()
-        
-
-#         # Prepare the email content
-#         email_subject = 'Ново запитване'
-#         email_context = {
-#             'name': name,
-#             'phone': phone,
-#             'subject':subject,
-#             'message': message,
-#         }
-        
-#         # Render the HTML template with context
-#         email_body = render_to_string('contacts/email.html', email_context)
-        
-
-#         email = EmailMessage(
-#         email_subject,
-#         email_body,
-#          'web.dev.by.vi@gmail.com',  # Your email address
-#         ['web.dev.by.vi@gmail.com']
-#         )
-#         email.content_subtype = 'html'  # Ensure the email is sent as HTML
-#         email.send()
-        
-#         messages.success(request, 'Вашето запитване беше изпратено успешно.')
-#         return redirect('contacts')
-
-    # Handle GET requests
     return render(request, 'pages/contacts.html')

@@ -360,3 +360,68 @@ $(document).ready(function() {
 // // Load selected checkboxes on page load
 // loadSelectedCheckboxes();
 // });
+
+
+
+// INQUIRIES IMAGES UPLOADED
+const imageUpload = document.getElementById('image-upload');
+const uploadButton = document.getElementById('upload-button');
+const imagePreview = document.getElementById('image-preview');
+
+let images = [];
+
+// Trigger file input when button is clicked
+uploadButton.addEventListener('click', () => {
+    imageUpload.click();
+});
+
+// Handle image upload
+imageUpload.addEventListener('change', (event) => {
+    const files = Array.from(event.target.files);
+
+    if (images.length + files.length > 5) {
+        alert('Максимум 5 снимки.');
+        return;
+    }
+
+    files.forEach(file => {
+        if (images.length < 5) {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const imageUrl = e.target.result;
+                addImage(imageUrl);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
+// Add image to the preview
+function addImage(url) {
+    const container = document.createElement('div');
+    container.classList.add('image-container');
+
+    const img = document.createElement('img');
+    img.src = url;
+
+    const removeBtn = document.createElement('button');
+    removeBtn.innerText = 'X';
+    removeBtn.classList.add('remove-btn');
+    removeBtn.addEventListener('click', () => removeImage(container));
+
+    container.appendChild(img);
+    container.appendChild(removeBtn);
+    imagePreview.appendChild(container);
+
+    images.push(url);
+    updateImageCount();
+}
+
+// Remove image from the preview
+function removeImage(container) {
+    imagePreview.removeChild(container);
+    images = images.filter(img => img !== container.querySelector('img').src);
+    updateImageCount();
+}

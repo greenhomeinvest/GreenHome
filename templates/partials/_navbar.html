@@ -28,7 +28,7 @@
           >
             <a class="nav-link" href="{% url 'about' %}">За нас</a>
           </li> {% endcomment %}
-          <li
+          {% comment %} <li
           {% if 'about' in request.path  %}
           class="nav-item  dropdown active mr-3"
         {% else %}
@@ -43,18 +43,46 @@
               <a class="dropdown-item" href="{% url 'realtors' %}">Екип</a>
               <a class="dropdown-item" href="{% url 'contacts' %}">Контакти</a>
             </div>
-          </li>
+          </li> {% endcomment %}
           
+      
+           <li
+          {% if 'listings' in request.path %}
+            class="nav-item active mr-3"
+          {% else %}
+            class="nav-item mr-3"
+          {% endif %}
+        >
+          <a class="nav-link" href="{% url 'listings' %}">Обяви</a>
+        </li>
 
           <li
-            {% if 'listings' in request.path %}
+            {% if 'about' in request.path %}
               class="nav-item active mr-3"
             {% else %}
               class="nav-item mr-3"
             {% endif %}
           >
-            <a class="nav-link" href="{% url 'listings' %}">Обяви</a>
+            <a class="nav-link" href="{% url 'about' %}">За нас</a>
           </li>
+          <li
+          {% if 'realtors' in request.path %}
+            class="nav-item active mr-3"
+          {% else %}
+            class="nav-item mr-3"
+          {% endif %}
+        >
+          <a class="nav-link" href="{% url 'realtors' %}">Екип </a>
+        </li>   
+        <li
+        {% if 'contacts' in request.path %}
+          class="nav-item active mr-3"
+        {% else %}
+          class="nav-item mr-3"
+        {% endif %}
+      >
+        <a class="nav-link" href="{% url 'contacts' %}">Контакти </a>
+      </li>   
           {% comment %} <li
           {% if 'search' in request.path %}
             class="nav-item active mr-3"

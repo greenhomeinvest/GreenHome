@@ -40,3 +40,15 @@ class Inquiry(models.Model):
     class Meta:
         verbose_name_plural = "Inquiry"
         # db_table = 'feedback_message'  # Ensure this matches your actual table name
+
+
+
+class ImagesInquiry(models.Model):
+    inquiry = models.ForeignKey(Inquiry, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='inquiries/images/', blank=True, null=True)
+
+    def __str__(self):
+        return f"Image for {self.inquiry.name}"
+
+    class Meta:
+        verbose_name_plural = "Inquiry Images"

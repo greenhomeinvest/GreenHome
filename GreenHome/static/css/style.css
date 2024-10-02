@@ -26,6 +26,9 @@ img {
     position: relative;
     border-radius: 5px; }
 
+.inquiry-showcase {
+  min-height: 90vh !important;
+}
 /* showcase.overlay */
     /* content: '';
     position: absolute;
@@ -608,7 +611,8 @@ img {
     position: absolute;
     content: "";
     width: 0;
-    height: 100%;
+    /* height: 100%; */
+    height: 300px;
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, .85);
@@ -665,7 +669,9 @@ img {
 .contact-form {
   background-color: #79a48a3b !important;
   box-shadow: 1px 1px 19px 5px #4a4e4669;
+  /* background-image: url(../img/showcase.jpg); */
 }
+
 
 .contact-form-button {
   background-color: #888;
@@ -724,8 +730,8 @@ img {
   /* Add similar hover styling for other child elements if necessary */
 }
 .about-card {
-  background-color: #eceeed88  !important;
-  box-shadow:  0px 0px 11px 5px #00000061;
+  background-color: #00000088 !important;
+  box-shadow:  0px 0px 11px 5px #d5d2d261;
   border-radius: 20px;
  }
 

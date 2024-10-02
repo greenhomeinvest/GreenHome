@@ -210,8 +210,8 @@
               <div class="row py-2 text-secondary">
                 <div class="col-12">
                     <i class="fas fa-bed"></i> Тип: {{ listing.type_choice }}</div>
-                <div class="col-12">
-                    <i class="fas fa-bath"></i> Бани: {{ listing.bathrooms }}</div>
+                {% comment %} <div class="col-12">
+                    <i class="fas fa-bath"></i> Бани: {{ listing.bathrooms }}</div> {% endcomment %}
                 <div class="col-12">
                     <i class="fas fa-th-large"></i> Площ: {{ listing.sqft }} m²</div>
             </div>
@@ -241,18 +241,18 @@
     <h3 class="text-center mb-3 py-5 focus-in-expand text-white about-title" >Кои сме ние ?</h3>
     <div class="row g-0">
     <div class="col-lg-12  wow animate__animated animate__fadeInLeft my-4" data-wow-delay="0.1s">
-      <div class="p-5  about-card text-center">
-        <p style="font-weight: 500;">Опитни специалисти с над 13г. в сферата на недвижимите имоти.</p>
+      <div class="p-5  about-card text-center text-white">
+        <p style="font-weight: 400;">Опитни специалисти с над 13г. в сферата на недвижимите имоти.</p>
       </div>
     </div>
     <div class="col-lg-12   wow animate__animated animate__fadeInRight my-4" data-wow-delay="0.3s">
-      <div class="p-5  about-card text-center ">
-        <p style="font-weight: 500;" >С личен подход и професионално обслужване сме направили 1000+ човека наши доволни клиенти</p>
+      <div class="p-5  about-card text-center text-white">
+        <p style="font-weight: 400;" >С личен подход и професионално обслужване сме направили 1000+ човека наши доволни клиенти.</p>
       </div>
     </div>
     <div class="col-lg-12  wow animate__animated animate__fadeInLeft my-4" data-wow-delay="0.5s">
       <div class="p-5 about-card text-center text-white">
-        <p class='about-paragraph' >Oсвен експерти в посредничеството при сделки с недвижими имоти, сме създали и строително-инвестиционното дружество Green Home Invest, което се занима с цялостно проектиране, изграждане и проджба на къщи и жилищни сгради.</p>
+        <p class='font-weight: 400;' >Oсвен експерти в посредничеството при сделки с недвижими имоти, сме създали и строително-инвестиционното дружество Green Home Invest, което се занима с цялостно проектиране, изграждане и проджба на къщи и жилищни сгради.</p>
       </div>
     </div>
   </div>

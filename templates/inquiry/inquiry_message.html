@@ -6,14 +6,14 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/cards_steps.css' %}">
   <!-- Showcase -->
-  <section id="showcase">
+  <section id="showcase" class='inquiry-showcase'>
     <!--Alerts-->
     {% include "partials/_alerts.html" %}
     <div class="container text-center">
       <div class="home-search p-5">
         <div class="overlay p-5 slide-in-bottom">
           <h1 class="display-4 mb-4 focus-in-expand">
-            Продай имота си директно на нас
+            Продай имота си с нас
           </h1>
           <p class="lead animation slide-in-right"
           
@@ -48,6 +48,18 @@
                     <textarea name="message" class="form-control" placeholder="Съобщение" rows="3" required></textarea>
                 </div>
             </div>
+
+ <!-- Input field for file and container for selected files -->
+ <div class="form-row position-relative file-input-container">
+  <div class="col-md-12 mb-3">
+      <label for="images" class="sr-only">Качете изображения</label>
+      <input type="file" id="images" name="images" class="form-control" multiple style="padding-right: 150px;">
+      <div id="selectedFilesContainer" class="selected-files-icons">
+          <!-- Icons for selected files will be appended here -->
+      </div>
+  </div>
+</div>
+
             <!-- Agree to Terms Checkbox -->
             <div class="form-row">
               <div class="col-md-12 mb-2">
@@ -186,7 +198,140 @@
   </section><br><br>
 
 
+  <script>
+    const fileInput = document.getElementById('images');
+    const selectedFilesContainer = document.getElementById('selectedFilesContainer');
+    let selectedFiles = [];
+    
+    fileInput.addEventListener('change', (event) => {
+        const newFiles = Array.from(event.target.files);
+    
+        // Check if adding new files exceeds the limit of 10
+        if (selectedFiles.length + newFiles.length > 10) {
+            alert('You can only upload a maximum of 10 files.');
+            return;  // Prevent adding files if the limit is exceeded
+        }
+    
+        selectedFiles = selectedFiles.concat(newFiles);
+    
+        // Clear the input so new files can be selected without removing previous ones
+        event.target.value = '';
+    
+        // Update the icons for selected files
+        updateSelectedFilesIcons();
+    });
+    
+    function updateSelectedFilesIcons() {
+        selectedFilesContainer.innerHTML = ''; // Clear the current icons
+        selectedFiles.forEach((file, index) => {
+            const fileIcon = document.createElement('div');
+            fileIcon.classList.add('selected-file-icon', 'position-relative', 'mr-2', 'mb-2');
+    
+            // Display file name as an icon (can replace with any other icon)
+            fileIcon.innerHTML = `
+                <div class="file-name">${file.name}</div>
+                <button class="remove-file-btn" type="button">&times;</button>
+            `;
+    
+            // Styling for the remove button
+            const removeButton = fileIcon.querySelector('.remove-file-btn');
+            removeButton.style.position = 'absolute';
+            removeButton.style.top = '-5px';
+            removeButton.style.right = '-5px';
+            removeButton.style.backgroundColor = '#dc3545';
+            removeButton.style.color = '#fff';
+            removeButton.style.border = 'none';
+            removeButton.style.borderRadius = '50%';
+            removeButton.style.width = '15px';
+            removeButton.style.height = '15px';
+            removeButton.style.cursor = 'pointer';
+    
+            // Remove file from the list when the "remove" button is clicked
+            removeButton.addEventListener('click', () => {
+                removeFile(index);
+            });
+    
+            selectedFilesContainer.appendChild(fileIcon);
+        });
+    }
+    
+    function removeFile(index) {
+        selectedFiles.splice(index, 1); // Remove the selected file
+        updateSelectedFilesIcons();
+    }
+    
+    // When form is submitted, append all selected files to the FormData object
+    document.getElementById('inquiryForm').addEventListener('submit', (event) => {
+        const formData = new FormData(event.target);
+        selectedFiles.forEach((file) => {
+            formData.append('images', file);
+        });
+    
+        // Use AJAX to submit the form or just let the default form submission happen
+        // event.preventDefault();
+        // fetch('your_url', { method: 'POST', body: formData });
+    });
+</script>
 
+<style>
+    /* Styling for the file input container */
+    .file-input-container {
+        position: relative;
+    }
+
+    /* Container for displaying selected files inside the file input area */
+    .selected-files-icons {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        pointer-events: none; /* Prevent interaction with file icons, interaction only with remove buttons */
+    }
+
+    /* Styling for each selected file icon */
+    .selected-file-icon {
+        display: inline-block;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        position: relative;
+        margin-right: 5px;
+        pointer-events: auto; /* Allow interaction with remove buttons */
+    }
+
+    /* Styling for file name display */
+    .file-name {
+        display: inline-block;
+        max-width: 60px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Button for removing selected files */
+    .remove-file-btn {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 15px;
+        height: 15px;
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        cursor: pointer;
+        pointer-events: auto; /* Allow clicking on the button */
+    }
+
+    /* Ensuring the file input has padding so icons don't overlap the input */
+    #images {
+        padding-right: 150px;
+    }
+</style>
 
 {% endblock %}
 

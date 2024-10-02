@@ -224,15 +224,15 @@
                       <i class="fas fa-map-marker text-secondary"></i> {{listing.state}}, {{listing.city}}</p>
                   </div>
                   <hr>
-                  <div class="row py-2 text-secondary">
+                  <div class="row py-2 " style='color: #135d35'>
                     <div class="col-12">
                         <i class="fas fa-bed"></i> Тип: {{ listing.type_choice }}</div>
                     <div class="col-12">
-                      <i class="fas fa-hammer"></i> Тип на стоеж: {{ listing.type_building }}</div>
+                      <i class="fas fa-hammer"></i> Тип на строителство: {{ listing.type_building }}</div>
                     <div class="col-12">
-                        <i class="fas fa-calendar-days"></i> Година на стоеж: {{ listing.year_of_construction|date:"Y" }}</div>
-                    <div class="col-12">
-                        <i class="fas fa-bath"></i> Бани: {{ listing.bathrooms }}</div>
+                        <i class="fas fa-calendar-days"></i> Година на строеж: {{ listing.year_of_construction|date:"Y" }}</div>
+                    {% comment %} <div class="col-12">
+                        <i class="fas fa-bath"></i> Бани: {{ listing.bathrooms }}</div> {% endcomment %}
                     <div class="col-12">
                         <i class="fas fa-th-large"></i> Площ: {{ listing.sqft }} m²</div>
                 </div>

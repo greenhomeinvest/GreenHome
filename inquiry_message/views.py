@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
-from inquiry_message.models import Inquiry
+from inquiry_message.models import ImagesInquiry, Inquiry
 
 # Inquiry view to handle form submission
 # def inquiry(request):
@@ -45,7 +45,7 @@ def inquiry(request):
         message = request.POST.get('message')
         type_property = request.POST.get('type_property')
         agree = request.POST.get('agree')
-
+        images = request.FILES.getlist('images') 
         # Check if the user has agreed to the terms
         if not agree:
             messages.error(request, 'You must agree to the terms and conditions to submit the form.')
@@ -62,6 +62,9 @@ def inquiry(request):
         try:
             # Save the instance to the database
             inquiry_instance.save()
+             # Save the uploaded images
+            for image in images:
+                ImagesInquiry.objects.create(inquiry=inquiry_instance, image=image)
             messages.success(request, 'Your inquiry was successfully submitted.')
             return redirect('home')  # Redirect to 'home' after successful submission
         except Exception as e:
@@ -75,3 +78,4 @@ def inquiry(request):
     }
 
     return render(request, 'inquiry/inquiry_message.html', context)
+

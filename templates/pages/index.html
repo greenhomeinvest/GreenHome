@@ -198,7 +198,7 @@
 <section id=" ">
   <div class="container my-5">
 <div class=" py-5 wow animate__animated animate__fadeInUp">
-  <h3 class="text-center wow animate__animated animate__focusInExpand ">Оцени имота си</h3>
+  <h3 class="text-center wow animate__animated animate__fadeInUp ">Оцени имота си</h3>
   <p class=" text-center"
   
   >Вземи безплатна оферта сега. Без ангажименти.</p>
@@ -239,25 +239,25 @@
 {% comment %} UPLOAD MULTIPLE IMAGES {% endcomment %}
 <!-- Upload Multiple Images -->
 <div class="form-row position-relative file-input-container">
-<div class="col-md-6 mb-2 ">
-<div class="container ">
+<div class="col-md-12 mb-2 ">
+<div class="container text-center">
 <!-- Button to trigger file input -->
 <button id="upload-button" type="button">Качи снимки</button>
 
 <!-- Actual file input (hidden) -->
 <input type="file" id="image-upload" name="images" accept="image/*" multiple> <!-- Correct name="images" -->
-<div id="image-preview" class='mb-2'></div>
+<div id="image-preview" class='mb-2 text-center'></div>
 </div>
 </div>
 </div>
 
     <!-- Agree to Terms Checkbox -->
     <div class="form-row">
-      <div class="col-md-12 mb-2">
+      <div class="col-md-12 mb-2 text-center">
           <div class="form-check">
               <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
               <label class="form-check-label " for="agree">
-                  Съгласен съм с <a href="{% url 'terms' %}" target="_blank" class="text-white">Условията</a>
+                  Съгласен съм с <a href="{% url 'terms' %}" target="_blank" class="  text--success: #20c997;">Условията</a>
               </label>
           </div>
       </div>

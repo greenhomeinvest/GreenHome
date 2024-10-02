@@ -168,7 +168,7 @@ img {
     font-size: 40px; } }
 
 @media (max-width: 450px) {
-      #showcase  {
+      .inquiry-showcase  {
         height: 115vh;
        }
 }

@@ -837,3 +837,9 @@ img.img-fluid-team {
 #submit-button:hover {
   background-color: #218838;
 } */
+
+
+img.img-about {
+  width: 100%;
+  height: 50vh;
+}

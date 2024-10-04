@@ -28,12 +28,18 @@ class PhotosInline(admin.TabularInline):
 
 class ListingAdmin(admin.ModelAdmin):
     # form = MyForm
-    exclude = ('uid',) 
-    list_display = ('id','uid','extra_options','title', 'type_choice', 'city', 'state', 'price', 'currency', 'is_published', 'list_date')
+    exclude = ('uid','estate_code') 
+    list_display = ('id','uid','get_realtor_name','estate_code','extra_options','title', 'type_choice', 'city', 'state', 'price', 'currency', 'is_published', 'list_date')
     list_filter = ('type_choice', 'city', 'state', 'is_published')
     search_fields = ('id','uid','title', 'city', 'state', 'description')
     list_editable = ('is_published',)
     inlines = [PhotosInline]  # Allow adding photos directly in the listing admin
+    
+    def get_realtor_name(self, obj):
+        return obj.realtor  # Access related realtor's name
+
+    # Change the column name display
+    get_realtor_name.short_description = 'Realtor Name'
 
 admin.site.register(Listing, ListingAdmin)
 # admin.site.register(MoreOptions)

@@ -204,7 +204,7 @@
               <a href="{% url 'current_listing' listing.id %}" class="card-link">
               <div class="card listing-preview">
                 {% with first_photo=listing.photos.all|first %}
-                    <img class="card-img-top" src="{% if listing.photo_main %}{{ listing.photo_main.url }}{% elif first_photo %}{{ first_photo.image.url }}{% else %}{% static 'default-image.jpg' %}{% endif %}" alt="">
+                    <img class="card-img-top" src="{% if listing.photo_main %}{{ listing.photo_main.url }}{% elif first_photo %}{{ first_photo.image.url }}{% else %}{% static 'img/logo2.png' %}{% endif %}" alt="property img">
                 {% endwith %}
                 {% comment %} <img class="card-img-top" src="{{ listing.photo_main.url }}" alt=""> {% endcomment %}
                 <div class="card-img-overlay">
@@ -217,7 +217,12 @@
                     <h4 class="text-primary common-ellipsis">{% if listing.title %}
                       {{ listing.title }}
                   {% else %}
-                     ID: {{ listing.uid }}
+                     ID:
+                     {% if listing.estate_code %}
+                     {{ listing.estate_code }}
+                   {% else %}
+                     {{ listing.uid }}
+                   {% endif %}
                   {% endif %}
                 </h4>
                     <p class='common-ellipsis'>

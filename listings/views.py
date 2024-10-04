@@ -174,9 +174,9 @@ def save_listing_from_json(json_data):
     brokers = {broker['id']: broker for broker in data.get('brokers', [])}
 
     # Get the first 10 properties, or all if there are fewer than 10
-    for property in properties:  # Slice to get the first 10 properties
-        uid = property.get('code')
-
+    for property in properties[:5]:  # Slice to get the first 10 properties
+        uid = property.get('uid')
+        estate_code = property.get('code', None)
         # Skip if this listing already exists in the database
         if Listing.objects.filter(uid=uid).exists():
             continue
@@ -228,6 +228,7 @@ def save_listing_from_json(json_data):
         # Create the Listing object
         listing = Listing(
             uid=uid,
+            estate_code=estate_code,
             title=title,
             description=description,
             price=price,

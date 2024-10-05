@@ -35,7 +35,7 @@
             <a href="{% url 'home' %}">
               <i class="fas fa-home"></i> Начало</a>
           </li>
-          <li class="breadcrumb-item active"> Обяви</li>
+          <li class="breadcrumb-item active"> Обяви {{ realtors_listings_count }}</li>
         </ol>
       </nav>
       <a href="{% url 'listings' %}" class="btn btn-light mb-4">Обратно към обяви</a>

@@ -174,7 +174,7 @@ def save_listing_from_json(json_data):
     brokers = {broker['id']: broker for broker in data.get('brokers', [])}
 
     # Get the first 10 properties, or all if there are fewer than 10
-    for property in properties[:5]:  # Slice to get the first 10 properties
+    for property in properties[:26]:  # Slice to get the first 10 properties
         uid = property.get('uid')
         estate_code = property.get('code', None)
         # Skip if this listing already exists in the database
@@ -262,7 +262,8 @@ def listings(request):
 
     # Apply filters from the utility function
     queryset_list = apply_filters(queryset_list, request)
-    paginator = Paginator(all_listings, 6)
+    listings_count = all_listings.count()
+    paginator = Paginator(all_listings, 9)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
     # Extract choices
@@ -276,6 +277,7 @@ def listings(request):
         'state_choices': state_choices,
         'building_type_choices': building_type_choices,  # Include building type choices
         'type_choice': type_choice,
+        'listings_count': listings_count,
     }
     return render(request, 'listings/listings.html', context)
 
@@ -322,14 +324,12 @@ def search(request):
                 
             ).distinct()
 
-    
     # City
     if 'city' in request.GET:
         city = request.GET['city']
         if city:
             queryset_list = queryset_list.filter(city__iexact=city)
     
-    # State
     # State
     if 'state[]' in request.GET:
         property_types = request.GET.getlist('state[]')
@@ -362,7 +362,7 @@ def search(request):
         uid = request.GET['uid']
         if uid:
             queryset_list = queryset_list.filter(uid__iexact=uid)
-    
+    search_count = queryset_list.count()
     # Pagination
     paginator = Paginator(queryset_list, 9)
     page = request.GET.get('page')
@@ -378,6 +378,7 @@ def search(request):
     # print(queryset_list.query)
     selected_states = request.GET.getlist('state[]')
     selected_building_types = request.GET.getlist('building_type[]')
+    selected_type_choices = request.GET.getlist('type_choice[]')
     context = {
         'queryset_list': paged_listings,
         'type_choice': type_choice,
@@ -385,13 +386,16 @@ def search(request):
         'state_choices': state_choices,
         'price_choices': price_choices,
         'building_type_choices': building_type_choices,
+        'search_count':search_count,
          'values': {
             'city': request.GET.get('city', ''),
             'state': selected_states,
             'min_price': request.GET.get('min_price', ''),
             'max_price': request.GET.get('max_price', ''),
             'keywords': request.GET.get('keywords', ''),
+            'type_choice': selected_type_choices,
             'uid': request.GET.get('uid', ''),
+            'building_type': selected_building_types,
             # other values
         },
 
@@ -403,10 +407,11 @@ def search(request):
 def realtor_listings(request, realtor_id):
     realtor = get_object_or_404(Realtor, id=realtor_id)
     listings = Listing.objects.filter(realtor=realtor).order_by('-list_date')
-    
+    realtors_listings_count = listings.count()
     context = {
         'realtor': realtor,
         'listings': listings,
+        'realtors_listings_count':realtors_listings_count,
     }
     return render(request, 'listings/realtor_listing.html', context)
 

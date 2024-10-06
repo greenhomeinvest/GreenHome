@@ -10,7 +10,7 @@ def feedback(request):
         message = request.POST.get('message')
         listing_id = request.POST.get('listing')
         realtor_id = request.POST.get('realtor')
-        # user_id = request.user.id if request.user.is_authenticated else None
+        user_id = request.user.id if request.user.is_authenticated else None
 
         try:
             listing = Listing.objects.get(id=listing_id)
@@ -27,7 +27,7 @@ def feedback(request):
             realtor=realtor,
             name=name,  # Allow None
             message=message,
-            # user_id=user_id
+            user_id=user_id
         )
         try:
             feedback_instance.save()

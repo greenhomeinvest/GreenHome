@@ -14,7 +14,7 @@ class ImagesInline(admin.TabularInline):
 
 class InquiryAdmin(admin.ModelAdmin):
     model = Inquiry
-    list_display = ['id', 'name', 'phone','inquiry_date','type_property','city']  # Explicitly list fields
+    list_display = ['id','agree_field', 'name', 'phone','inquiry_date','type_property','city']  # Explicitly list fields
     list_display_links = ['id', 'name']
     inlines = [ImagesInline] 
     list_per_page = 25

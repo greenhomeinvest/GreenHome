@@ -4,7 +4,7 @@
 {% load humanize %}
 {% block title %}| Запитване{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/cards_steps.css' %}">
+{% comment %} <link rel="stylesheet" href="{% static 'css/cards_steps.css' %}"> {% endcomment %}
   <!-- Showcase -->
   <section id="showcase" class='inquiry-showcase'>
     <!--Alerts-->
@@ -28,13 +28,14 @@
                   </div>
                   <div class="col-md-6 mb-3">
                       <label class="sr-only">Телефон</label>
-                      <input type="text" name="phone" class="form-control" placeholder="Телефон" required>
+                      <input type="text" name="phone" class="form-control" placeholder="Телефон" required >
                   </div>
+
               </div>
               <div class="form-row">
                 <div class="col-md-6 mb-3">
                     <label class="sr-only">Тип на имота</label>
-                    <select name="type_property" class="form-control" required>
+                    <select name="type_property" class="form-control" >
                       <option value="" disabled selected>Изберете тип на имота</option>
                       {% for value, label in property_choices %}
                           <option value="{{ value }}" {% if value == request.POST.type_property %}selected{% endif %}>{{ label }}</option>
@@ -43,13 +44,13 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="sr-only">Град</label>
-                  <input type="text" name="city" class="form-control" placeholder="Град" required>
+                  <input type="text" name="city" class="form-control" placeholder="Град" >
               </div>
             </div>
             <div class="form-row">
                 <div class="col-md-12 mb-3">
                     <label class="sr-only">Съобщение</label>
-                    <textarea name="message" class="form-control" placeholder="Съобщение" rows="3" required></textarea>
+                    <textarea name="message" class="form-control" placeholder="Съобщение" rows="3" ></textarea>
                 </div>
             </div>
 {% comment %} UPLOAD MULTIPLE IMAGES {% endcomment %}

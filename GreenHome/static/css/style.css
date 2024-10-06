@@ -141,6 +141,10 @@ img {
   transition: transform 0.3s ease; /* Smooth transition effect */
 }
 
+.inquiry-showcase  {
+  height: 90vh;
+ }
+
 @media (max-width: 991px) {
   #showcase {
     padding-top: 4rem; }
@@ -167,12 +171,12 @@ img {
   #showcase-inner h1 {
     font-size: 40px; } }
 
-@media (max-width: 450px) {
+@media (max-width: 600px) {
       .inquiry-showcase  {
-        height: 115vh;
+        height: 95vh;
        }
 }
-    
+
 /* Carousel */
 /* -------------------------------------------------------------------- */
 #team {
@@ -807,8 +811,21 @@ img.img-fluid-team {
 #upload-button:hover {
   background-color: #29ab88;
 }
+@media (max-width: 700px) {
+  .image-container {
+    position: relative;
+    width: 70px;
+    height: 70px;
+  }
+  
+  .image-container img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+  }
+}
 
-@media (max-width: 406px) {
+@media (max-width: 500px) {
   .image-container {
     position: relative;
     width: 50px;

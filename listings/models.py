@@ -115,7 +115,8 @@ class Listing(models.Model):
     
     
     def __str__(self):
-        return self.title or str(self.uid)
+        estate_code = self.estate_code if self.estate_code else self.uid
+        return f"{self.title} ({estate_code})"
     
 
     class Meta:

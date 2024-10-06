@@ -14,7 +14,7 @@ class Feedback(models.Model):
     user_id = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.name} - {self.listing.title}"
+        return f"{self.name} - {self.listing.title} "
 
     class Meta:
         verbose_name_plural = "Feedback"

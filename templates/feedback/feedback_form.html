@@ -43,7 +43,11 @@
                                 <label for="listing" class="col-form-label">Choose Listing:</label>
                                 <select name="listing" class="form-control" required>
                                     {% for listing in listings %}
-                                        <option value="{{ listing.uid }}">{{ listing.title }}</option>
+                                        <option value="{{ listing.id }}">{{ listing.title }} ID:{% if listing.estate_code %}
+                                          {{ listing.estate_code }}
+                                        {% else %}
+                                          {{ listing.uid }}
+                                        {% endif %}</option>
                                     {% endfor %}
                                 </select>
                             </div>

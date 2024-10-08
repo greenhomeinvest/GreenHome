@@ -33,16 +33,22 @@
   <section id="about" class="py-4">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12 position-relative d-flex flex-column ">
           <h2>В търсене на перфектния дом</h2>
           <p class="lead">Ние сме вашите партньори в намирането на идеалния дом.</p>
-          <img class='img-about' src="{% static "img/office.jpg" %}" alt="">
-          <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
+
+          <img class=' about-img wow animate__animated animate__fadeInLeft' src="{% static "img/office.jpg" %}" alt="">
+          <div class="about-text-section text-center wow animate__animated animate__fadeInRight" >
+              <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
+              <p class="mt-4">Нашата мисия е да създадем положително преживяване за всеки клиент чрез професионализъм, интегритет и преданост. Специализираме се в управление на имоти, продажба и отдаване под наем на разнообразни имоти, включително жилищни, комерсиални и инвестиционни.</p>
+          </div>
+        </div>
+          {% comment %} <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
           <p class="mt-4">Нашата мисия е да създадем положително преживяване за всеки клиент чрез професионализъм, интегритет и преданост. Специализираме се в управление на имоти, продажба и отдаване под наем на разнообразни имоти, включително жилищни, комерсиални и инвестиционни.</p>
           <p class="mt-4">С нашия богат опит и експертно знание в индустрията, предлагаме персонализирани решения, които отговарят на специфичните изисквания на всеки клиент. Нашата цел е да бъдем вашите надеждни партньори в недвижимата сфера, предоставяйки надеждни и иновативни услуги.</p>
-          <p class="mt-4">Независимо дали сте на пазара за покупка, продажба или наем на имот, ние сме тук, за да ви подкрепим на всеки стъпка от пътя. Разчитайте на нас за професионализъм, стратегическо мислене и ангажираност към вашите цели в сферата на недвижимите имоти.</p>
+          <p class="mt-4">Независимо дали сте на пазара за покупка, продажба или наем на имот, ние сме тук, за да ви подкрепим на всеки стъпка от пътя. Разчитайте на нас за професионализъм, стратегическо мислене и ангажираност към вашите цели в сферата на недвижимите имоти.</p> {% endcomment %}
         </div>
-        <div class="col-md-4">
+        {% comment %} <div class="col-md-4">
           {% if mvp_realtors %}
           {% for realtor in mvp_realtors %}
           <div class="card">
@@ -63,11 +69,34 @@
           {% endfor %}
           {% endif %}
           </div>
-        </div>
+        </div> {% endcomment %}
       </div>
     </div>
   </section>
 
+
+  {% comment %} <section id="about" class="py-4">
+    <div class="container">
+      <div class="row ">
+        <div>
+          <h2>В търсене на перфектния дом</h2>
+          <p class="lead">Ние сме вашите партньори в намирането на идеалния дом.</p>
+          <div class="col-lg-12  wow animate__animated animate__fadeIn" data-wow-delay="0.2s">
+            <div class="d-flex flex-column ">
+                <img class="img-fluid w-75  about-img" src="{% static 'img/office.jpg' %}" alt="img-about"> 
+                <div class="about-text-section text-center align-self-end" ">
+                  <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
+                  <p class="mt-4">Нашата мисия е да създадем положително преживяване за всеки клиент чрез професионализъм, интегритет и преданост. Специализираме се в управление на имоти, продажба и отдаване под наем на разнообразни имоти, включително жилищни, комерсиални и инвестиционни.</p>
+                        </div>
+                </div>
+            </div>
+        </div>
+        
+         
+      </div>
+    </div>
+  </section> {% endcomment %}
+  
 <!-- Team --> 
 
 <section id="showcase-inner" class="py-5 text-white">
@@ -83,6 +112,75 @@
   </div>
 </section>
 
+<section>
+  <div class="container-xxl">
+    <div class="container">
+        {% for key, section in sections.items %}
+        <div class="row  py-5 my-3">
+            {% if forloop.counter0|divisibleby:2 %}
+            <!-- For even indices: image on the left -->
+            <div class="col-lg-5 wow animate__animated animate__fadeInLeft" data-wow-delay="0.1s">
+                <img style='box-shadow: -20px -20px 0px 5px #4c9e89; border-radius: 20px;' src="{% static section.image %}" alt="{{ section.title }}">
+            </div>
+            <div class="col-lg-6 wow animate__animated animate__fadeIn" data-wow-delay="0.5s">
+                <div class="section-title">
+                    <h2 class="display-6 ">{{ section.title }}</h2>
+                    <hr>
+                </div>
+                <p class="mb-4">{{ section.description }}</p>
+            </div>
+            {% else %}
+            <!-- For odd indices: image on the right -->
+            <div class="col-lg-6 wow animate__animated animate__fadeIn" data-wow-delay="0.5s">
+                <div class="section-title">
+                    <h2 class="display-6">{{ section.title }}</h2>
+                    <hr>
+                </div>
+                <p class="mb-4">{{ section.description }}</p>
+            </div>
+            <div class="col-lg-5 wow animate__animated animate__fadeInRight" data-wow-delay="0.1s">
+                <img style='box-shadow: 20px -20px 0px 5px #4c9e89;  border-radius: 20px;' src="{% static section.image %}" alt="{{ section.title }}">
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<section id="services" class="py-5 bg-secondary text-white">
+  <div class="container text-center">
+    <h2 class="animated-section">Цели</h2>
+    <h4 class='animated-section mb-3'>Стремим се да обхванем повечето аспекти в бизнеса с недвижимите имоти!</h4>
+    <div class="row text-center scroll-animated">
+      <div class="col-md-3">
+        <i class="fas fa-couch fa-4x mr-4"></i>
+        <hr>
+        <h3 >Консултантска дейност</h3>
+        <p>Продавате имота си без да пускате обяви, да правите огледи и съседите ви да разпитват.</p>
+      </div>
+      <div class="col-md-3 ">
+        <i class="fas fa-comments-dollar fa-4x mr-4"></i>
+        <hr>
+        <h3>Купувате или продавате </h3>
+        <p>Цената, която получавате е базирана на пазарната оценка.</p>
+      </div>
+      <div class="col-md-3 ">
+        <i class="fas fa-route fa-4x mr-4"></i>
+        <hr>
+        <h3>Гъвкавост</h3>
+        <p>Можете да освободите имота тогава, когато сте готови за това.</p>
+      </div>
+      <div class="col-md-3 ">
+        <i class="fas fa-route fa-4x mr-4"></i>
+        <hr>
+        <h3>Гъвкавост</h3>
+        <p>Можете да освободите имота тогава, когато сте готови за това.</p>
+      </div>
+    </div>
+  </div>
+</section>
 <!-- Work -->
 {% comment %} <section id="work" class=" text-center py-5">
     <h2 class="display-4 animated-section">Работим за вас</h2>

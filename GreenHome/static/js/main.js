@@ -302,3 +302,18 @@ function removeImage(container) {
     images = images.filter(img => img !== container.querySelector('img').src);
     updateImageCount();
 }
+
+
+
+
+    // Testimonials carousel
+    $('.testimonial-carousel').owlCarousel({
+        autoplay: true,
+        smartSpeed: 1000,
+        loop: true,
+        nav: false,
+        dots: true,
+        items: 1,
+        dotsData: true,
+    });
+

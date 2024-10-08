@@ -63,11 +63,11 @@ def index(request):
 
     # Apply filters from the utility function
     queryset_list = apply_filters(queryset_list, request)
-
+    city = request.GET.get('city')
     # Extract choices
     type_choice = Listing.TYPE_CHOICES
     city_choices = Listing.objects.values_list('city', flat=True).distinct()
-    state_choices = states_choices
+    state_choices = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct() if city else []
     building_type_choices = Listing.BUILDING_TYPE_CHOICES  # Add this line
 
     context = {

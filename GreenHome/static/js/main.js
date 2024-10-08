@@ -60,145 +60,101 @@ function isInViewport(element) {
 
 
 
-// // DROPDOWN MENU FOR TYPE-CHOICES BUILDING MULTISELECTION 
-// $(document).ready(function() {
-
-//   var defaultText = 'Тип имот';
-
-//   // Function to update the dropdown text with the number of selected options
-//   function updateSelectedCount(checkboxClass, textClass, selectAllClass) {
-//     var selectedCount = $(checkboxClass + ':checked').length;
-//     var isSelectAllChecked = $(selectAllClass).is(':checked');
-//     if (selectedCount > 0) {
-//       $(textClass).html('(' + selectedCount + ') Тип имот');
-//   } else if (isSelectAllChecked) {
-//       $(textClass).html(defaultText);
-//   } else {
-//       $(textClass).html(defaultText);
-//   }
-//   }
-
-//   // Load selected checkboxes from URL parameters
-//   function loadSelectedCheckboxes() {
-//       var params = new URLSearchParams(window.location.search);
-//       var selectedChoices = params.getAll('type_choice[]');
-      
-//       // Set checkboxes based on URL parameters
-//       $("input[type='checkbox'].justone").each(function() {
-//           if (selectedChoices.includes($(this).val())) {
-//               $(this).prop('checked', true);
-//           } else {
-//               $(this).prop('checked', false);
-//           }
-//       });
-
-//       // Update the dropdown text with the count of selected options
-//       updateSelectedCount('.justone', '.dropdown-text');
-//   }
-
-//   // Handle individual checkbox change
-//   $("input[type='checkbox'].justone").change(function() {
-//       var totalOptions = $("input[type='checkbox'].justone").length;
-//       var selectedOptions = $("input[type='checkbox'].justone:checked").length;
-
-//       // Check or uncheck the select all box based on individual selections
-//       if (totalOptions === selectedOptions) {
-//           $('.selectall').prop('checked', true);
-//           $(".select-text").html('Премахни всички');
-//       } else {
-//           $('.selectall').prop('checked', false);
-//           $(".select-text").html('Избери всички');
-//       }
-      
-//       // Update the dropdown text with the count of selected options
-//       updateSelectedCount('.justone', '.dropdown-text');
-//   });
-
-//   // Handle select all/deselect all functionality
-//   $('.selectall').click(function() {
-//       if ($(this).is(':checked')) {
-//           $('.justone').prop('checked', true);
-//           $(".select-text").html('Премахни всички');
-//       } else {
-//           $('.justone').prop('checked', false);
-//           $(".select-text").html('Избери всички');
-//           // $(textClass).html(defaultText);
-//       }
-
-//       // Update the dropdown text with the count of selected options
-//       updateSelectedCount('.justone', '.dropdown-text');
-//   });
-
-//   // Ensure that clicking inside the dropdown menu doesn't close it
-//   $('body').on("click", ".dropdown-menu", function(e) {
-//       $(this).parent().is(".open") && e.stopPropagation();
-//   });
-
-//   // Load selected checkboxes on page load
-//   loadSelectedCheckboxes();
-// });
 
 new WOW().init();
 
-// DROPDOWN MENU WITH MULTISELEC FOR STATE-CHOICES 
-$(document).ready(function() {
-  // Default text for the dropdown button
+
+$(document).ready(function () {
   var defaultText = 'Квартал/Район';
 
-  // Function to update the dropdown text with the number of selected options
-  function updateSelectedCount(checkboxClass, textClass, selectAllClass) {
-      var selectedCount = $(checkboxClass + ':checked').length;
-      var isSelectAllChecked = $(selectAllClass).is(':checked');
+  // Function to update the dropdown text
+  function updateDropdownText() {
+      var selectedCount = $('.option-state:checked').length;
+      var selectAllChecked = $('.selectall-state').is(':checked');
       
       if (selectedCount > 0) {
-          $(textClass).html('(' + selectedCount + ') Квартали//Райони');
-      } else if (isSelectAllChecked) {
-          $(textClass).html(defaultText);
+          $('.dropdown-text-state').text('(' + selectedCount + ') Квартали//Райони');
+      } else if (selectAllChecked) {
+          $('.dropdown-text-state').text(defaultText);
       } else {
-          $(textClass).html(defaultText);
+          $('.dropdown-text-state').text(defaultText);
       }
   }
 
+  // AJAX to fetch states based on selected city
+  $('#city').change(function () {
+      var selectedCity = $(this).val();
+      var dropdownMenu = $('#state-container .dropdown-menu');
+      dropdownMenu.empty();
+
+      // Clear selected states and update the dropdown text
+      $('.option-state').prop('checked', false);  // Uncheck all state checkboxes
+      $('.selectall-state').prop('checked', false); // Uncheck the "select all" checkbox
+      $('.dropdown-text-state').text(defaultText); // Reset dropdown text
+
+      if (selectedCity) {
+        var getStatesUrl = $('#state-container').data('get-states-url');  // Get URL from data attribute
+          $.ajax({
+              url: getStatesUrl,
+              data: { 'city': selectedCity },
+              success: function (data) {
+                  dropdownMenu.append(`
+                      <li>
+                          <a href="#">
+                              <label class="m-0 w-100">
+                                  <input type="checkbox" class="selectall-state" />
+                                  <span class="select-text-state">Избери всички</span>
+                              </label>
+                          </a>
+                      </li>
+                      <li class="divider"></li>
+                  `);
+                  $.each(data.states, function (index, state) {
+                      dropdownMenu.append(`
+                          <li>
+                              <a href="#">
+                                  <label class="m-0 w-100">
+                                      <input name="state[]" type="checkbox" class="option-state" value="${state}" />
+                                      ${state}
+                                  </label>
+                              </a>
+                          </li>
+                      `);
+                  });
+              },
+              error: function () {
+                  console.log('Error fetching states');
+              }
+          });
+          $('#state-container .dropdown-toggle').prop('disabled', false);
+      } else {
+          $('#state-container .dropdown-toggle').prop('disabled', true);
+          dropdownMenu.append('<li><a href="#"><label class="m-0 w-100">Квартал</label></a></li>');
+      }
+  });
+
   // Handle individual checkbox change for states
-  $("input[type='checkbox'].option-state").change(function() {
-      var totalOptions = $("input[type='checkbox'].option-state").length;
-      var selectedOptions = $("input[type='checkbox'].option-state:checked").length;
-
-      // Check or uncheck the select all box based on individual selections
-      if (totalOptions === selectedOptions) {
-          $('.selectall-state').prop('checked', true);
-          $(".select-text-state").html('Премахни всички');
-      } else {
-          $('.selectall-state').prop('checked', false);
-          $(".select-text-state").html('Избери всички');
-      }
+  $(document).on('change', '.option-state', function () {
+      var totalOptions = $('.option-state').length;
+      var selectedOptions = $('.option-state:checked').length;
       
-      // Update the dropdown text with the count of selected options
-      updateSelectedCount('.option-state', '.dropdown-text-state', '.selectall-state');
+      $('.selectall-state').prop('checked', totalOptions === selectedOptions);
+      updateDropdownText();
   });
 
-  // Handle select all/deselect all functionality for states
-  $('.selectall-state').click(function() {
-      if ($(this).is(':checked')) {
-          $('.option-state').prop('checked', true);
-          $(".select-text-state").html('Премахни всички');
-      } else {
-          $('.option-state').prop('checked', false);
-          $(".select-text-state").html('Избери всички');
-      }
-
-      // Update the dropdown text with the count of selected options
-      updateSelectedCount('.option-state', '.dropdown-text-state', '.selectall-state');
+  // Handle select all functionality
+  $(document).on('click', '.selectall-state', function () {
+      var isChecked = $(this).is(':checked');
+      $('.option-state').prop('checked', isChecked);
+      $(".select-text-state").html(isChecked ? 'Премахни всички' : 'Избери всички');
+      updateDropdownText();
   });
-
-  // Ensure that clicking inside the dropdown menu doesn't close it
+  
+  // Ensure dropdown stays open
   $('body').on("click", ".dropdown-menu", function(e) {
       $(this).parent().is(".open") && e.stopPropagation();
   });
-
 });
-
-
 
 $(document).ready(function() {
   // Default texts for both dropdowns
@@ -281,85 +237,6 @@ $(document).ready(function() {
   loadSelectedCheckboxes();
 });
 
-
-// // DROPDOWN MENU WITH MULTISELEC FOR STATE-CHOICES 
-// $(document).ready(function() {
-//   // Default text for the dropdown button
-//   var defaultText = 'Тип на сградата';
-
-//   // Function to update the dropdown text with the number of selected options
-//   function updateSelectedCount(checkboxClass, textClass, selectAllClass) {
-//       var selectedCount = $(checkboxClass + ':checked').length;
-//       var isSelectAllChecked = $(selectAllClass).is(':checked');
-      
-//       if (selectedCount > 0) {
-//           $(textClass).html('(' + selectedCount + ') Тип на сградата');
-//       } else if (isSelectAllChecked) {
-//           $(textClass).html(defaultText);
-//       } else {
-//           $(textClass).html(defaultText);
-//       }
-//   }
-
-//   // Load selected checkboxes from URL parameters
-//   function loadSelectedCheckboxes() {
-//     var params = new URLSearchParams(window.location.search);
-//     var selectedChoices = params.getAll('building_type[]');
-    
-//     // Set checkboxes based on URL parameters
-//     $("input[type='checkbox'].justone").each(function() {
-//         if (selectedChoices.includes($(this).val())) {
-//             $(this).prop('checked', true);
-//         } else {
-//             $(this).prop('checked', false);
-//         }
-//     });
-
-//     // Update the dropdown text with the count of selected options
-//     updateSelectedCount('.justone', '.dropdown-text');
-// }
-// // Handle individual checkbox change
-// $("input[type='checkbox'].justone").change(function() {
-//   var totalOptions = $("input[type='checkbox'].justone").length;
-//   var selectedOptions = $("input[type='checkbox'].justone:checked").length;
-
-//   // Check or uncheck the select all box based on individual selections
-//   if (totalOptions === selectedOptions) {
-//       $('.selectall').prop('checked', true);
-//       $(".select-text").html('Премахни всички');
-//   } else {
-//       $('.selectall').prop('checked', false);
-//       $(".select-text").html('Избери всички');
-//   }
-  
-//   // Update the dropdown text with the count of selected options
-//   updateSelectedCount('.justone', '.dropdown-text');
-// });
-
-//   // Handle select all/deselect all functionality
-//   $('.selectall').click(function() {
-//     if ($(this).is(':checked')) {
-//         $('.justone').prop('checked', true);
-//         $(".select-text").html('Премахни всички');
-//     } else {
-//         $('.justone').prop('checked', false);
-//         $(".select-text").html('Избери всички');
-//         // $(textClass).html(defaultText);
-//     }
-
-//     // Update the dropdown text with the count of selected options
-//     updateSelectedCount('.justone', '.dropdown-text');
-// });
-
-
-//  // Ensure that clicking inside the dropdown menu doesn't close it
-//  $('body').on("click", ".dropdown-menu", function(e) {
-//   $(this).parent().is(".open") && e.stopPropagation();
-// });
-
-// // Load selected checkboxes on page load
-// loadSelectedCheckboxes();
-// });
 
 
 

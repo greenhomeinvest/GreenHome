@@ -25,46 +25,55 @@
                 <div class="search">
                     <form action="{% url 'search' %}" method="get">
                         <div class="form-row">
-                            <!-- City -->
+
                             <div class="col-md-4 mb-3">
                                 <label class="sr-only">City</label>
-                                <select name="city" class="form-control">
+                                <select id="city" name="city" class="form-control">
                                     <option value="" {% if not values.city %}selected{% endif %}>Град</option>
                                     {% for city in city_choices %}
                                     <option value="{{ city }}" {% if city == values.city %}selected{% endif %}>{{ city }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <!-- State Dropdown -->
-                            <div class="col-md-4 mb-3">
-                                <label class="sr-only">State</label>
-                                <div class="dropdown form-control p-0">
-                                    <button class="btn btn-default dropdown-toggle w-100 text-left" type="button" data-toggle="dropdown">
-                                        <span class="dropdown-text-state">
-                                            {% if values.state %}
-                                            ({{ values.state|length }}) Квартал 
-                                            {% else %}
-                                                Квартал
-                                            {% endif %}
-                                        </span>
-                                        <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu w-100" style='z-index: 10000;'>
-                                        <li><a href="#"><label class="m-0 w-100"><input type="checkbox" class="selectall-state" /><span class="select-text-state">Избери всички</span></label></a></li>
-                                        <li class="divider"></li>
-                                        {% for state in state_choices %}
-                                        <li>
-                                            <a href="#">
-                                                <label class="m-0 w-100">
-                                                    <input name="state[]" type="checkbox" class="option-state" value="{{ state }}" {% if state in values.state %}checked{% endif %} />
-                                                    {{ state }}
-                                                </label>
-                                            </a>
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
+                          
+<div class="col-md-4 mb-3">
+    <label class="sr-only">State</label>
+    <div id="state-container" data-get-states-url="{% url 'get_states' %}">
+        <div class="dropdown form-control p-0">
+            <button class="btn btn-default dropdown-toggle w-100 text-left" type="button" data-toggle="dropdown" id="stateDropdownButton" {% if not values.city %}disabled{% endif %}>
+                <span class="dropdown-text-state">
+                    {% if values.state %}
+                        ({{ values.state|length }}) Квартал/Район
+                    {% else %}
+                        Квартал/Район
+                    {% endif %}
+                </span>
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu w-100" style="z-index: 10000; max-height: 300px; overflow-y: auto;">
+                <li>
+                    <a href="#">
+                        <label class="m-0 w-100">
+                            <input type="checkbox" class="selectall-state" />
+                            <span class="select-text-state">Избери всички</span>
+                        </label>
+                    </a>
+                </li>
+                <li class="divider"></li>
+                {% for state in state_choices %}
+                <li>
+                    <a href="#">
+                        <label class="m-0 w-100">
+                            <input name="state[]" type="checkbox" class="option-state" value="{{ state }}" {% if state in values.state %}checked{% endif %} />
+                            {{ state }}
+                        </label>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
                             <div class="col-md-4 mb-3">
                                 <label class="sr-only">ID</label>
                                 <input type="text" name="uid" class="form-control" placeholder="ID на имот" value="{{ values.uid }}">
@@ -216,7 +225,12 @@
                                 {% if listing.title %}
                                 {{ listing.title }}
                             {% else %}
-                               ID: {{ listing.uid }}
+                               ID:
+                               {% if listing.estate_code %}
+                               {{ listing.estate_code }}
+                             {% else %}
+                               {{ listing.uid }}
+                             {% endif %}
                             {% endif %}</h4>
                             <p class='common-ellipsis'>
                                 <i class="fas fa-map-marker text-secondary"></i> {{ listing.state }}, {{ listing.city }}</p>
@@ -236,15 +250,7 @@
                             <div class="col-12">
                                 <i class="fas fa-th-large"></i> Площ: {{ listing.sqft }} m²</div>
                         </div>
-                        {% comment %} <hr>
-                        <div class="row py-2 text-secondary">
-                            <div class="col-12">
-                                <i class="fas fa-user"></i> {{ listing.realtor }}</div>
-                        </div>
-                        <div class="row text-secondary pb-2">
-                            <div class="col-6">
-                                <i class="fas fa-clock"></i> {{ listing.list_date | timesince }}</div>
-                        </div> {% endcomment %}
+
                         <hr>
                         <a href="{% url 'current_listing' listing.id %}" class="btn btn-primary btn-block">Повече информация</a>
                     </div>
@@ -305,4 +311,8 @@
         </div>
       </section>
 
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      {% comment %} <script>
+      
+      </script> {% endcomment %}
 {% endblock %}

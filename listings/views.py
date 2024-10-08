@@ -2,6 +2,7 @@ from datetime import datetime
 import hashlib
 import os
 from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
@@ -268,8 +269,9 @@ def listings(request):
     paged_listings = paginator.get_page(page)
     # Extract choices
     type_choice = Listing.TYPE_CHOICES
+    city = request.GET.get('city')
     city_choices = Listing.objects.values_list('city', flat=True).distinct()
-    state_choices = states_choices
+    state_choices = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct() if city else []
     building_type_choices = Listing.BUILDING_TYPE_CHOICES  # Add this line
     context = {
         'listings': paged_listings,
@@ -305,80 +307,79 @@ def current_listing(request,id):
         'options': options,  
         }
     return render(request, 'listings/current_listing.html',context)
+def get_states(request):
+    city = request.GET.get('city')
+    if city:
+        states = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct()
+        return JsonResponse({'states': list(states)})
+    return JsonResponse({'states': []})
 
 
 def search(request):
     queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
 
-    # Keywords
+    # Helper function to filter by keywords
+    def filter_by_keywords(keywords):
+        return queryset_list.filter(
+            Q(description__icontains=keywords) |
+            Q(realtor__name__icontains=keywords) |
+            Q(title__icontains=keywords) |
+            Q(type_choice__icontains=keywords) |
+            Q(extra_options__icontains=keywords) |
+            Q(uid__iexact=keywords)
+        ).distinct()
+
+    # Filter by keywords
     if 'keywords' in request.GET:
         keywords = request.GET['keywords']
         if keywords:
-            queryset_list = queryset_list.filter(
-                Q(description__icontains=keywords) |
-                Q(realtor__name__icontains=keywords) |
-                Q(title__icontains=keywords) |
-                Q(type_choice__icontains=keywords) |
-                Q(extra_options__icontains=keywords) |
-                Q(uid__iexact=keywords)  # Search by uid if matches
-                
-            ).distinct()
+            queryset_list = filter_by_keywords(keywords)
 
-    # City
-    if 'city' in request.GET:
-        city = request.GET['city']
-        if city:
-            queryset_list = queryset_list.filter(city__iexact=city)
-    
-    # State
-    if 'state[]' in request.GET:
-        property_types = request.GET.getlist('state[]')
-       
-        if property_types:
-            queryset_list = queryset_list.filter(state__in=property_types)
-           
-    # Building Type
-    if 'building_type[]' in request.GET:
-        building_types = request.GET.getlist('building_type[]')
-        if building_types:
-            queryset_list = queryset_list.filter(type_building__in=building_types)
-            
-    # Type Choice 
-    if 'type_choice[]' in request.GET:
-        property_types = request.GET.getlist('type_choice[]')
-        if property_types:
-            queryset_list = queryset_list.filter(type_choice__in=property_types)
+    # Filter by city
+    city = request.GET.get('city')
+    if city:
+        queryset_list = queryset_list.filter(city__iexact=city)
 
-    # Price Range
+    # Filter by selected states
+    selected_states = request.GET.getlist('state[]')
+    if selected_states:
+        queryset_list = queryset_list.filter(state__in=selected_states)
+
+    # Filter by building type
+    selected_building_types = request.GET.getlist('building_type[]')
+    if selected_building_types:
+        queryset_list = queryset_list.filter(type_building__in=selected_building_types)
+
+    # Filter by property type
+    selected_property_types = request.GET.getlist('type_choice[]')
+    if selected_property_types:
+        queryset_list = queryset_list.filter(type_choice__in=selected_property_types)
+
+    # Price range filters
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
     if min_price:
         queryset_list = queryset_list.filter(price__gte=min_price)
     if max_price:
         queryset_list = queryset_list.filter(price__lte=max_price)
-    
-    # Filter by UID (Unique ID of Listing)
-    if 'uid' in request.GET:
-        uid = request.GET['uid']
-        if uid:
-            queryset_list = queryset_list.filter(uid__iexact=uid)
-    search_count = queryset_list.count()
+
+    # Filter by UID
+    uid = request.GET.get('uid')
+    if uid:
+        queryset_list = queryset_list.filter(uid__iexact=uid)
+
     # Pagination
-    paginator = Paginator(queryset_list, 9)
+    paginator = Paginator(queryset_list, 3)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
 
-    # Extracting choices dynamically
-    type_choice = Listing.TYPE_CHOICES
+    # Extract choices
     city_choices = Listing.objects.values_list('city', flat=True).distinct()
-    state_choices = states_choices
+    state_choices = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct() if city else []
     price_choices = Listing.objects.values_list('price', flat=True).distinct()
     building_type_choices = Listing.BUILDING_TYPE_CHOICES
-    # Debug: Print out the SQL query being executed
-    # print(queryset_list.query)
-    selected_states = request.GET.getlist('state[]')
-    selected_building_types = request.GET.getlist('building_type[]')
-    selected_type_choices = request.GET.getlist('type_choice[]')
+    type_choice = Listing.TYPE_CHOICES
+
     context = {
         'queryset_list': paged_listings,
         'type_choice': type_choice,
@@ -386,23 +387,20 @@ def search(request):
         'state_choices': state_choices,
         'price_choices': price_choices,
         'building_type_choices': building_type_choices,
-        'search_count':search_count,
-         'values': {
-            'city': request.GET.get('city', ''),
+        'search_count': queryset_list.count(),
+        'values': {
+            'city': city,
             'state': selected_states,
-            'min_price': request.GET.get('min_price', ''),
-            'max_price': request.GET.get('max_price', ''),
-            'keywords': request.GET.get('keywords', ''),
-            'type_choice': selected_type_choices,
+            'min_price': min_price,
+            'max_price': max_price,
+            'keywords': keywords,
             'uid': request.GET.get('uid', ''),
             'building_type': selected_building_types,
-            # other values
+            'type_choice': selected_property_types,
         },
-
     }
 
     return render(request, 'listings/search.html', context)
-
 
 def realtor_listings(request, realtor_id):
     realtor = get_object_or_404(Realtor, id=realtor_id)

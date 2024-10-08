@@ -31,44 +31,55 @@
               <div class="form-row">
                   <!-- City -->
                   <div class="col-md-4 mb-3">
-                      <label class="sr-only">City</label>
-                      <select name="city" class="form-control">
-                          <option value="" {% if not values.city %}selected{% endif %}>Град</option>
-                          {% for city in city_choices %}
-                          <option value="{{ city }}" {% if city == values.city %}selected{% endif %}>{{ city }}</option>
-                          {% endfor %}
-                      </select>
-                  </div>
-                  <!-- State Dropdown -->
-                  <div class="col-md-4 mb-3">
-                      <label class="sr-only">State</label>
-                      <div class="dropdown form-control p-0">
-                          <button class="btn btn-default dropdown-toggle w-100 text-left" type="button" data-toggle="dropdown">
-                              <span class="dropdown-text-state">
-                                  {% if values.state %}
-                                  ({{ values.state|length }}) Квартал 
-                                  {% else %}
-                                      Квартал
-                                  {% endif %}
-                              </span>
-                              <span class="caret"></span>
-                          </button>
-                          <ul class="dropdown-menu w-100" style='z-index: 10000;'>
-                              <li><a href="#"><label class="m-0 w-100"><input type="checkbox" class="selectall-state" /><span class="select-text-state">Избери всички</span></label></a></li>
-                              <li class="divider"></li>
-                              {% for state in state_choices %}
-                              <li>
-                                  <a href="#">
-                                      <label class="m-0 w-100">
-                                          <input name="state[]" type="checkbox" class="option-state" value="{{ state }}" {% if state in values.state %}checked{% endif %} />
-                                          {{ state }}
-                                      </label>
-                                  </a>
-                              </li>
-                              {% endfor %}
-                          </ul>
-                      </div>
-                  </div>
+                    <label class="sr-only">City</label>
+                    <select id="city" name="city" class="form-control">
+                        <option value="" {% if not values.city %}selected{% endif %}>Град</option>
+                        {% for city in city_choices %}
+                        <option value="{{ city }}" {% if city == values.city %}selected{% endif %}>{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <!-- State Dropdown -->
+<!-- State Dropdown -->
+<div class="col-md-4 mb-3">
+  <label class="sr-only">State</label>
+  <div id="state-container" data-get-states-url="{% url 'get_states' %}">
+      <div class="dropdown form-control p-0">
+          <button class="btn btn-default dropdown-toggle w-100 text-left" type="button" data-toggle="dropdown" id="stateDropdownButton" {% if not values.city %}disabled{% endif %}>
+              <span class="dropdown-text-state">
+                  {% if values.state %}
+                      ({{ values.state|length }}) Квартал/Район
+                  {% else %}
+                      Квартал/Район
+                  {% endif %}
+              </span>
+              <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu w-100" style="z-index: 10000; max-height: 300px; overflow-y: auto;">
+              <li>
+                  <a href="#">
+                      <label class="m-0 w-100">
+                          <input type="checkbox" class="selectall-state" />
+                          <span class="select-text-state">Избери всички</span>
+                      </label>
+                  </a>
+              </li>
+              <li class="divider"></li>
+              {% for state in state_choices %}
+              <li>
+                  <a href="#">
+                      <label class="m-0 w-100">
+                          <input name="state[]" type="checkbox" class="option-state" value="{{ state }}" {% if state in values.state %}checked{% endif %} />
+                          {{ state }}
+                      </label>
+                  </a>
+              </li>
+              {% endfor %}
+          </ul>
+      </div>
+  </div>
+</div>
  <!-- Building Type Dropdown -->
  <div class="col-md-4 mb-3">
   <label class="sr-only">Building Type</label>
@@ -201,7 +212,7 @@
   <h3 class="text-center wow animate__animated animate__fadeInUp ">Оцени имота си</h3>
   <p class=" text-center"
   
-  >Вземи безплатна оферта сега. Без ангажименти.</p>
+  >Възползвай се от безплатната ни услуга и получи  професионална пазарна оценка за твоя имот.</p>
   <div class="search ">
     <form method="POST" action="{% url 'inquiry' %}" enctype="multipart/form-data">
       {% csrf_token %}

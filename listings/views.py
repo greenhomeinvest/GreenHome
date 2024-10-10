@@ -329,11 +329,9 @@ def search(request):
             Q(uid__iexact=keywords)
         ).distinct()
 
-    # Filter by keywords
-    if 'keywords' in request.GET:
-        keywords = request.GET['keywords']
-        if keywords:
-            queryset_list = filter_by_keywords(keywords)
+    keywords = request.GET.get('keywords', '')
+    if keywords:
+        queryset_list = filter_by_keywords(keywords)
 
     # Filter by city
     city = request.GET.get('city')
@@ -358,10 +356,11 @@ def search(request):
     # Price range filters
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
-    if min_price:
-        queryset_list = queryset_list.filter(price__gte=min_price)
-    if max_price:
-        queryset_list = queryset_list.filter(price__lte=max_price)
+    if min_price and min_price.isdigit():
+        queryset_list = queryset_list.filter(price__gte=int(min_price))
+
+    if max_price and max_price.isdigit():
+        queryset_list = queryset_list.filter(price__lte=int(max_price))
 
     # Filter by UID
     uid = request.GET.get('uid')
@@ -369,7 +368,7 @@ def search(request):
         queryset_list = queryset_list.filter(uid__iexact=uid)
 
     # Pagination
-    paginator = Paginator(queryset_list, 3)
+    paginator = Paginator(queryset_list, 9)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
 

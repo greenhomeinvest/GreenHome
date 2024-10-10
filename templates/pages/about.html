@@ -35,18 +35,18 @@
       <div class="row">
         <div class="col-md-12 position-relative d-flex flex-column ">
           <h2>В търсене на перфектния дом</h2>
-          <p class="lead">Ние сме вашите партньори в намирането на идеалния дом.</p>
+          <p class="lead mb-5">Ние сме вашите партньори в намирането на идеалния дом.</p>
 
-          <img class=' about-img wow animate__animated animate__fadeInLeft' src="{% static "img/office.jpg" %}" alt="">
-          <div class="about-text-section text-center wow animate__animated animate__fadeInRight" >
+          <img class='about-img wow animate__animated animate__fadeInLeft' src="{% static "img/office.jpg" %}" alt="">
+          {% comment %} <div class="about-text-section text-center wow animate__animated animate__fadeInRight" >
               <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
               <p class="mt-4">Нашата мисия е да създадем положително преживяване за всеки клиент чрез професионализъм, интегритет и преданост. Специализираме се в управление на имоти, продажба и отдаване под наем на разнообразни имоти, включително жилищни, комерсиални и инвестиционни.</p>
           </div>
-        </div>
-          {% comment %} <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
-          <p class="mt-4">Нашата мисия е да създадем положително преживяване за всеки клиент чрез професионализъм, интегритет и преданост. Специализираме се в управление на имоти, продажба и отдаване под наем на разнообразни имоти, включително жилищни, комерсиални и инвестиционни.</p>
-          <p class="mt-4">С нашия богат опит и експертно знание в индустрията, предлагаме персонализирани решения, които отговарят на специфичните изисквания на всеки клиент. Нашата цел е да бъдем вашите надеждни партньори в недвижимата сфера, предоставяйки надеждни и иновативни услуги.</p>
-          <p class="mt-4">Независимо дали сте на пазара за покупка, продажба или наем на имот, ние сме тук, за да ви подкрепим на всеки стъпка от пътя. Разчитайте на нас за професионализъм, стратегическо мислене и ангажираност към вашите цели в сферата на недвижимите имоти.</p> {% endcomment %}
+        </div> {% endcomment %}
+         <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
+          {% comment %} <p class="mt-4">Нашата мисия е да създадем положително преживяване за всеки клиент чрез професионализъм, интегритет и преданост. Специализираме се в управление на имоти, продажба и отдаване под наем на разнообразни имоти, включително жилищни, комерсиални и инвестиционни.</p>
+          <p class="mt-4">С нашия богат опит и експертно знание в индустрията, предлагаме персонализирани решения, които отговарят на специфичните изисквания на всеки клиент. Нашата цел е да бъдем вашите надеждни партньори в недвижимата сфера, предоставяйки надеждни и иновативни услуги.</p> {% endcomment %}
+          <p class="my-5">Независимо дали сте на пазара за покупка, продажба или наем на имот, ние сме тук, за да ви подкрепим на всеки стъпка от пътя. Разчитайте на нас за професионализъм, стратегическо мислене и ангажираност към вашите цели в сферата на недвижимите имоти.</p> 
         </div>
         {% comment %} <div class="col-md-4">
           {% if mvp_realtors %}
@@ -151,32 +151,29 @@
 
 <section id="services" class="py-5 bg-secondary text-white">
   <div class="container text-center">
-    <h2 class="animated-section">Цели</h2>
+    <h2 class="animated-section display-4">Цели</h2>
     <h4 class='animated-section mb-3'>Стремим се да обхванем повечето аспекти в бизнеса с недвижимите имоти!</h4>
     <div class="row text-center ">
-      <div class="col-md-3 wow animate__animated animate__fadeInUp" data-wow-delay='0.1s'>
-        <i class="fas fa-couch fa-4x mr-4"></i>
+      <div class="col-md-4 wow animate__animated animate__fadeInUp" data-wow-delay='0.1s'>
+        <i class="fa-solid fa-person-circle-question  fa-4x mr-4"></i>
+        {% comment %} <i class="fa-solid fa-clipboard-question fa-4x mr-4"></i> {% endcomment %}
         <hr>
         <h3 >Консултантска дейност</h3>
-        <p>Продавате имота си без да пускате обяви, да правите огледи и съседите ви да разпитват.</p>
+        <p>Купувате или продавате?</p>
       </div>
-      <div class="col-md-3 wow animate__animated animate__fadeInUp " data-wow-delay='0.2s'>
-        <i class="fas fa-comments-dollar fa-4x mr-4"></i>
+      <div class="col-md-4 wow animate__animated animate__fadeInUp " data-wow-delay='0.2s'>
+        <i class="fa-solid fa-hammer fa-4x mr-4"></i>
         <hr>
-        <h3>Купувате или продавате </h3>
-        <p>Цената, която получавате е базирана на пазарната оценка.</p>
+        <h3>Строителна дейност</h3>
+        <p>Собствени инвестиционни проекти.</p>
       </div>
-      <div class="col-md-3 wow animate__animated animate__fadeInUp" data-wow-delay='0.3s'>
-        <i class="fas fa-route fa-4x mr-4"></i>
+      
+      <div class="col-md-4 wow animate__animated animate__fadeInUp " data-wow-delay='0.4s'>
+        {% comment %} <i class="fas fa-route fa-4x mr-4"></i> {% endcomment %}
+        <i class="fa-regular fa-money-bill-1 fa-4x mr-4"></i>
         <hr>
-        <h3>Гъвкавост</h3>
-        <p>Можете да освободите имота тогава, когато сте готови за това.</p>
-      </div>
-      <div class="col-md-3 wow animate__animated animate__fadeInUp " data-wow-delay='0.4s'>
-        <i class="fas fa-route fa-4x mr-4"></i>
-        <hr>
-        <h3>Гъвкавост</h3>
-        <p>Можете да освободите имота тогава, когато сте готови за това.</p>
+        <h3>Директно изкупуване</h3>
+        <p>Можем директно да закупим имота Ви, с което ще Ви спестим много време, напразни огледи, главоболие.</p>
       </div>
     </div>
   </div>
@@ -250,75 +247,7 @@
 
 
 
-
 {% comment %} ----------------------------------------------------------------------------------- {% endcomment %}
-
- {% comment %} <section id="team" class="py-5">
-    <div class="container">
-        <h2 class="text-center">Нашия екип</h2>
-
-<!-- Carousel -->
-<div id="teamCarousel" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner text-center">
-
-      {% if realtors %}
-          {% for realtor in realtors %}
-              {% if forloop.first or forloop.counter0|divisibleby:3 %}
-                  <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                      <div class="row">
-              {% endif %}
-                          <div class="col-12 col-md-4 mb-4 d-md-block d-none">
-                              <img src="{{ realtor.photo.url }}" alt="" class="rounded-circle mb-3" style="width: 150px; height: 150px;">
-                              <h4>{{ realtor.name }}</h4>
-                              <p class="text-success">
-                                  {% if realtor.is_mvp %}
-                                      <i class="fas fa-award text-success mb-3"></i> Брокер
-                                  {% else %}
-                                      <p class="text-success">Брокер</p>
-                                  {% endif %}
-                              </p>
-                              <hr />
-                              <p><i class="fas fa-phone"></i> {{ realtor.phone }}</p>
-                              <p><i class="fas fa-envelope-open"></i> {{ realtor.email }}</p>
-                          </div>
-              {% if forloop.last or forloop.counter0|add:1|divisibleby:3 %}
-                      </div>
-                  </div>
-              {% endif %}
-          {% endfor %}
-      {% else %}
-          <div class="carousel-item active">
-              <div class="col-12">
-                  <p>Няма Брокери</p>
-              </div>
-          </div>
-      {% endif %}
-
-    </div>
-
-            <!-- Navigation Arrows -->
-            <a class="carousel-control-prev" href="#teamCarousel" role="button" data-slide="prev">
-              <span class="custom-carousel-icon" aria-hidden="true">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#48752C">
-                      <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/>
-                  </svg>
-              </span>
-              <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#teamCarousel" role="button" data-slide="next">
-            <span class="custom-carousel-icon" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#48752C">
-                    <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
-                </svg>
-            </span>
-            <span class="sr-only">Next</span>
-        </a>
-
-        </div>
-        <!-- End Carousel -->
-
-    </div>
-</section>   {% endcomment %}
 
 {% endblock %}
 

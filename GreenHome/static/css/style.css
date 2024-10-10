@@ -25,7 +25,16 @@ img {
     min-height: 400px;
     position: relative;
     border-radius: 5px; }
-
+  
+    @media (max-width: 768px) {
+      #showcase {
+        background-attachment: scroll;
+        background-size: cover;  /* Or use 'contain' if needed */
+        background-position: center;
+        min-height: 650px;
+        padding-top: 3rem;
+      }
+    }
 .inquiry-showcase {
   min-height: 90vh !important;
 }
@@ -75,6 +84,12 @@ img {
     width: 100%;
     background: rgba(32, 134, 107, 0.8); }
 
+    @media (max-width: 768px) {
+      #services {
+        background-size: cover; /* Or a different size depending on how you want the image to behave */
+        background-position: center;
+      }
+    }
 #showcase-inner {
   background: url(../img/building.jpg) no-repeat top center fixed;
   background-size: cover;
@@ -173,7 +188,7 @@ img {
 
 @media (max-width: 600px) {
       .inquiry-showcase  {
-        height: 95vh;
+        height: 105vh;
        }
 }
 
@@ -901,7 +916,8 @@ img.img-about {
   align-self: self-end;
 }
 .about-img{
-  width: 70%;
+  width: 100%;
+  height: 70vh;
   margin-bottom: 25px;
   border-radius: 25px;
   box-shadow: 1px 1px 16px 0px gray;
@@ -910,9 +926,11 @@ img.img-about {
 @media (max-width: 700px) {
   .about-img {
     width:100%;
+    height: 60vh;
   }
   .about-text-section {
     width: 100%;
     margin-top: 20%;
   }
   }
+

@@ -66,28 +66,6 @@
     </div>
   </section>
 
-
-  {% comment %} <section id="about" class="py-4">
-    <div class="container">
-      <div class="row ">
-        <div>
-          <h2>В търсене на перфектния дом</h2>
-          <p class="lead">Ние сме вашите партньори в намирането на идеалния дом.</p>
-          <div class="col-lg-12  wow animate__animated animate__fadeIn" data-wow-delay="0.2s">
-            <div class="d-flex flex-column ">
-                <img class="img-fluid w-75  about-img" src="{% static 'img/office.jpg' %}" alt="img-about"> 
-                <div class="about-text-section text-center align-self-end" ">
-                  <p class="mt-4">Нашата агенция се стреми да осигури на клиентите си най-доброто обслужване и най-добрите недвижими имоти на пазара. Работим със собственици на имоти, купувачи и наематели, за да удовлетворим всички техни нужди и изисквания.</p>
-                  <p class="mt-4">Нашата мисия е да създадем положително преживяване за всеки клиент чрез професионализъм, интегритет и преданост. Специализираме се в управление на имоти, продажба и отдаване под наем на разнообразни имоти, включително жилищни, комерсиални и инвестиционни.</p>
-                        </div>
-                </div>
-            </div>
-        </div>
-        
-         
-      </div>
-    </div>
-  </section> {% endcomment %}
   
 <!-- Team --> 
 
@@ -191,7 +169,8 @@
                 {% for review in reviews %}
                       <div class="testimonial">
                           <div class="testimonial-content">
-                              <p>{{ review.text }}</p>
+                            <p><i class="fas fa-quote-left quote-left "></i>  {{ review.text }}  <i class="fas fa-quote-right quote-right"></i></p>
+
                           </div>
                           <h3 class="testimonial-title">{{ review.author_name }}</h3>
                       </div>

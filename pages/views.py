@@ -84,8 +84,8 @@ def index(request):
     return render(request, 'pages/index.html', context)
 
 def about(request):
-    api_key = 'YOUR_API_KEY'  # Replace with your actual API key
-    place_id = 'YOUR_PLACE_ID'  # Replace with your actual Place ID
+    # api_key = 'AIzaSyCpyfYX3aKnADOjPYUvhRG9Yzf2dChb_m8'  # Replace with your actual API key
+    # place_id = 'ChIJaUTS9LJVpEAR6slnfGUwjfQ'  # Replace with your actual Place ID
     realtors = Realtor.objects.annotate(listing_count=Count('listing')).order_by('-hire_date')
     
     mvp_realtors = realtors.filter(is_mvp=True)
@@ -110,20 +110,47 @@ def about(request):
     }
     
      # Call the Google Places API
-    url = f"https://maps.googleapis.com/maps/api/place/details/json?placeid={place_id}&fields=name,rating,reviews&key={api_key}"
-    response = requests.get(url)
-
+    # url = f"https://maps.googleapis.com/maps/api/place/details/json?placeid={place_id}&fields=name,rating,reviews&key={api_key}"
+    # response = requests.get(url)
+    reviews_code = [
+    {
+        'author_name': 'Petar Petrov',
+        'text': 'Effective, fast, pleasant communication and feedback. Thanks for your help and honesty! I recommend.'
+    },
+    {
+        'author_name': 'Nadezhda Mutafchieva',
+        'text': 'Истински професионалисти! Много бързо работят и съдействат за абсолютно всичко!'
+    },
+    {
+        'author_name': 'Kameliq Staneva',
+        'text': 'Уникални хора, благодарение на които човек постига мечтите си! Най-вече Ралица Кръстева страхотен професионалист!'
+    },
+    {
+        'author_name': 'Dimitar Filipovski',
+        'text': 'Страхотни професионалисти! Компетентни и отзивчиви. Препоръчвам!'
+    },
+    {
+        'author_name': 'Kaloyan Vitanov',
+        'text': 'Бързо, качествено и професионално обслужване.'
+    },
+    {
+        'author_name': 'Hristo Hristov',
+        'text': 'Прекрасен екип!!'
+    }
+]
  # Check if the request was successful
-    if response.status_code == 200:
-        data = response.json()
-        reviews = data.get('result', {}).get('reviews', [])
+    # if response.status_code == 200:
+    #     data = response.json()
+    #     print(data)  # Check the JSON response
+    #     reviews = data.get('result', {}).get('reviews', [])
         
-        # Filter reviews to only include those with a rating of 4 or higher
-        reviews = [review for review in reviews if review.get('rating', 0) >= 4]
-    else:
-        reviews = []  # Handle the error case
+    #     # Filter reviews to only include those with a rating of 4 or higher
+    #     reviews = [review for review in reviews if review.get('rating', 0) >= 4]
+    # else:
+    #     reviews = reviews_code 
+    #     print(f"Error: {response.status_code} - {response.text}")# Handle the error case
     context = {
-        'reviews':reviews,
+        'reviews':reviews_code,
         'realtors': realtors,
         'mvp_realtors': mvp_realtors, 
         'sections':sections,

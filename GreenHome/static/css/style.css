@@ -980,3 +980,16 @@ img.img-about {
     font-size: 20px; /* Size of the stars */
     margin: 0 2px; /* Spacing between stars */
 }
+
+
+.quote-left {
+  position: relative;
+  top: -5px;
+  color: #48752C; /* Adjust color as needed */
+}
+
+.quote-right {
+  position: relative;
+  bottom: -5px;
+  color: #48752C; /* Adjust color as needed */
+}

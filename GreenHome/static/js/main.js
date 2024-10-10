@@ -317,3 +317,4 @@ function removeImage(container) {
     //     dotsData: true,
     // });
 
+

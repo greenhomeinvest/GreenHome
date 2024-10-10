@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+import requests
 from inquiry_message.models import ImagesInquiry, Inquiry
 from listings.models import Listing
 from realtors.models import Realtor
@@ -83,18 +84,12 @@ def index(request):
     return render(request, 'pages/index.html', context)
 
 def about(request):
+    api_key = 'YOUR_API_KEY'  # Replace with your actual API key
+    place_id = 'YOUR_PLACE_ID'  # Replace with your actual Place ID
     realtors = Realtor.objects.annotate(listing_count=Count('listing')).order_by('-hire_date')
     
     mvp_realtors = realtors.filter(is_mvp=True)
     sections = {
-        # 'goals': {
-        #     'title': 'Цели',
-        #     'description': 'Стремим се да обхванем повечето аспекти в бизнеса с недвижимите имоти. '
-        #                    'Консултантска дейност, Купувате или продавате, Собствени инвестиционни проекти, '
-        #                    'Директно изкупуване, Можем директно да закупим имота Ви, с което ще Ви спестим много време, '
-        #                    'напразни огледи, главоболие.',
-        #     'image': 'img/office.jpg',  # Use the static path
-        # },
         'mission': {
             'title': 'Нашата мисия',
             'description': 'Нашата мисия е да бъдем модерна компания с висок стандарт, в крак със съвременните технологии '
@@ -113,8 +108,22 @@ def about(request):
             'image': 'img/office.jpg',
         }
     }
+    
+     # Call the Google Places API
+    url = f"https://maps.googleapis.com/maps/api/place/details/json?placeid={place_id}&fields=name,rating,reviews&key={api_key}"
+    response = requests.get(url)
+
+ # Check if the request was successful
+    if response.status_code == 200:
+        data = response.json()
+        reviews = data.get('result', {}).get('reviews', [])
+        
+        # Filter reviews to only include those with a rating of 4 or higher
+        reviews = [review for review in reviews if review.get('rating', 0) >= 4]
+    else:
+        reviews = []  # Handle the error case
     context = {
- 
+        'reviews':reviews,
         'realtors': realtors,
         'mvp_realtors': mvp_realtors, 
         'sections':sections,

@@ -934,3 +934,49 @@ img.img-about {
   }
   }
 
+
+
+
+  /* owl carousel*/
+  .testimonial .testimonial-title{
+    display: inline-block;
+    color: green;
+  }
+  .testimonial{
+    margin: 50px 30px;
+    background-color: #fff;
+    color: #000000;
+    text-align: center;
+    border-left: 10px solid #356148;
+    border-right: 10px solid #356148;
+    box-shadow: 10px 10px 9px 1px rgb(0 0 0 / 20%);
+    padding: 40px 30px 40px;
+    position: relative;
+  }
+  .testimonial:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 10px;
+    background-color: #356148;;
+  }
+  .testimonial:after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 10px;
+    background-color:#356148;;
+  }
+
+  .checked {
+    color: gold; /* Color for the filled stars */
+    text-shadow: 1px 1px 1px rgba(53, 54, 53, 0.578);
+}
+.fa-star {
+    font-size: 20px; /* Size of the stars */
+    margin: 0 2px; /* Spacing between stars */
+}

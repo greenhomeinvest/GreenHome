@@ -175,7 +175,7 @@ def save_listing_from_json(json_data):
     brokers = {broker['id']: broker for broker in data.get('brokers', [])}
 
     # Get the first 10 properties, or all if there are fewer than 10
-    for property in properties[:26]:  # Slice to get the first 10 properties
+    for property in properties:  # Slice to get the first 10 properties
         uid = property.get('uid')
         estate_code = property.get('code', None)
         # Skip if this listing already exists in the database
@@ -326,7 +326,8 @@ def search(request):
             Q(title__icontains=keywords) |
             Q(type_choice__icontains=keywords) |
             Q(extra_options__icontains=keywords) |
-            Q(uid__iexact=keywords)
+            Q(uid__iexact=keywords) |
+            Q(estate_code__iexact=keywords)
         ).distinct()
 
     keywords = request.GET.get('keywords', '')
@@ -365,8 +366,24 @@ def search(request):
     # Filter by UID
     uid = request.GET.get('uid')
     if uid:
-        queryset_list = queryset_list.filter(uid__iexact=uid)
+        # Check if any listing matches the given estate_code
+        queryset_list = Listing.objects.filter(estate_code__iexact=uid)
 
+        # If no listing is found with the estate_code, check the uid
+        if not queryset_list.exists():
+            queryset_list = Listing.objects.filter(uid__iexact=uid)
+    #     queryset_list = queryset_list.filter(uid__iexact=uid)
+    # First, attempt to filter by estate_code
+    # estate_code = request.GET.get('estate_code')
+    # if estate_code:
+    #     queryset_list = queryset_list.filter(estate_code__iexact=estate_code)
+
+    # # If no results found with estate_code, attempt to filter by UID
+    # if not queryset_list.exists():
+    #     uid = request.GET.get('uid')
+    #     if uid:
+    #         queryset_list = queryset_list.filter(uid__iexact=uid)
+    
     # Pagination
     paginator = Paginator(queryset_list, 9)
     page = request.GET.get('page')
@@ -393,7 +410,7 @@ def search(request):
             'min_price': min_price,
             'max_price': max_price,
             'keywords': keywords,
-            'uid': request.GET.get('uid', ''),
+            'uid': uid,
             'building_type': selected_building_types,
             'type_choice': selected_property_types,
         },

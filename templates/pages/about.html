@@ -90,7 +90,7 @@
             {% if forloop.counter0|divisibleby:2 %}
             <!-- For even indices: image on the left -->
             <div class="col-lg-5 wow animate__animated animate__fadeInLeft" data-wow-delay="0.1s">
-                <img style='box-shadow: -20px -20px 0px 5px #4c9e89; border-radius: 20px;' src="{% static section.image %}" alt="{{ section.title }}">
+                <img style='box-shadow: -20px -20px 0px 5px #4c9e89; border-radius: 20px; ' src="{% static section.image %}" alt="{{ section.title }}">
             </div>
             <div class="col-lg-6 wow animate__animated animate__fadeIn" data-wow-delay="0.5s">
                 <div class="section-title">
@@ -109,7 +109,7 @@
                 <p class="mb-4">{{ section.description }}</p>
             </div>
             <div class="col-lg-5 wow animate__animated animate__fadeInRight" data-wow-delay="0.1s">
-                <img style='box-shadow: 20px -20px 0px 5px #4c9e89;  border-radius: 20px;' src="{% static section.image %}" alt="{{ section.title }}">
+                <img style='box-shadow: 20px -20px 0px 5px #4c9e89;  border-radius: 20px; ' src="{% static section.image %}" alt="{{ section.title }}">
             </div>
             {% endif %}
         </div>

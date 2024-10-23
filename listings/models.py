@@ -134,56 +134,55 @@ class Photos(models.Model):
         verbose_name = "Снимки"
         verbose_name_plural = "Снимки"
 
+from django.db.models import Q
+
 def apply_filters(queryset, request):
     # Keywords
-    if 'keywords' in request.GET:
-        keywords = request.GET['keywords']
-        if keywords:
-            queryset = queryset.filter(
-                Q(description__icontains=keywords) |
-                Q(realtor__name__icontains=keywords) |
-                Q(title__icontains=keywords) |
-                Q(type_choice__icontains=keywords) |
-                Q(extra_options__icontains=keywords) |
-                Q(uid__iexact=keywords)
-            ).distinct()
+    keywords = request.GET.get('keywords', '')
+    if keywords:
+        queryset = queryset.filter(
+            Q(description__icontains=keywords) |
+            Q(realtor__name__icontains=keywords) |
+            Q(title__icontains=keywords) |
+            Q(type_choice__icontains=keywords) |
+            Q(extra_options__icontains=keywords) |
+            Q(uid__iexact=keywords) |
+            Q(estate_code__iexact=keywords)
+        ).distinct()
 
     # City
-    if 'city' in request.GET:
-        city = request.GET['city']
-        if city:
-            queryset = queryset.filter(city__iexact=city)
+    city = request.GET.get('city')
+    if city:
+        queryset = queryset.filter(city__iexact=city)
 
-    # State
-    if 'state[]' in request.GET:
-        property_types = request.GET.getlist('state[]')
-        if property_types:
-            queryset = queryset.filter(state__in=property_types)
+     # State
+    selected_states = request.GET.getlist('state[]')
+    if selected_states:
+        queryset = queryset.filter(state__in=selected_states)  # Use queryset instead of queryset_list
 
-    # Building Type
-    if 'building_type[]' in request.GET:
-        building_types = request.GET.getlist('building_type[]')
-        if building_types:
-            queryset = queryset.filter(type_building__in=building_types)
+    # Filter by building type
+    selected_building_types = request.GET.getlist('building_type[]')
+    if selected_building_types:
+        queryset = queryset.filter(type_building__in=selected_building_types)
 
-    # Type Choice
-    if 'type_choice[]' in request.GET:
-        property_types = request.GET.getlist('type_choice[]')
-        if property_types:
-            queryset = queryset.filter(type_choice__in=property_types)
+    # Filter by property type
+    selected_property_types = request.GET.getlist('type_choice[]')
+    if selected_property_types:
+        queryset = queryset.filter(type_choice__in=selected_property_types)
 
     # Price Range
     min_price = request.GET.get('min_price')
     max_price = request.GET.get('max_price')
-    if min_price:
-        queryset = queryset.filter(price__gte=min_price)
-    if max_price:
-        queryset = queryset.filter(price__lte=max_price)
+    if min_price and min_price.isdigit():
+        queryset = queryset.filter(price__gte=int(min_price))
+    if max_price and max_price.isdigit():
+        queryset = queryset.filter(price__lte=int(max_price))
 
-    # Filter by UID
-    if 'uid' in request.GET:
-        uid = request.GET['uid']
-        if uid:
+    # UID or Estate Code
+    uid = request.GET.get('uid')
+    if uid:
+        queryset = queryset.filter(estate_code__iexact=uid)
+        if not queryset.exists():
             queryset = queryset.filter(uid__iexact=uid)
 
     return queryset

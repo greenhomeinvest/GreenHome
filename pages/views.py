@@ -18,12 +18,7 @@ from listings.models import apply_filters  # Import the utility function
 def index(request):
     # Handle the inquiry form submission
     if request.method == 'POST':
-        # Print received files for debugging
-        print("Files received:", request.FILES)
         images = request.FILES.getlist('images')
-        print("Image list:", images)
-        
-        # Get form data from POST request
         name = request.POST.get('name')
         phone = request.POST.get('phone')
         message = request.POST.get('message')
@@ -35,53 +30,43 @@ def index(request):
             messages.error(request, 'You must agree to the terms and conditions to submit the form.')
             return redirect('index')
 
-        # Create an Inquiry instance
-        inquiry_instance = Inquiry(
-            name=name,
-            phone=phone,
-            message=message,
-            type_property=type_property,  # Save the selected type_property
-        )
-
+        # Save the inquiry and associated images
+        inquiry_instance = Inquiry(name=name, phone=phone, message=message, type_property=type_property)
         try:
-            # Save the instance to the database
             inquiry_instance.save()
-            
-            # Save the uploaded images and associate them with the inquiry
             for image in images:
                 ImagesInquiry.objects.create(inquiry=inquiry_instance, image=image)
-
             messages.success(request, 'Вашето запитване беше успешно изпратено.')
-            return redirect('index')  # Redirect to 'index' after successful submission
+            return redirect('index')
         except Exception as e:
             messages.error(request, f'Грешка: {e}')
-            print(f'Error: {e}')
-            return redirect('index')  # Redirect back to the index page on error
+            return redirect('index')
 
     # Get the first 3 listings to display on the index page
     listings = Listing.objects.order_by('-list_date').filter(is_published=True)[:3]
-    queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
 
-    # Apply filters from the utility function
+    # Get the full queryset and apply filters (if any)
+    queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
     queryset_list = apply_filters(queryset_list, request)
-    city = request.GET.get('city')
-    # Extract choices
-    type_choice = Listing.TYPE_CHOICES
+
+    # Extract choices for filters
     city_choices = Listing.objects.values_list('city', flat=True).distinct()
-    state_choices = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct() if city else []
-    building_type_choices = Listing.BUILDING_TYPE_CHOICES  # Add this line
+    state_choices = Listing.objects.filter(city__iexact=request.GET.get('city', '')).values_list('state', flat=True).distinct()
+    building_type_choices = Listing.BUILDING_TYPE_CHOICES
+    type_choice = Listing.TYPE_CHOICES
 
     context = {
         'listings': listings,
         'city_choices': city_choices,
         'state_choices': state_choices,
-        'building_type_choices': building_type_choices,  # Include building type choices
+        'building_type_choices': building_type_choices,
         'type_choice': type_choice,
-        'property_choices': Inquiry.PROPERTY_CHOICES,  
-        # Add any other context variables you need
+        'property_choices': Inquiry.PROPERTY_CHOICES,
+        'filtered_listings': queryset_list,  # Optional, in case you want to show filtered results on the index
     }
-    
+
     return render(request, 'pages/index.html', context)
+
 
 def about(request):
     # api_key = 'AIzaSyCpyfYX3aKnADOjPYUvhRG9Yzf2dChb_m8'  # Replace with your actual API key
@@ -105,7 +90,7 @@ def about(request):
                            'развиват своите знания и умения. Ние сме в постоянно търсене как да подобрим себе си '
                            'като личности и да предоставим най-доброто обслужване, за да отговорим на очакванията '
                            'на нашите клиенти.',
-            'image': 'img/why-us.jpg',
+            'image': 'img/DSC_4781.jpg',
         }
     }
     

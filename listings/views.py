@@ -259,10 +259,10 @@ def listings(request):
     fetch_estate_assistance_listings()
 
     all_listings = Listing.objects.order_by('-list_date').filter(is_published=True)
-    queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
+    # queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
 
     # Apply filters from the utility function
-    queryset_list = apply_filters(queryset_list, request)
+    # queryset_list = apply_filters(queryset_list, request)
     listings_count = all_listings.count()
     paginator = Paginator(all_listings, 9)
     page = request.GET.get('page')
@@ -316,105 +316,42 @@ def get_states(request):
 
 
 def search(request):
+
+     # Get the base queryset for published listings
     queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
 
-    # Helper function to filter by keywords
-    def filter_by_keywords(keywords):
-        return queryset_list.filter(
-            Q(description__icontains=keywords) |
-            Q(realtor__name__icontains=keywords) |
-            Q(title__icontains=keywords) |
-            Q(type_choice__icontains=keywords) |
-            Q(extra_options__icontains=keywords) |
-            Q(uid__iexact=keywords) |
-            Q(estate_code__iexact=keywords)
-        ).distinct()
+    # Apply filters using the utility function
+    queryset_list = apply_filters(queryset_list, request)
 
-    keywords = request.GET.get('keywords', '')
-    if keywords:
-        queryset_list = filter_by_keywords(keywords)
-
-    # Filter by city
-    city = request.GET.get('city')
-    if city:
-        queryset_list = queryset_list.filter(city__iexact=city)
-
-    # Filter by selected states
-    selected_states = request.GET.getlist('state[]')
-    if selected_states:
-        queryset_list = queryset_list.filter(state__in=selected_states)
-
-    # Filter by building type
-    selected_building_types = request.GET.getlist('building_type[]')
-    if selected_building_types:
-        queryset_list = queryset_list.filter(type_building__in=selected_building_types)
-
-    # Filter by property type
-    selected_property_types = request.GET.getlist('type_choice[]')
-    if selected_property_types:
-        queryset_list = queryset_list.filter(type_choice__in=selected_property_types)
-
-    # Price range filters
-    min_price = request.GET.get('min_price')
-    max_price = request.GET.get('max_price')
-    if min_price and min_price.isdigit():
-        queryset_list = queryset_list.filter(price__gte=int(min_price))
-
-    if max_price and max_price.isdigit():
-        queryset_list = queryset_list.filter(price__lte=int(max_price))
-
-    # Filter by UID
-    uid = request.GET.get('uid')
-    if uid:
-        # Check if any listing matches the given estate_code
-        queryset_list = Listing.objects.filter(estate_code__iexact=uid)
-
-        # If no listing is found with the estate_code, check the uid
-        if not queryset_list.exists():
-            queryset_list = Listing.objects.filter(uid__iexact=uid)
-    #     queryset_list = queryset_list.filter(uid__iexact=uid)
-    # First, attempt to filter by estate_code
-    # estate_code = request.GET.get('estate_code')
-    # if estate_code:
-    #     queryset_list = queryset_list.filter(estate_code__iexact=estate_code)
-
-    # # If no results found with estate_code, attempt to filter by UID
-    # if not queryset_list.exists():
-    #     uid = request.GET.get('uid')
-    #     if uid:
-    #         queryset_list = queryset_list.filter(uid__iexact=uid)
-    
     # Pagination
     paginator = Paginator(queryset_list, 9)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
 
-    # Extract choices
+    # Extract choices for filters
     city_choices = Listing.objects.values_list('city', flat=True).distinct()
-    state_choices = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct() if city else []
-    price_choices = Listing.objects.values_list('price', flat=True).distinct()
+    state_choices = Listing.objects.filter(city__iexact=request.GET.get('city', '')).values_list('state', flat=True).distinct()
     building_type_choices = Listing.BUILDING_TYPE_CHOICES
     type_choice = Listing.TYPE_CHOICES
 
     context = {
         'queryset_list': paged_listings,
-        'type_choice': type_choice,
         'city_choices': city_choices,
         'state_choices': state_choices,
-        'price_choices': price_choices,
         'building_type_choices': building_type_choices,
+        'type_choice': type_choice,
         'search_count': queryset_list.count(),
         'values': {
-            'city': city,
-            'state': selected_states,
-            'min_price': min_price,
-            'max_price': max_price,
-            'keywords': keywords,
-            'uid': uid,
-            'building_type': selected_building_types,
-            'type_choice': selected_property_types,
-        },
+            'city': request.GET.get('city'),
+            'state': request.GET.getlist('state[]'),  # Get all selected states
+            'min_price': request.GET.get('min_price'),
+            'max_price': request.GET.get('max_price'),
+            'keywords': request.GET.get('keywords',''),
+            'uid': request.GET.get('uid',''),
+            'building_type': request.GET.getlist('building_type[]'),
+            'type_choice': request.GET.getlist('type_choice[]'),}  # Pass the GET parameters directly to repopulate the form
     }
+
 
     return render(request, 'listings/search.html', context)
 

@@ -178,9 +178,9 @@ def save_listing_from_json(json_data):
     for property in properties:  # Slice to get the first 10 properties
         uid = property.get('uid')
         estate_code = property.get('code', None)
+
         # Skip if this listing already exists in the database
-        if Listing.objects.filter(uid=uid).exists():
-            continue
+       
 
         # Extract relevant data
         title = property.get('titleBG', 'No Title')
@@ -225,7 +225,23 @@ def save_listing_from_json(json_data):
         # Extract the extras from the property
         extras = property.get('extras', [])
         matching_extras = get_matching_extras(extras)
-
+        if Listing.objects.filter(uid=uid).exists():
+                    current_listing = Listing.objects.get(uid=uid)
+                    # print(f'Listing {current_listing.title}')
+                    if current_listing.price != price:
+                        # Update the price and continue
+                        current_listing.price = price
+                        current_listing.save(update_fields=['price'])
+                        print(f'Updated price for listing {current_listing.title} price {current_listing.price}')
+                    if current_listing.title != title:
+                        current_listing.title = title
+                        current_listing.save(update_fields=['title'])
+                        print(f'Updated title for listing {current_listing.title}')
+                    if current_listing.description != description:
+                        current_listing.description = description
+                        current_listing.save(update_fields=['description'])
+                        print(f'Updated desription for listing {current_listing.title}')
+                    continue    
         # Create the Listing object
         listing = Listing(
             uid=uid,

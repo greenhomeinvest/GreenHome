@@ -15,7 +15,7 @@ img {
   margin-right: 0.4rem; }
 
 #showcase {
-  background: url(../img/Feature-green-home-energy-solutions.jpg) no-repeat top center fixed;
+  background: url(../img/showcaseimg.jpg) no-repeat top center fixed;
   background-size: cover;
   position: relative;
   min-height: 650px;
@@ -56,7 +56,7 @@ img {
     left: 0;
     min-height: 400px;
     width: 100%;
-    background: rgb(60 59 59 / 69%);
+    background: rgb(47 50 48 / 81%);
     border-radius: 25px;
     box-shadow: 1px 1px 19px 9px #babdbac9;
    }
@@ -68,7 +68,8 @@ img {
     left: 0;
     min-height: 100%;
     width: 100%;
-    background: rgb(32 134 107 / 35%); }
+    /* background: rgb(32 134 107 / 35%);  */
+  }
 #services {
   background: url(../img/building.jpg) no-repeat top center fixed;
   background-size: cover;
@@ -918,7 +919,7 @@ img.img-about {
 }
 .about-img{
   width: 100%;
-  height: 70vh;
+  /* height: 70vh; */
   margin-bottom: 25px;
   border-radius: 25px;
   box-shadow: 1px 1px 16px 0px gray;
@@ -927,7 +928,7 @@ img.img-about {
 @media (max-width: 700px) {
   .about-img {
     width:100%;
-    height: 45vh;
+    /* height: 45vh; */
   }
   .about-text-section {
     width: 100%;

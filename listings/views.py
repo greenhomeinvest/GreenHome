@@ -241,6 +241,14 @@ def save_listing_from_json(json_data):
                         current_listing.description = description
                         current_listing.save(update_fields=['description'])
                         print(f'Updated desription for listing {current_listing.title}')
+                    if current_listing.city != city:
+                        current_listing.city = city
+                        current_listing.save(update_fields=['city'])
+                        print(f'Updated city for listing {current_listing.title}')
+                    if current_listing.state != state:
+                        current_listing.state = state
+                        current_listing.save(update_fields=['state'])
+                        print(f'Updated state for listing {current_listing.title}')
                     continue    
         # Create the Listing object
         listing = Listing(

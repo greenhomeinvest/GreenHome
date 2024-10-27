@@ -58,11 +58,52 @@
 <script src="{% static 'js/main.js' %}"></script>
 
 <!-- Initialize Carousel -->
-<script>
+ {% comment %} <script>
     $(function() {
         // Owl Carousel
         var owl = $(".owl-carousel");
         owl.owlCarousel({
+            margin: 15,
+            loop: true,
+            nav: false,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 1 // 1 item on small screens
+                },
+                600: {
+                    items: 1 // 1 item for medium screens
+                },
+                1000: {
+                    items: 1 // 2 items for large screens
+                }
+            }
+        });
+    });
+</script>  {% endcomment %}
+<script>
+    $(function() {
+        // Initialize Listing Carousel
+        $(".listing-carousel").owlCarousel({
+            margin: 15,
+            loop: true,
+            nav: false,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 1 // 1 item on small screens
+                },
+                600: {
+                    items: 1 // 1 item for medium screens
+                },
+                1000: {
+                    items: 1 // 1 item for large screens
+                }
+            }
+        });
+
+        // Initialize Reviews Carousel
+        $(".reviews-carousel").owlCarousel({
             margin: 15,
             loop: true,
             nav: false,

@@ -60,10 +60,25 @@ def inquiry(request):
  
         if not agree:
             messages.error(request, 'You must agree to the terms and conditions to submit the form.')
-            return redirect('inquiry')
+            # return redirect('inquiry')
+            return redirect('home')
+            # Validate phone number
+        # Validate phone number
+        if not phone.isdigit():
+            messages.error(request, 'Моля, въведете само цифри за телефонния номер.')
+            return redirect('home')  # Redirect to home if phone is not digits
 
-      
-
+        if phone.startswith('08'):
+            if len(phone) != 10:
+                messages.error(request, 'Моля, телефонният номер трябва да бъде точно 10 цифри, започващи с 08.')
+                return redirect('home')  # Redirect to home if phone is not 10 digits
+        elif phone.startswith('359'):
+            if len(phone) != 12:
+                messages.error(request, 'Моля, телефонният номер трябва да бъде точно 12 цифри, започващи с 359.')
+                return redirect('home')  # Redirect to home if phone is not 12 digits
+        else:
+            messages.error(request, 'Моля, телефонният номер трябва да започва с 08 или 359.')
+            return redirect('home')  # Redirect to home if phone doesn't start with 08 or 359
         # Create an Inquiry instance
         inquiry_instance = Inquiry(
             name=name,
@@ -74,50 +89,52 @@ def inquiry(request):
             agree_field=True,
         )
 
-        try:
-            # Save the instance to the database
-            inquiry_instance.save()
-         
-            for image in images:
-                ImagesInquiry.objects.create(inquiry=inquiry_instance, image=image)
-                
-             # Send email notification to the admin
-            subject = f'Ново запитване от {name}'
-            email_message = f"""
-            Беше изпратено запитване.
+        # try:
+        # Save the instance to the database
+        inquiry_instance.save()
+        
+        for image in images:
+            ImagesInquiry.objects.create(inquiry=inquiry_instance, image=image)
+            
+            # Send email notification to the admin
+        subject = f'Ново запитване от {name}'
+        email_message = f"""
+        Беше изпратено запитване.
 
-            Име: {name}
-            Телефон: {phone} 
+        Име: {name}
+        Телефон: {phone} 
+        
+        Съобшение:
+        {message}
+        
+        ЗА ПОВЕЧЕ ИНФОРМАЦИЯ ВЛЕЗ В АДМИН.
+        """
+        
+        recipient_list = ['greenhomeinvestltd@gmail.com'] 
+        send_mail(
+            subject,
+            email_message,
+            settings.DEFAULT_FROM_EMAIL,  
+            recipient_list,
+            fail_silently=False,
+        )    
+        messages.success(request, 'Вашето запитване беше успешно изпратено.')
+        return redirect('home') 
+        # except DataError as e:
             
-            Съобшение:
-            {message}
-            
-            ЗА ПОВЕЧЕ ИНФОРМАЦИЯ ВЛЕЗ В АДМИН.
-            """
-            
-            recipient_list = ['greenhomeinvestltd@gmail.com'] 
-            send_mail(
-                subject,
-                email_message,
-                settings.DEFAULT_FROM_EMAIL,  
-                recipient_list,
-                fail_silently=False,
-            )    
-            messages.success(request, 'Вашето запитване беше успешно изпратено.')
-            return redirect('home') 
-        except DataError as e:
-            
-            if 'value too long for type character varying(10)' in str(e):
-                messages.error(request, 'Въведете валиден телефонен номер ')
-            else:
-                messages.error(request, f'Грешка: {e}')
-                # print(f'DataError: {e}')
-                return redirect('inquiry')
-
+        #     if 'value too long for type character varying(10)' in str(e):
+        #         messages.error(request, 'Въведете валиден телефонен номер ')
+        #         return redirect('home')
+        #     else:
+        #         messages.error(request, f'Грешка: {e}')
+        #         # print(f'DataError: {e}')
+        #         # return redirect('inquiry')
+        #         return redirect('home')
 
     context = {
         'property_choices': Inquiry.PROPERTY_CHOICES,  
     }
 
     return render(request, 'inquiry/inquiry_message.html', context)
+
 

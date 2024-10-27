@@ -110,14 +110,14 @@
            <li {% if 'feedback' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
              <a class="nav-link" href="{% url 'feedback' %}">Feedback</a>
            </li>
-           <li {% if 'inquiry' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
+           {% comment %} <li {% if 'inquiry' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
             <a class="nav-link" href="{% url 'inquiry' %}">Запитване</a>
-          </li>
+          </li> {% endcomment %}
         {% else %} 
            <!-- Show Ask button if the user is not authenticated -->
-           <li {% if 'inquiry' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
+           {% comment %} <li {% if 'inquiry' in request.path %} class="nav-item active mr-3" {% else %} class="nav-item mr-3" {% endif %}>
              <a class="nav-link" href="{% url 'inquiry' %}">Запитване</a>
-           </li>
+           </li> {% endcomment %}
          {% endif %}
           {% if user.is_authenticated %}
           {% comment %} <li             

@@ -8,29 +8,30 @@
 {% block content %}
 <style>
   /* Set a fixed height for the carousel */
-  #propertyPhotosCarousel {
-    max-height: 500px; /* You can adjust this value */
+    .listing-carousel  {
+    height: 60vh; /* You can adjust this value */
     overflow: hidden;
   }
 
   /* Ensure the images fit within the carousel height */
-  #propertyPhotosCarousel .carousel-item img {
-    max-height: 500px;
+    .listing-carousel .item  img {
+    height: 500px;
     object-fit: contain; /* Maintain aspect ratio while covering the area */
     width: 100%; /* Make the image take the full width */
   }
   /* Media query for mobile devices (screens smaller than 768px) */
   @media (max-width: 768px) {
-    #propertyPhotosCarousel {
-      max-height: 50vh; /* 70% of the viewport height on mobile */
-    }
+     .listing-carousel  {
+      height: 60vh; /* 70% of the viewport height on mobile */
+    } 
 
-    #propertyPhotosCarousel .carousel-item img {
-      max-height: 50vh; /* Limit image height to 70% of viewport height */
+   .listing-carousel .item img {
+      height:55vh; /* Limit image height to 70% of viewport height */
     }
   }
   
-</style>
+</style> 
+
 <section id="showcase-inner" class="py-5 text-white">
     <div class="container wow animate_fadeInup">
       <div class="row text-center wow animate__animated animate__fadeInUp">
@@ -75,140 +76,76 @@
       <a href="{% url 'listings' %}" class="btn btn-light mb-4">Обратно към обяви</a>
       <div class="row">
         <div class="col-md-9">
-          <!-- Home Main Image -->
-          {% comment %} {% with first_photo=listing.photos.all|first %}
-          <img class="img-main img-fluid mb-3" src="{% if listing.photo_main %}{{ listing.photo_main.url }}{% elif first_photo %}{{ first_photo.image.url }}{% else %}{% static 'default-image.jpg' %}{% endif %}" alt="">
-      {% endwith %} {% endcomment %}
-          {% comment %} <img src="{{ listing.photo_main.url }}" alt="" class="img-main img-fluid mb-3"> {% endcomment %}
-          <!-- Thumbnails -->
-         {% comment %} Photos start  {% endcomment %}
-  {% comment %} <div class="row mb-5 thumbs"> {% endcomment %}
-                                    <!-- Include the main photo as a thumbnail -->
-                                  {% comment %} <div class="col-md-2">
-                                    <a href="{{ listing.photo_main.url }}" data-lightbox="home-images">
-                                      <img src="{{ listing.photo_main.url }}" alt="Main Thumbnail" class="img-fluid secondary-img">
-                                    </a>
-                                  </div> {% endcomment %}
-   {% comment %} {% if listing.photos.all %}
+
+          <!-- Carousel for listing.photos.all -->
+          <div class="owl-carousel owl-theme listing-carousel ">
             {% for photo in listing.photos.all %}
-            <div class="col-md-2">
-              <a href="{{ photo.image.url }}" data-lightbox="home-images">
-                <img src="{{ photo.image.url }}" alt="" class="img-fluid secondary-img">
-              </a>
-            </div>
-            {% endfor %}
-            {% endif %} {% endcomment %}
-                              {% comment %} <div class="col-md">
-                                <h1 class="card-title">{{ listing.bedrooms }}-стаен </h1>
-                                <h1 class="text-secondary"> {{ listing.price }}€</h1>
-                              </div> {% endcomment %}
-       {% comment %} </div> {% endcomment %}
-        <!-- Carousel for listing.photos.all -->
-        <div id="propertyPhotosCarousel" class="carousel slide mb-5 wow animate__animated animate__fadeInLeft" data-ride="carousel">
-          <!-- Carousel Inner (Slides) -->
-          <div class="carousel-inner">
-            {% for photo in listing.photos.all %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-              <a href="{{ photo.image.url }}" data-lightbox="property-images">
-                <img class="d-block w-100" src="{{ photo.image.url }}" alt="Slide {{ forloop.counter }}">
-              </a>
+            <div class="item">
+                <a href="{{ photo.image.url }}" data-lightbox="property-images">
+                    <img src="{{ photo.image.url }}" alt="Photo {{ forloop.counter }}" class="img-fluid">
+                </a>
             </div>
             {% endfor %}
           </div>
-          <!-- Carousel Controls -->
-          <a class="carousel-control-prev" href="#propertyPhotosCarousel" role="button" data-slide="prev">
-            <span class="custom-carousel-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="#48752C">
-                <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z"/>
-              </svg>
-            </span>
-            <span class="sr-only">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#propertyPhotosCarousel" role="button" data-slide="next">
-            <span class="custom-carousel-icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" height="35px" viewBox="0 -960 960 960" width="35px" fill="#48752C">
-                <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z"/>
-              </svg>
-            </span>
-            <span class="sr-only">Next</span>
-          </a>
-        </div>
+        
           <!-- Fields -->
           <div class="row mb-5 fields scroll-animated">
-            <div class="col-md-6">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item text-secondary">
-                  <i class="fas fa-money-bill-alt"></i> Цена:
-                  <span class="float-right">{{listing.currency}} {{listing.price | intcomma}}</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                  <i class="fas fa-bed"></i> Tun:
-                  <span class="float-right">{{listing.type_choice}}</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                  <i class="fa-solid fa-bathtub"></i> Бани:
-                  <span class="float-right">{{listing.bathrooms}}</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                  <i class="fa-solid fa-toilet"></i> Tоалетни:
-                  <span class="float-right">{{listing.toilet}}</span>
-                </li>
-                {% comment %} <li class="list-group-item text-secondary">
-                  <i class="fas fa-car"></i> Гараж:
-                  <span class="float-right">{{listing.garage}}
-                  </span>
-                </li> {% endcomment %}
-              </ul>
-            </div>
-            <div class="col-md-6">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item text-secondary">
-                  <i class="fas fa-th-large"></i> Площ:
-                  <span class="float-right">{{listing.sqft}} m²</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                  <i class="fa-solid fa-hashtag"></i> ID на имота:
-                  <span class="float-right"> {% if listing.estate_code %}
-                    {{ listing.estate_code }}
-                  {% else %}
-                    {{ listing.uid }}
-                  {% endif %}</span>
-                </li>
-                <li class="list-group-item text-secondary">
-                  <i class="fas fa-th-large"></i> Година на строеж:
-                  <span class="float-right">{{listing.year_of_construction|date:"Y"}} </span>
-                </li>
-                <li class="list-group-item text-secondary">
-                  {% if options %}
-                  <i class="fas fa-square"></i> Особености:
-                  {% comment %} <span class="float-right">{{options}}  {% endcomment %}
-                    <ul>
-                    {% for option in options %}
-                        <li>{{ option }}</li>
-                    {% comment %} {% empty %}
-                        <li>No options available.</li> {% endcomment %}
-                    {% endfor %}
-                    {% endif %}
-                </ul>
-                  </span>
-                </li>
-                {% comment %} <li class="list-group-item text-secondary">
-                  <i class="fas fa-calendar"></i> Публикувана:
-                  <span class="float-right">{{listing.list_date}}</span>
-                </li> {% endcomment %}
-                {% comment %} <li class="list-group-item text-secondary ">
-                  <i class="fas fa-bed"></i> Брокер:
-                  <span class="float-right">{{listing.realtor}}
-                  </span>
-                </li>  {% endcomment %}
+            {% comment %} Description fields  left{% endcomment %}
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-money-bill-alt"></i> Цена:
+                      <span class="float-right">{{listing.currency}} {{listing.price | intcomma}}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-bed"></i> Tun:
+                      <span class="float-right">{{listing.type_choice}}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fa-solid fa-bathtub"></i> Бани:
+                      <span class="float-right">{{listing.bathrooms}}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fa-solid fa-toilet"></i> Tоалетни:
+                      <span class="float-right">{{listing.toilet}}</span>
+                    </li>
+                  </ul>
+                </div>
 
-
-              </ul>
-            </div>
+            {% comment %} Description fields  right{% endcomment %}
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-th-large"></i> Площ:
+                      <span class="float-right">{{listing.sqft}} m²</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fa-solid fa-hashtag"></i> ID на имота:
+                      <span class="float-right"> {% if listing.estate_code %}
+                        {{ listing.estate_code }}
+                      {% else %}
+                        {{ listing.uid }}
+                      {% endif %}</span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      <i class="fas fa-th-large"></i> Година на строеж:
+                      <span class="float-right">{{listing.year_of_construction|date:"Y"}} </span>
+                    </li>
+                    <li class="list-group-item text-secondary">
+                      {% if options %}
+                      <i class="fas fa-square"></i> Особености:
+                        <ul>
+                          {% for option in options %}
+                              <li>{{ option }}</li>
+                          {% endfor %}
+                          {% endif %}
+                        </ul>
+                  </ul>
+                </div>
           </div>
 
           <!-- Description -->
-           <div class='scroll-animated' >
+          <div class='scroll-animated' >
             <i class="fas fa-file-lines  text-secondary" ></i> <span class='text-secondary'>Описание:</span>
             <div class='col-md-12 ' >
               {{listing.description}}
@@ -216,6 +153,9 @@
           </div>
           
         </div>
+        
+        
+        {% comment %} Realtor section {% endcomment %}
         <div  class="col-12 col-sm-6 col-md-4 col-lg-3 wow animate__animated animate__fadeInRight">
           <div class="card mb-3">
             <img class="card-img-top current-listing-img" src="{{listing.realtor.photo.url}}" alt="Seller of the month">
@@ -231,6 +171,7 @@
           </div>
           <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Направи запитване</button>
         </div>
+
       </div>
     </div>
   </section>
@@ -290,4 +231,6 @@
       </div>
     </div>
   </div>
+
+
 {% endblock %}

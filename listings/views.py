@@ -325,12 +325,25 @@ def fetch_estate_assistance_listings():
 def current_listing(request,id):
     listing = get_object_or_404(Listing,pk=id)
     options = listing.extra_options or []
-    # print(options)
+        # Define price range
+    price_min = listing.price - 20000
+    price_max = listing.price + 20000
+
+    # Filter for similar listings
+    similar_listings = Listing.objects.filter(
+        type_choice=listing.type_choice,
+        city=listing.city,
+        price__gte=price_min,
+        price__lte=price_max
+    ).exclude(pk=listing.pk)[:3]
+    print(similar_listings)
     context = {
         'listing': listing,
-        'options': options,  
+        'options': options,
+        'similar_listings': similar_listings, 
         }
     return render(request, 'listings/current_listing.html',context)
+
 def get_states(request):
     city = request.GET.get('city')
     if city:

@@ -2,7 +2,12 @@
 {% load humanize %}
 {% load static%}
 {% block title %}
-| {{ listing.title }}
+|{% if listing.title %} {{ listing.title }} 
+{% elif listing.estate_code %}
+  {{ listing.estate_code }}
+{% else %}
+  {{ listing.uid }}
+{% endif %}
 {% comment %} ID:{{listing.uid}} {% endcomment %}
 {% endblock %}
 {% block content %}
@@ -147,7 +152,7 @@
           <!-- Description -->
           <div class='scroll-animated' >
             <i class="fas fa-file-lines  text-secondary" ></i> <span class='text-secondary'>Описание:</span>
-            <div class='col-md-12 ' >
+            <div class='col-md-12  mb-5' >
               {{listing.description}}
             </div>
           </div>
@@ -232,5 +237,58 @@
     </div>
   </div>
 
+  <!-- Listings -->
+<section id="listings ">
+    {% if similar_listings %}
+    <div class="container">
+      <h3 class="text-center mb-3 py-5 focus-in-expand">Подобни обяви</h3>
+      <div class="row ">
+        
+        {% for listing in similar_listings %}
+        <div class="col-md-6 col-lg-4 mb-4 scroll-animated">
+          <a href="{% url 'current_listing' listing.id %}" class="card-link">
+          <div class="card listing-preview ">
+            {% with first_photo=listing.photos.all|first %}
+            <img class="card-img-top" src="{% if listing.photo_main %}{{ listing.photo_main.url }}{% elif first_photo %}{{ first_photo.image.url }}{% else %}{% static 'default-image.jpg' %}{% endif %}" alt="">
+        {% endwith %}
+           
+            <div class="card-img-overlay">
+              <h2>
+                <span class="badge badge-secondary text-white">{{listing.currency}} {{listing.price | intcomma }}</span>
+              </h2>
+            </div>
+            <div class="card-body">
+              <div class="listing-heading text-center">
+                <h4 class="text-primary common-ellipsis">{% if listing.title %}
+                  {{ listing.title }}
+              {% else %}
+             ID:
+              {% if listing.estate_code %}
+                {{ listing.estate_code }}
+              {% else %}
+                {{ listing.uid }}
+              {% endif %}
+              {% endif %}
+            </h4>
+                <p class='common-ellipsis'>
+                  <i class="fas fa-map-marker text-secondary "></i> {{listing.state}}, {{listing.city}}</p>
+              </div>
+              <hr>
+              <div class="row py-2 text-secondary">
+                <div class="col-12">
+                    <i class="fas fa-bed"></i> Тип: {{ listing.type_choice }}</div>
+                <div class="col-12">
+                    <i class="fas fa-th-large"></i> Площ: {{ listing.sqft }} m²</div>
+            </div>
 
+              <hr>
+              <a href="{% url 'current_listing' listing.id %}" class="btn btn-primary btn-block">Повече информация</a>
+            </div>
+          </div></a>
+        </div>
+      {% endfor %}
+      </div>
+    </div> {% endif %}
+  </section> 
+  
 {% endblock %}

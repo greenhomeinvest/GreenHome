@@ -43,16 +43,17 @@
         <div class="col-md-12"style="padding-top: 15px;">
           <p class="text-white text-center">
             Copyright &copy;
-            <span class="year"></span> Green Home Real Estate 
+            <span class="year"></span> Green Home Real Estate |  <a href="{% url 'terms' %} " class='text-white'>ЗАЩИТА НА ЛИЧНИТЕ ДАННИ</a>
           </p>
-
+         
         </div>
-        <div class="col-md-12">
+        {% comment %} <div class="col-md-12">
           <p class="text-white text-center">
-            <a href="{% url 'terms' %} " class='text-white'>Условия</a>
+          <a href="{% url 'terms' %} " class='text-white'>Условия</a>
+
           </p>
           
-        </div>
+        </div> {% endcomment %}
       </section>
     </div><!-- //container -->
   </footer>

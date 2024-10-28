@@ -1007,3 +1007,12 @@ img.img-about {
   line-height: 1.2;
  }
   }
+
+
+.common-ellipsis {
+    white-space: nowrap;       /* Prevent text from wrapping to the next line */
+    overflow: hidden;          /* Hide overflowed text */
+    text-overflow: ellipsis;   /* Display ellipsis when text overflows */
+    width: 100%;              /* Adjust the width to limit the text, this can be changed as needed */
+    display: inline-block;     /* Ensure the width takes effect */
+  }

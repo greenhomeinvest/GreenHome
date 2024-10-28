@@ -336,7 +336,7 @@ def current_listing(request,id):
         price__gte=price_min,
         price__lte=price_max
     ).exclude(pk=listing.pk)[:3]
-    print(similar_listings)
+
     context = {
         'listing': listing,
         'options': options,

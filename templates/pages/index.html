@@ -145,7 +145,12 @@
                 <h4 class="text-primary common-ellipsis">{% if listing.title %}
                   {{ listing.title }}
               {% else %}
-                 ID: {{ listing.uid }}
+             ID:
+              {% if listing.estate_code %}
+                {{ listing.estate_code }}
+              {% else %}
+                {{ listing.uid }}
+              {% endif %}
               {% endif %}
             </h4>
                 <p class='common-ellipsis'>

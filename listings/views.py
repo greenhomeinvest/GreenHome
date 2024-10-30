@@ -326,8 +326,8 @@ def current_listing(request,id):
     listing = get_object_or_404(Listing,pk=id)
     options = listing.extra_options or []
         # Define price range
-    price_min = listing.price - 20000
-    price_max = listing.price + 20000
+    price_min = listing.price - 50000
+    price_max = listing.price + 50000
 
     # Filter for similar listings
     similar_listings = Listing.objects.filter(
@@ -335,7 +335,9 @@ def current_listing(request,id):
         city=listing.city,
         price__gte=price_min,
         price__lte=price_max
-    ).exclude(pk=listing.pk)[:3]
+    ).exclude(pk=listing.pk).exclude(
+    realtor_id=5
+)[:3]
 
     context = {
         'listing': listing,

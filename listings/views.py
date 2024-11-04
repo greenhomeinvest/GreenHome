@@ -394,7 +394,7 @@ def search(request):
 
 def realtor_listings(request, realtor_id):
     realtor = get_object_or_404(Realtor, id=realtor_id)
-    listings = Listing.objects.filter(realtor=realtor).order_by('-list_date')
+    listings = Listing.objects.filter(realtor=realtor).order_by('-list_date').filter(is_published=True)
     realtors_listings_count = listings.count()
     context = {
         'realtor': realtor,

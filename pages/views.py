@@ -71,7 +71,7 @@ def index(request):
 def about(request):
     # api_key = 'AIzaSyCpyfYX3aKnADOjPYUvhRG9Yzf2dChb_m8'  # Replace with your actual API key
     # place_id = 'ChIJaUTS9LJVpEAR6slnfGUwjfQ'  # Replace with your actual Place ID
-    realtors = Realtor.objects.annotate(listing_count=Count('listing')).order_by('-hire_date')
+    realtors = Realtor.objects.annotate(listing_count=Count('listing',filter=Q(listing__is_published=True))).order_by('-hire_date')
     
     mvp_realtors = realtors.filter(is_mvp=True)
     sections = {

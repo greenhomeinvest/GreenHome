@@ -335,9 +335,7 @@ def current_listing(request,id):
         city=listing.city,
         price__gte=price_min,
         price__lte=price_max
-    ).exclude(pk=listing.pk).exclude(
-    realtor_id=5
-)[:3]
+    ).exclude(pk=listing.pk)[:3]
 
     context = {
         'listing': listing,

@@ -121,6 +121,10 @@ def about(request):
     {
         'author_name': 'Hristo Hristov',
         'text': 'Прекрасен екип!!'
+    },
+    {
+        'author_name': 'Violeta Georgieva',
+        'text': 'Теодор Янков е невероятен професионалист! С внимание към детайла, коректен и отзивчив. Намерихме идеалния имот бързо и без стрес. Препоръчвам!'
     }
 ]
  # Check if the request was successful

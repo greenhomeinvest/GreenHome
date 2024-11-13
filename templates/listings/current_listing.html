@@ -64,7 +64,7 @@
           <li class="breadcrumb-item active">
             {{ listing.title }} 
             <i class="fa-solid fa-hashtag"></i>
-            {% if listing.estate_code %}
+            {% if listing.estate_code or listing.estate_code == 0 %}
               {{ listing.estate_code }}
             {% else %}
               {{ listing.uid }}
@@ -126,7 +126,7 @@
                     </li>
                     <li class="list-group-item text-secondary">
                       <i class="fa-solid fa-hashtag"></i> ID на имота:
-                      <span class="float-right"> {% if listing.estate_code %}
+                      <span class="float-right">    {% if listing.estate_code or listing.estate_code == 0 %}
                         {{ listing.estate_code }}
                       {% else %}
                         {{ listing.uid }}

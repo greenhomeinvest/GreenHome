@@ -174,6 +174,23 @@ def save_listing_from_json(json_data):
     properties = data['properties']
     brokers = {broker['id']: broker for broker in data.get('brokers', [])}
 
+    # Keep track of estate codes from the fetched data
+    fetched_estate_codes = {property.get('code') for property in properties if property.get('code')}
+
+
+    # Get all existing estate codes from the database
+    existing_estate_codes = set(Listing.objects.values_list('estate_code', flat=True))
+
+
+    # Identify estate codes that need to be deleted
+    codes_to_delete = existing_estate_codes - fetched_estate_codes
+
+    # Delete listings that are no longer available
+    if codes_to_delete:
+
+        deleted_count, _ = Listing.objects.filter(estate_code__in=codes_to_delete).delete()
+        # print(f"Deleted {deleted_count} listings that are no longer available.")
+
     # Get the first 10 properties, or all if there are fewer than 10
     for property in properties:  # Slice to get the first 10 properties
         uid = property.get('uid')
@@ -317,6 +334,15 @@ def fetch_estate_assistance_listings():
     try:
         response = requests.get(url)
         response.raise_for_status()  # Raise an exception for 4xx/5xx status codes
+        # Parse the response to get the properties
+        # data = response.json()  # Parsing the JSON response
+        
+        # Check if 'properties' exists in the response data
+        # if 'properties' in data:
+        #     properties = data['properties']
+        #     # Count the number of properties
+        #     properties_count = len(properties)
+        #     # print(f"Number of properties fetched: {properties_count}")
         save_listing_from_json(response.text)
     except requests.exceptions.RequestException as e:
         print(f"Error fetching estate assistance listings: {e}")

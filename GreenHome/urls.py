@@ -8,12 +8,9 @@ admin.sites.AdminSite.site_header = 'Green Home'
 admin.sites.AdminSite.index_title = 'Администрация'
 admin.sites.AdminSite.site_title = 'Green Home'
 
-from django.contrib.sitemaps.views import sitemap
-from GreenHome.sitemaps import StatiViewSiteMap  # Import your custom sitemap class
 
-sitemaps = {
-    'static': StatiViewSiteMap,  # Map your sitemap class to a URL
-}
+
+
 urlpatterns = [
     path('adminGH2022/', admin.site.urls),
     path('',include('pages.urls')),
@@ -23,7 +20,7 @@ urlpatterns = [
     path('contact/',include('contacts.urls')),
     path('feedback/',include('feedback_message.urls')),
     path('inquiry/',include('inquiry_message.urls')),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap'),
+
 ]
 # this is 
 # + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

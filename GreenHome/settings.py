@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = os.environ.get("DEBUG",'False').lower() == 'true'
 # DEBUG = True
 
+
 allowed_hosts = os.environ.get("ALLOWED_HOSTS", '')
 ALLOWED_HOSTS = allowed_hosts.split()
 
@@ -35,6 +36,7 @@ ALLOWED_HOSTS = allowed_hosts.split()
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -47,10 +49,10 @@ INSTALLED_APPS = [
     'feedback_message',
     'inquiry_message',
     'django.contrib.humanize',
-    'django.contrib.sites', 
-    'django.contrib.sitemaps', 
+ 
 ]
-SITE_ID = 1
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -47,7 +47,10 @@ INSTALLED_APPS = [
     'feedback_message',
     'inquiry_message',
     'django.contrib.humanize',
+    'django.contrib.sites', 
+    'django.contrib.sitemaps', 
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -136,5 +136,9 @@ def inquiry(request):
     }
 
     return render(request, 'inquiry/inquiry_message.html', context)
+    
+    # return render(request, 'pages/index.html', context)
+
+
 
 

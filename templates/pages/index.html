@@ -1,6 +1,12 @@
 
 {% extends "base.html" %}
 {% load static%}
+{% block metadescription %}
+ <meta name="description" content="Green Home предлага специално подбрани, недвижими имоти във Варна и региона – от луксозни апартаменти в центъра до уютни семейни къщи в покрайнините.">
+ {% endblock %}
+{% block title %}
+| Имоти Варна - Най-добрата селекция жилища
+{% endblock %}
 {% load humanize %}
 {% block content %}
 <style>
@@ -21,7 +27,7 @@
       <div class="home-search p-5">
         <div class="overlay p-5 slide-in-bottom">
           <h1 class="display-4 mb-4 focus-in-expand">
-            Търсенето на имоти стана толкова лесно
+            Търсенето на имоти във Варна стана толкова лесно
           </h1>
           <p class="lead animation slide-in-right"
           
@@ -124,7 +130,7 @@
   <!-- Listings -->
   <section id="listings ">
     <div class="container">
-      <h3 class="text-center mb-3 py-5 focus-in-expand">Най-нови предложения</h3>
+      <h2 class="text-center mb-3 py-5 wow animate__animated animate__zoomIn">Най-новите предложения за имоти във Варна и региона</h2>
       <div class="row ">
         {% if listings %}
         {% for listing in listings %}
@@ -188,102 +194,200 @@
 
 <section id="services" >
   <div class="container my-5">
-    <h3 class="text-center mb-3 py-5 focus-in-expand text-white about-title" >Кои сме ние ?</h3>
-    <div class="row g-0">
+    <h2 class="text-center mb-3 py-5 wow animate__animated animate__zoomIn text-white about-title" >Кои сме ние от Green Home ?</h2>
+
+      <div class="col-lg-12  wow animate__animated animate__fadeInLeft my-4" data-wow-delay="0.1s">
+        <div class="p-5  about-card text-center text-white">
+          <p style="font-weight: 400;">Екипът на Green Home се състои от опитни специалисти с над 15 години в сферата на недвижимите имоти. </p>
+        </div>
+      </div>
+      <div class="col-lg-12   wow animate__animated animate__fadeInRight my-4" data-wow-delay="0.3s">
+        <div class="p-5  about-card text-center text-white">
+          <p style="font-weight: 400;" >Дългогодишният ни усилия и задълбочените познания за пазара на <strong>имоти във Варна</strong> ни превръщат в предпочитан партньор за нашите клиенти. </p>
+        </div>
+      </div>
+    {% comment %} <div class="col-lg-12  wow animate__animated animate__fadeInLeft my-4" data-wow-delay="0.5s">
+      <div class="p-5 about-card text-center text-white">
+        <p class='font-weight: 400;' >Oсвен експерти в посредничеството при сделки с недвижими имоти, сме създали и строително-инвестиционното дружество Green Home Invest, което се занима с цялостно проектиране, изграждане и проджба на къщи и жилищни сгради.</p>
+      </div>
+    </div> {% endcomment %}
+  </div>
+</section>
+
+
+
+
+<section id="make-inquiry">
+  <div class="container my-5 col-md-6">
+  <div class=" py-5 wow animate__animated animate__fadeInUp">
+    <h2 class="text-center wow animate__animated animate__zoomIn ">Оцени имота си</h2>
+    <p class=" text-center"
+    
+    >Възползвай се от безплатната ни услуга и получи  професионална пазарна оценка за твоя имот.</p>
+    <div class="search ">
+      <form method="POST" action="{% url 'inquiry' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="col-md-6 mb-3  wow animate__animated animate__fadeInLeft">
+                <label class="sr-only">Име и фамилия</label>
+                <input type="text" name="name" class="form-control" placeholder="Име и фамилия" required>
+            </div>
+            <div class="col-md-6 mb-3  wow animate__animated animate__fadeInRight">
+                <label class="sr-only">Телефон</label>
+                <input type="phone" name="phone" class="form-control" placeholder="Телефон" required>
+            </div>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6 mb-3  wow animate__animated animate__fadeInLeft">
+            <label class="sr-only">Тип на имота</label>
+            <select name="type_property" class="form-control" >
+              <option value="" disabled selected>Изберете тип на имота</option>
+              {% for value, label in property_choices %}
+                  <option value="{{ value }}" {% if value == request.POST.type_property %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+          </select>
+          </div>
+          <div class="col-md-6 mb-3  wow animate__animated animate__fadeInRight">
+            <label class="sr-only">Град</label>
+            <input type="text" name="city" class="form-control" placeholder="Град" >
+        </div>
+      </div>
+      <div class="form-row">
+          <div class="col-md-12 mb-3" >
+              <label class="sr-only">Съобщение</label>
+              <textarea name="message" class="form-control" placeholder="Съобщение" rows="3" ></textarea>
+          </div>
+      </div>
+  {% comment %} UPLOAD MULTIPLE IMAGES {% endcomment %}
+  <!-- Upload Multiple Images -->
+  <div class="form-row position-relative file-input-container">
+  <div class="col-md-12 mb-2 ">
+  <div class="container text-center">
+  <!-- Button to trigger file input -->
+  <button id="upload-button" type="button">Качи снимки</button>
+
+  <!-- Actual file input (hidden) -->
+  <input type="file" id="image-upload" name="images" accept="image/*" multiple> <!-- Correct name="images" -->
+  <div id="image-preview" class='mb-2 text-center'></div>
+  </div>
+  </div>
+  </div>
+
+      <!-- Agree to Terms Checkbox -->
+      <div class="form-row">
+        <div class="col-md-12 mb-2 text-center">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
+                <label class="form-check-label " for="agree">
+                    Съгласен съм с <a href="{% url 'terms' %}" target="_blank" class="  text--success: #20c997;">Условията</a>
+                </label>
+            </div>
+        </div>
+      </div>
+
+        <button class="btn btn-secondary btn-block mt-3" type="submit">Изпрати</button>
+    </form>
+    </div>
+  </div> 
+</section>
+
+<section id='services'>
+  <div class="container my-5">
+    <h2 class="text-center mb-3 py-5 wow animate__animated animate__zoomIn text-white about-title" >Покупко-продажба на имоти във Варна и региона</h2>
     <div class="col-lg-12  wow animate__animated animate__fadeInLeft my-4" data-wow-delay="0.1s">
       <div class="p-5  about-card text-center text-white">
-        <p style="font-weight: 400;">Опитни специалисти с над 13г. в сферата на недвижимите имоти.</p>
+        <p style="font-weight: 400;"> Варна е един от най-предпочитаните градове за покупка на недвижими имоти в България. Това се дължи на стратегическото местоположение на града, развитата инфраструктура и привлекателния начин на живот, който предлага. Този нарастващ интерес към имотите в града води до динамичен пазар, където понякога е трудно да се намери най-подходящото жилище за всеки. Затова ние от Green Home сме тук, за да помогнем на нашите клиенти да направят най-добрия избор.</p>
       </div>
     </div>
     <div class="col-lg-12   wow animate__animated animate__fadeInRight my-4" data-wow-delay="0.3s">
       <div class="p-5  about-card text-center text-white">
-        <p style="font-weight: 400;" >С личен подход и професионално обслужване сме направили 1000+ човека наши доволни клиенти.</p>
+        <p style="font-weight: 400;" >При търсенето на <strong>имоти Варна</strong>, купувачите могат да избират между различни опции като апартаменти, къщи или парцели за строителство. Независимо дали имотът е с цел инвестиция или е мечтаният семеен дом, ние сме тук, за да ви помогнем да направите правилния избор.</p>
+      </div>
+    </div>
+    <h3 class="text-center mb-3 py-5 wow animate__animated animate__zoomIn text-white about-title" >Апартаменти Варна</h3>
+    <div class="col-lg-12  wow animate__animated animate__fadeInLeft my-4" data-wow-delay="0.5s">
+      <div class="p-5  about-card text-center text-white">
+        <p style="font-weight: 400;"> Пазарът на <strong>апартаменти Варна</strong> е изключително разнообразен, като предлага както нови, модерни жилища в луксозни комплекси, така и апартаменти в стари, утвърдени квартали. Цените варират в зависимост от локацията, квадратурата и обзавеждането, като централните райони и тези близо до морето са по-търсени и съответно по-скъпи. </p>
+      </div>
+    </div>
+    <h3 class="text-center mb-3 py-5 wow animate__animated animate__zoomIn text-white about-title" >Къщи Варна</h3>
+    <div class="col-lg-12   wow animate__animated animate__fadeInRight my-4" data-wow-delay="0.3s">
+      <div class="p-5  about-card text-center text-white">
+        <p style="font-weight: 400;" >За тези, които търсят повече пространство и уединение, пазарът на <strong>къщи Варна</strong> предлага разнообразие от предложения. Къщите в покрайнините на града или в близките вилни зони са идеален избор за семейства или хора, които ценят тишината и природата</p>
       </div>
     </div>
     <div class="col-lg-12  wow animate__animated animate__fadeInLeft my-4" data-wow-delay="0.5s">
-      <div class="p-5 about-card text-center text-white">
-        <p class='font-weight: 400;' >Oсвен експерти в посредничеството при сделки с недвижими имоти, сме създали и строително-инвестиционното дружество Green Home Invest, което се занима с цялостно проектиране, изграждане и проджба на къщи и жилищни сгради.</p>
+      <div class="p-5  about-card text-center text-white">
+        <p style="font-weight: 400;"> При покупко-продажбата на имоти във Варна е важно да се обърне внимание на документалната част и на избора на доверен брокер. Правилният подход може да ви спести време и средства, като същевременно гарантира, че инвестицията ви е сигурна.</p>
       </div>
     </div>
   </div>
 </section>
 
-
-
-
-<section id=" ">
-  <div class="container my-5 col-md-6">
-<div class=" py-5 wow animate__animated animate__fadeInUp">
-  <h3 class="text-center wow animate__animated animate__fadeInUp ">Оцени имота си</h3>
-  <p class=" text-center"
-  
-  >Възползвай се от безплатната ни услуга и получи  професионална пазарна оценка за твоя имот.</p>
-  <div class="search ">
-    <form method="POST" action="{% url 'inquiry' %}" enctype="multipart/form-data">
-      {% csrf_token %}
-      <div class="form-row">
-          <div class="col-md-6 mb-3  wow animate__animated animate__fadeInLeft">
-              <label class="sr-only">Име и фамилия</label>
-              <input type="text" name="name" class="form-control" placeholder="Име и фамилия" required>
-          </div>
-          <div class="col-md-6 mb-3  wow animate__animated animate__fadeInRight">
-              <label class="sr-only">Телефон</label>
-              <input type="phone" name="phone" class="form-control" placeholder="Телефон" required>
-          </div>
-      </div>
-      <div class="form-row">
-        <div class="col-md-6 mb-3  wow animate__animated animate__fadeInLeft">
-          <label class="sr-only">Тип на имота</label>
-          <select name="type_property" class="form-control" >
-            <option value="" disabled selected>Изберете тип на имота</option>
-            {% for value, label in property_choices %}
-                <option value="{{ value }}" {% if value == request.POST.type_property %}selected{% endif %}>{{ label }}</option>
-            {% endfor %}
-        </select>
+<section id="questions">
+  <div class="container">
+    <h2 class="text-center mb-3 py-5 wow animate__animated animate__zoomIn">Често задавани въпроси</h2>
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-default wow animate__animated animate__fadeInLeft"  data-wow-delay='0.1s'>
+        <div class="panel-heading" role="tab" id="headingOne">
+          <h4 class="panel-title">
+          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+            Покупка на жилище директно от собственик или чрез брокер?
+          </a>
+        </h4>
         </div>
-        <div class="col-md-6 mb-3  wow animate__animated animate__fadeInRight">
-          <label class="sr-only">Град</label>
-          <input type="text" name="city" class="form-control" placeholder="Град" >
-      </div>
-    </div>
-    <div class="form-row">
-        <div class="col-md-12 mb-3" >
-            <label class="sr-only">Съобщение</label>
-            <textarea name="message" class="form-control" placeholder="Съобщение" rows="3" ></textarea>
-        </div>
-    </div>
-{% comment %} UPLOAD MULTIPLE IMAGES {% endcomment %}
-<!-- Upload Multiple Images -->
-<div class="form-row position-relative file-input-container">
-<div class="col-md-12 mb-2 ">
-<div class="container text-center">
-<!-- Button to trigger file input -->
-<button id="upload-button" type="button">Качи снимки</button>
-
-<!-- Actual file input (hidden) -->
-<input type="file" id="image-upload" name="images" accept="image/*" multiple> <!-- Correct name="images" -->
-<div id="image-preview" class='mb-2 text-center'></div>
-</div>
-</div>
-</div>
-
-    <!-- Agree to Terms Checkbox -->
-    <div class="form-row">
-      <div class="col-md-12 mb-2 text-center">
-          <div class="form-check">
-              <input class="form-check-input" type="checkbox" name="agree" id="agree" required>
-              <label class="form-check-label " for="agree">
-                  Съгласен съм с <a href="{% url 'terms' %}" target="_blank" class="  text--success: #20c997;">Условията</a>
-              </label>
+        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            Покупката чрез брокер осигурява по-голяма сигурност и професионална помощ при проверка на документите, преговорите и финализирането на сделката. Директната покупка от собственик може да бъде по-бюджетна, но крие рискове, ако не сте запознати с всички пазарни и правни аспекти.
           </div>
+        </div>
+      </div>
+      <div class="panel panel-default wow animate__animated animate__fadeInLeft"  data-wow-delay='0.2s'>
+        <div class="panel-heading" role="tab" id="headingTwo">
+          <h4 class="panel-title">
+          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            Къща или апартамент във Варна да си купя?
+          </a>
+        </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+          <div class="panel-body">
+            Изборът зависи от вашите нужди и начин на живот. Апартаментите предлагат удобство и близост до центъра, докато къщите осигуряват повече пространство, спокойствие и често двор, което ги прави подходящи за семейства.
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default wow animate__animated animate__fadeInLeft"  data-wow-delay='0.3s'>
+        <div class="panel-heading" role="tab" id="headingThree">
+          <h4 class="panel-title">
+          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            С какъв доход трябва да разполагам, за да си позволя ново жилище?
+          </a>
+        </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body">
+            Необходимият доход зависи от цената на имота, размера на първоначалната вноска и условията на кредита. Обикновено банките изискват месечната ви вноска по кредита да не надвишава 50% от дохода ви, за да можете да покривате разходите си комфортно и без финансови затруднения.
+          </div>
+        </div>
+        
+      </div>
+      <div class="panel panel-default wow animate__animated animate__fadeInLeft"  data-wow-delay='0.4s'>
+        <div class="panel-heading" role="tab" id="headingFour">
+          <h4 class="panel-title">
+          <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            Кога е най-подходящото време за купуване на имот?
+          </a>
+        </h4>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+          <div class="panel-body">
+            Подходящото време за покупка на имот зависи от вашите нужди и цели. Ако имотът отговаря на вашите изисквания и бюджет, винаги е добро време да инвестирате. Важно е да се консултирате със специалист, за да направите информиран избор според състоянието на пазара. 
+          </div>
+        </div>
+        
       </div>
     </div>
-
-      <button class="btn btn-secondary btn-block mt-3" type="submit">Изпрати</button>
-  </form>
   </div>
-</div> 
-</section>
-
+</section><br><br>
 
 {% endblock %}

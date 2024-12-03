@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 {% load static%}
 {% load humanize %}
-{% block title %}| Обяви{% endblock %}
+{% block metadescription %}
+ <meta name="description" content="Запознайте се с всички обяви за имоти във Варна от екипът на Green Home. Нашата секция Imoti Varna предлага ексклузивни къщи, апартаменти и гаражи. ">
+ {% endblock %}
+{% block title %}| Всички ексклузивни обяви {% endblock %}
 {% block content %}
 
 <section id="showcase-inner" class="py-5 text-white">
     <div class="container">
       <div class="row text-center animated-section ">
         <div class="col-md-12 ">
-          <h1 class="display-4 focus-in-expand">Разгледайте нашите обяви</h1>
+          <h1 class="display-4 focus-in-expand">Разгледайте нашите обяви за имоти във Варна и региона</h1>
           {% comment %} <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sunt, pariatur!</p> {% endcomment %}
 
             <div class="search">

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load humanize %}
 {% load static%}
+{% block metadescription %}
+ <meta name="description" content="{{listing.title}} ">
+ {% endblock %}
 {% block title %}
 |{% if listing.title %} {{ listing.title }} 
 {% elif listing.estate_code %}

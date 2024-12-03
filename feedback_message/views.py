@@ -31,7 +31,7 @@ def feedback(request):
         )
         try:
             feedback_instance.save()
-            messages.success(request, 'Your feedback was successfully submitted.')
+            messages.success(request, 'Вашата оценка беше изпратена успешно')
             return redirect('home')
         except Exception as e:
             messages.error(request, f'Error saving feedback: {e}')

@@ -2,7 +2,19 @@
 {% load humanize %}
 {% load static%}
 {% block metadescription %}
- <meta name="description" content="{{listing.title}} ">
+<meta name="description" content="{{ listing.title }} - {{ listing.description|truncatewords:25 }}">
+  
+<!-- Open Graph Metadata -->
+<meta property="og:title" content="{{ listing.title|default:'Real Estate Listing' }}" />
+<meta property="og:description" content="{{ listing.description|truncatewords:25|default:'Check out this amazing property!' }}" />
+
+<!-- Check for primary or fallback image -->
+{% with first_photo=listing.photos.all|first %}
+<meta property="og:image" content="{% if listing.image %}{{ listing.image.url }}{% elif first_photo %}{{ first_photo.image.url }}{% else %}{% static 'default-image.jpg' %}{% endif %}" />
+{% endwith %}
+
+<meta property="og:url" content="{{ request.build_absolute_uri }}" />
+<meta property="og:type" content="article" />
  {% endblock %}
 {% block title %}
 |{% if listing.title %} {{ listing.title }} 

@@ -9,11 +9,40 @@ from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.contrib import messages
 import re
+from django.contrib.staticfiles import finders
 from django.core.paginator import EmptyPage,PageNotAnInteger,Paginator
 from listings.choices import bedrooms_choices , price_choices,states_choices,cities_choices
 # Create your views here.
 
 from listings.models import apply_filters  # Import the utility function
+
+def sitemap_view(request):
+    # Try to find the sitemap.xml in the static files
+    sitemap_path = finders.find('sitemap.xml')
+    
+    # If the file doesn't exist in the static files, return a 404
+    if not sitemap_path:
+        return HttpResponse("Sitemap not found", status=404)
+
+    # Read the file content and return it as XML response
+    with open(sitemap_path, 'r') as f:
+        sitemap_content = f.read()
+
+    return HttpResponse(sitemap_content, content_type='application/xml')
+
+def robots_view(request):
+    # Path to robots.txt in the static directory
+    robots_path = finders.find('robots.txt')
+
+    # If the file doesn't exist, return a 404
+    if not robots_path:
+        return HttpResponse("Robots.txt not found", status=404)
+
+    # Read the file content and return it
+    with open(robots_path, 'r') as f:
+        robots_content = f.read()
+
+    return HttpResponse(robots_content, content_type='text/plain')
 
 def index(request):
     # Handle the inquiry form submission

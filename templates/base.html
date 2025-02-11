@@ -2,28 +2,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!--width=device-width, initial-scale=1.0-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% block metadescription %}
-    {% comment %} <meta name="description" content="Green Home предлага специално подбрани, недвижими имоти във Варна и региона – от луксозни апартаменти в центъра до уютни семейни къщи в покрайнините."> {% endcomment %}
-    {% endblock %}
+    {% comment %} <meta name="description" content="Green Home предлага специално подбрани, недвижими имоти във Варна и региона – от луксозни апартаменти в центъра до уютни семейни къщи в покрайнините.">    {% endcomment %}
+     {% endblock %}
+    
+    <link rel="icon" href="{% static 'img/favicon/favicon-32x32.ico'%}" type="image/icon type">
+    <!-- Font Awesome (From CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <link rel="icon" href="{% static 'img/favicon/favicon-32x32.ico' %}" type="image/icon type">
 
-    <!-- Minified and Combined CSS Files -->
-    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.min.css' %}">
+    <!-- Local CSS Files -->
+    <link rel="stylesheet" href="{% static 'css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- External Libraries -->
     <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
-
-    <!-- External Libraries - CDN Links (keep minified for faster loading) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
 
-    <!-- Title of the page -->
-    <title>{% block title %}{% endblock %}</title>
+    <!-- Owl Carousel CSS (From CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+    <!-- Start cookieyes banner --> 
+    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/d85635d181d304bc0899b6b9/script.js"></script> 
+    <!-- End cookieyes banner -->
+
+    <title>
+        {% comment %} GreenHome  {% endcomment %}
+        {% block title %}{% endblock %}</title>
 </head>
 <body>
 
@@ -37,65 +48,115 @@
     <!-- Footer -->
     {% include "partials/_footer.html" %}
 
-    <!-- Load JS Libraries with Async/Defer for faster loading -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
+    <!-- Load jQuery first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Lightbox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script>
+<!-- Owl Carousel JS (From CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<!-- Wow Libraries -->
+<script src="{% static 'lib/wow/wow.min.js' %}"></script>
+<!-- Bootstrap JS -->
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+{% comment %} 
+<!-- Wow Libraries -->
+<script src="{% static 'lib/wow/wow.min.js' %}"></script> {% endcomment %}
 
-    <!-- Localized JS Libraries -->
-    <script src="{% static 'lib/wow/wow.min.js' %}" defer></script>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}" defer></script>
-    <script src="{% static 'js/main.min.js' %}" defer></script>
+<!-- Lightbox JS -->
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox-plus-jquery.min.js"></script> {% endcomment %}
 
-    <!-- CookieYes Banner (Deferred) -->
-    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/d85635d181d304bc0899b6b9/script.js" async></script>
+<!-- Custom JS -->
+<script src="{% static 'js/main.js' %}"></script>
+    <!-- Start cookieyes banner -->
+	<script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/87471e983726f14d0609a5cb/script.js"></script>
+	<!-- End cookieyes banner -->
 
-    <!-- Initialize Owl Carousels -->
-    <script>
-        $(function() {
-            // Listing Carousel
-            $(".listing-carousel").owlCarousel({
-                margin: 15,
-                loop: true,
-                nav: false,
-                autoplay: true,
-                responsive: {
-                    0: { items: 1 },
-                    600: { items: 1 },
-                    1000: { items: 1 }
+<!-- Initialize Carousel -->
+ {% comment %} <script>
+    $(function() {
+        // Owl Carousel
+        var owl = $(".owl-carousel");
+        owl.owlCarousel({
+            margin: 15,
+            loop: true,
+            nav: false,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 1 // 1 item on small screens
+                },
+                600: {
+                    items: 1 // 1 item for medium screens
+                },
+                1000: {
+                    items: 1 // 2 items for large screens
                 }
-            });
-
-            // Reviews Carousel
-            $(".reviews-carousel").owlCarousel({
-                margin: 15,
-                loop: true,
-                nav: false,
-                autoplay: true,
-                responsive: {
-                    0: { items: 1 },
-                    600: { items: 1 },
-                    1000: { items: 2 }
-                }
-            });
-
-            // Similar Properties Carousel
-            $(".simmilar-carousel").owlCarousel({
-                margin: 15,
-                loop: true,
-                nav: false,
-                autoplay: true,
-                responsive: {
-                    0: { items: 1 },
-                    600: { items: 1 },
-                    1000: { items: 3 }
-                }
-            });
+            }
         });
-    </script>
+    });
+</script>  {% endcomment %}
+<script>
+    $(function() {
+        // Initialize Listing Carousel
+        $(".listing-carousel").owlCarousel({
+            margin: 15,
+            loop: true,
+            nav: false,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 1 // 1 item on small screens
+                },
+                600: {
+                    items: 1 // 1 item for medium screens
+                },
+                1000: {
+                    items: 1 // 1 item for large screens
+                }
+            }
+        });
 
-    <!-- CookieYes Banner (again but now in correct place) -->
-    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/87471e983726f14d0609a5cb/script.js" async></script>
+        // Initialize Reviews Carousel
+        $(".reviews-carousel").owlCarousel({
+            margin: 15,
+            loop: true,
+            nav: false,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 1 // 1 item on small screens
+                },
+                600: {
+                    items: 1 // 1 item for medium screens
+                },
+                1000: {
+                    items: 2 // 2 items for large screens
+                }
+            }
+        });
 
+        // Initialize simmilar Carousel
+        $(".simmilar-carousel").owlCarousel({
+            margin: 15,
+            loop: true,
+            nav: false,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 1 // 1 item on small screens
+                },
+                600: {
+                    items: 1 // 1 item for medium screens
+                },
+                1000: {
+                    items: 3 // 2 items for large screens
+                }
+            }
+        });
+    });
+</script>
+    <!-- Start cookieyes banner -->
+	<script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/87471e983726f14d0609a5cb/script.js"></script>
+	<!-- End cookieyes banner -->
 </body>
 </html>

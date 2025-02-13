@@ -46,7 +46,7 @@
           </li> {% endcomment %}
           
       
-           <li
+           {% comment %} <li
           {% if 'listings' in request.path %}
             class="nav-item active mr-3"
           {% else %}
@@ -54,8 +54,10 @@
           {% endif %}
         >
           <a class="nav-link" href="{% url 'search' %}">Обяви</a>
-        </li>
-
+        </li> {% endcomment %}
+        <li class="nav-item mr-3 {% if 'search' in request.path %}active{% endif %}">
+          <a class="nav-link" href="{% url 'search' %}?{{ request.GET.urlencode }}">Обяви</a>
+      </li>
           <li
             {% if 'about' in request.path %}
               class="nav-item active mr-3"

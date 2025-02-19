@@ -8,19 +8,22 @@
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-      
-        // Wait for consent
-        function gtagConsent(category) {
-            if (category === 'marketing' || category === 'statistics') {
-                gtag('consent', 'update', {
-                    'analytics_storage': 'granted'
-                });
-                gtag('js', new Date());
-                gtag('config', 'G-Q4KPX2DZR1');
-            }
+
+        // Default: Deny analytics storage until consent is granted
+        gtag('consent', 'default', {
+            'analytics_storage': 'denied'
+        });
+
+        // Function to update consent when user accepts cookies
+        function acceptCookies() {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted'
+            });
+            gtag('js', new Date());
+            gtag('config', 'G-Q4KPX2DZR1');
         }
-      </script>
-      
+    </script>
+
     
     <!--width=device-width, initial-scale=1.0-->
     <meta charset="UTF-8">

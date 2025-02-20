@@ -16,11 +16,12 @@
     <!--width=device-width, initial-scale=1.0-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% block metadescription %}
-    <!-- Canonical Tag -->
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
-    {% comment %} <meta name="description" content="Green Home предлага специално подбрани, недвижими имоти във Варна и региона – от луксозни апартаменти в центъра до уютни семейни къщи в покрайнините.">    {% endcomment %}
-     {% endblock %}
+    
+    {% block metadescription %}{% endblock %}
+
+     {% comment %} Canonical link  {% endcomment %}
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri|urlencode }}{% endblock %}">
+
     
     <link rel="icon" href="{% static 'img/favicon/favicon-32x32.ico'%}" type="image/icon type">
     <!-- Font Awesome (From CDN) -->

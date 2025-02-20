@@ -4,6 +4,9 @@
 {% block metadescription %}
  <meta name="description" content="Всички обяви за имоти от агенция Green Home събрани на едно място специално за вас. Тук ще откриете най-актуалните предложения.">
  {% endblock %}
+ 
+ {% block canonical_url %}{{ request.scheme }}://{{ request.get_host }}{% url 'search' %}{% endblock %}
+
 {% block title %}
 GreenHome | Търси
 {% endblock %}

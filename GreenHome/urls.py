@@ -11,7 +11,7 @@ admin.sites.AdminSite.site_title = 'Green Home'
 urlpatterns = [
     path('adminGH2022/', admin.site.urls),
     path('',include('pages.urls')),
-    path('imoti-varna/',include('listings.urls')),
+    path('imoti-obiavi/',include('listings.urls')),
     path('realtors/',include('realtors.urls')),
     path('accounts/',include('accounts.urls')),
     path('contact/',include('contacts.urls')),

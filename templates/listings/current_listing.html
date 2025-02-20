@@ -16,7 +16,7 @@
 <meta property="og:url" content="{{ request.build_absolute_uri }}" />
 <meta property="og:type" content="article" />
 <!-- Canonical Tag -->
-<link rel="canonical" href="{{ request.build_absolute_uri }}" />
+{% comment %} <link rel="canonical" href="{{ request.build_absolute_uri }}" /> {% endcomment %}
  {% endblock %}
 {% block title %}
 |{% if listing.title %} {{ listing.title }} 

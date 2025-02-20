@@ -1,9 +1,13 @@
 {% extends "base.html" %}
 {% load static%}
 {% load humanize %}
+{% block metadescription %}
+ <meta name="description" content="Всички обяви за имоти от агенция Green Home събрани на едно място специално за вас. Тук ще откриете най-актуалните предложения.">
+ {% endblock %}
 {% block title %}
 GreenHome | Търси
 {% endblock %}
+
 {% block content %}
 <style>
     .common-ellipsis {

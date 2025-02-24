@@ -6,8 +6,9 @@
 
     
   <!-- Open Graph Metadata -->
-  <meta property="og:title" content="{{ listing.title|default:'Real Estate Listing' }}" />
-  <meta property="og:description" content="{{ listing.description|truncatewords:25|default:'Check out this amazing property!' }}" />
+  <meta property="og:title" content="{{ listing.title|default:'Green Home имоти - обяви' }}" />
+  <meta property="og:description" content="{% if listing.description %}{{ listing.description|slice:":100" }}{% if listing.description|length > 100 %}...{% endif %}{% else %}Разгледайте този невероятен имот!{% endif %}" />
+
 
   <!-- Check for primary or fallback image -->
   {% with first_photo=listing.photos.all|first %}

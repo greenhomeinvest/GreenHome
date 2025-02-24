@@ -2,6 +2,8 @@
 {% load static %}
 {% block metadescription %}
  <meta name="description" content="Подробна информация за всеки един от нашите брокери и канали за контакт. ">
+ <!-- Canonical Tag -->
+ <link rel="canonical" href="{{ request.build_absolute_uri }}" />
  {% endblock %}
 {% block title %}
 GreenHome | Нашите брокери и как да се свържете с тях

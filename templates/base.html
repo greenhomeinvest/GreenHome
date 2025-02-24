@@ -19,8 +19,8 @@
     
     {% block metadescription %}{% endblock %}
 
-     {% comment %} Canonical link  {% endcomment %}
-    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri|urlencode }}{% endblock %}">
+     {% comment %} Canonical link 
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri|urlencode }}{% endblock %}"> {% endcomment %}
 
     
     <link rel="icon" href="{% static 'img/favicon/favicon-32x32.ico'%}" type="image/icon type">

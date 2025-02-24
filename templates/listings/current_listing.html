@@ -2,7 +2,8 @@
 {% load humanize %}
 {% load static%}
 {% block metadescription %}
-  <meta name="description" content="{{ listing.title }} - {{ listing.description|truncatewords:25 }}">
+<meta name="description" content="{{ listing.title }} - {{ listing.description|slice:":100" }}{% if listing.description|length > 100 %}...{% endif %}">
+
     
   <!-- Open Graph Metadata -->
   <meta property="og:title" content="{{ listing.title|default:'Real Estate Listing' }}" />

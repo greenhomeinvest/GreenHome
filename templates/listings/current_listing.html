@@ -31,6 +31,89 @@
 {% endblock %}
 {% block content %}
 <style>
+  .btn-viber, .btn-phone {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: normal;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .btn-viber {
+    background: #834995;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(131, 73, 149, 0.7);
+  }
+  .btn-viber:hover {
+    background: #6d3c7d;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(131, 73, 149, 0.9);
+  }
+  
+  .btn-phone {
+    background:rgb(73, 149, 121);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(73, 149, 110, 0.7);
+  }
+  .btn-phone:hover {
+    background:rgb(60, 125, 92);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(73, 149, 107, 0.9);
+  }
+  
+  .ico-viber, .fas {
+    margin-right: 0.5rem;
+  }
+  
+  .d-flex.flex-column {
+    gap: 0.5rem;
+  }
+  
+  @media (min-width: 900px) {
+    .buttons-wrapper {
+      flex-direction: row;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+  }
+  .card-realtor {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  @media (max-width: 990px) {
+    .card-realtor {
+      display: flex;
+      flex-direction: row;
+    }
+    .card-body {
+      order: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+  }
+  @media (max-width: 750px) {
+    .card-realtor {
+      display: flex;
+      flex-direction: column;
+    }
+    .card-body {
+      order: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+  }
+
   /* Set a fixed height for the carousel */
     .listing-carousel  {
     height: 60vh; /* You can adjust this value */
@@ -115,85 +198,93 @@
           <!-- Fields -->
           <div class="row mb-5 fields scroll-animated">
             {% comment %} Description fields  left{% endcomment %}
-                <div class="col-md-6">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-secondary">
-                      <i class="fas fa-money-bill-alt"></i> Цена:
-                      <span class="float-right">{{listing.currency}} {{listing.price | intcomma}}</span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                      <i class="fas fa-bed"></i> Tun:
-                      <span class="float-right">{{listing.type_choice}}</span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                      <i class="fa-solid fa-bathtub"></i> Бани:
-                      <span class="float-right">{{listing.bathrooms}}</span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                      <i class="fa-solid fa-toilet"></i> Tоалетни:
-                      <span class="float-right">{{listing.toilet}}</span>
-                    </li>
-                  </ul>
-                </div>
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item text-secondary">
+                    <i class="fas fa-money-bill-alt"></i> Цена:
+                    <span class="float-right">{{listing.currency}} {{listing.price | intcomma}}</span>
+                  </li>
+                  <li class="list-group-item text-secondary">
+                    <i class="fas fa-bed"></i> Tun:
+                    <span class="float-right">{{listing.type_choice}}</span>
+                  </li>
+                  <li class="list-group-item text-secondary">
+                    <i class="fa-solid fa-bathtub"></i> Бани:
+                    <span class="float-right">{{listing.bathrooms}}</span>
+                  </li>
+                  <li class="list-group-item text-secondary">
+                    <i class="fa-solid fa-toilet"></i> Tоалетни:
+                    <span class="float-right">{{listing.toilet}}</span>
+                  </li>
+                </ul>
+            </div>
 
             {% comment %} Description fields  right{% endcomment %}
-                <div class="col-md-6">
-                  <ul class="list-group list-group-flush">
-                    <li class="list-group-item text-secondary">
-                      <i class="fas fa-th-large"></i> Площ:
-                      <span class="float-right">{{listing.sqft}} m²</span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                      <i class="fa-solid fa-hashtag"></i> ID на имота:
-                      <span class="float-right">    {% if listing.estate_code or listing.estate_code == 0 %}
-                        {{ listing.estate_code }}
-                      {% else %}
-                        {{ listing.uid }}
-                      {% endif %}</span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                      <i class="fas fa-th-large"></i> Година на строеж:
-                      <span class="float-right">{{listing.year_of_construction|date:"Y"}} </span>
-                    </li>
-                    <li class="list-group-item text-secondary">
-                      {% if options %}
-                      <i class="fas fa-square"></i> Особености:
-                        <ul>
-                          {% for option in options %}
-                              <li>{{ option }}</li>
-                          {% endfor %}
-                          {% endif %}
-                        </ul>
-                  </ul>
-                </div>
-          </div>
-
-          <!-- Description -->
-          <div class='scroll-animated' >
-            <i class="fas fa-file-lines  text-secondary" ></i> <span class='text-secondary'>Описание:</span>
-            <div class='col-md-12  mb-5' >
-              {{listing.description}}
+            <div class="col-md-6">
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item text-secondary">
+                              <i class="fas fa-th-large"></i> Площ:
+                              <span class="float-right">{{listing.sqft}} m²</span>
+                            </li>
+                            <li class="list-group-item text-secondary">
+                              <i class="fa-solid fa-hashtag"></i> ID на имота:
+                              <span class="float-right">    {% if listing.estate_code or listing.estate_code == 0 %}
+                                {{ listing.estate_code }}
+                              {% else %}
+                                {{ listing.uid }}
+                              {% endif %}</span>
+                            </li>
+                            <li class="list-group-item text-secondary">
+                              <i class="fas fa-th-large"></i> Година на строеж:
+                              <span class="float-right">{{listing.year_of_construction|date:"Y"}} </span>
+                            </li>
+                            <li class="list-group-item text-secondary">
+                              {% if options %}
+                              <i class="fas fa-square"></i> Особености:
+                                <ul>
+                                  {% for option in options %}
+                                      <li>{{ option }}</li>
+                                  {% endfor %}
+                                  {% endif %}
+                                </ul>
+                          </ul>
+                        </div>
             </div>
-          </div>
+
+            <!-- Description -->
+            <div class='scroll-animated' >
+              <i class="fas fa-file-lines  text-secondary" ></i> <span class='text-secondary'>Описание:</span>
+              <div class='col-md-12  mb-5' >
+                {{listing.description}}
+              </div>
+            </div>
           
-        </div>
+          </div>
         
         
         {% comment %} Realtor section {% endcomment %}
-        <div  class="col-8 col-sm-6 col-md-4 col-lg-3 wow animate__animated animate__fadeInRight">
-          <div class="card mb-3">
+        <div  class=" col-8 col-sm-6 col-md-4 col-lg-3 wow animate__animated animate__fadeInRight">
+          <div class=" card-realtor mb-3 ">
             <img class="card-img-top current-listing-img" src="{{listing.realtor.photo.url}}" alt="Seller of the month">
             <div class="card-body">
               <h5 class="card-title">Брокер</h5>
               <h6 class="text-secondary">{{listing.realtor}}</h6>
-              <h6 class="text-primary">
-                <a href="tel:+{{ listing.realtor.phone }}" class="text-primary">
-                    +{{ listing.realtor.phone }}
+              <div class="d-flex flex-column align-items-center buttons-wrapper">
+                <a href="tel:+{{ listing.realtor.phone }}" class="btn btn-phone viral-phone mb-2">
+                  <i class="fas fa-phone-alt mr-2"></i> Обади се
                 </a>
-            </h6>
+                <a href="viber://chat?number=%2B{{ listing.realtor.phone }}" class="btn btn-viber viral-viber mb-2">
+                  <i class="fab fa-viber mr-2"></i> Пиши на Viber
+                </a>
+                <button class="btn btn-phone viral-phone mb-2" data-toggle="modal" data-target="#inquiryModal">Направи запитване</button>
+              </div>
+                {% comment %} <a href="tel:+{{ listing.realtor.phone }}" class="text-primary">
+                    +{{ listing.realtor.phone }}
+                </a> {% endcomment %}
+              </h6>
             </div>
           </div>
-          <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Направи запитване</button>
+          {% comment %} <button class="btn-primary btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Направи запитване</button> {% endcomment %}
         </div>
 
       </div>

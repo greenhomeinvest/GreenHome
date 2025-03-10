@@ -9,6 +9,11 @@
 GreenHome | Kонтакти и адрес
 {% endblock %}
 {% block content %}
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
 <section id="showcase-inner" class="py-5 text-white">
     <div class="container">
         <div class="row text-center animated-section">
@@ -26,7 +31,7 @@ GreenHome | Kонтакти и адрес
         <div class="row g-0">
             <div class="col-lg-6 wow animate__animated animate__fadeInLeft" data-wow-delay="0.1s">
                 <div class="p-5 contact-form">
-                    <a href="{% url 'inquiry' %}" class="btn contact-form-button text-primary py-2 px-4 d-inline-block">Свържи се с нас</a>
+                    <a href="{% url 'home' %}#make-inquiry" class="btn contact-form-button text-primary py-2 px-4 d-inline-block">Свържи се с нас</a>
 
                     <h1 class="text-uppercase mb-4">Имаш въпроси? Свържи се с нас!</h1>
                     

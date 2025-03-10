@@ -386,23 +386,24 @@ def search(request):
     # Apply filters using the utility function
     queryset_list = apply_filters(queryset_list, request)
 
-    #SUPPORT THE BUDDY :D
-    # 1. Get listings from realtor with ID 4
-    realtor_4_listings = queryset_list.filter(realtor_id=4)
+    # #SUPPORT THE BUDDY :D
+    # # 1. Get listings from realtor with ID 4
+    # realtor_4_listings = queryset_list.filter(realtor_id=4)
 
 
-    # 2. Get other listings (excluding realtor ID 4) from the same filtered queryset
-    other_listings = queryset_list.exclude(realtor_id=4)
+    # # 2. Get other listings (excluding realtor ID 4) from the same filtered queryset
+    # other_listings = queryset_list.exclude(realtor_id=4)
 
-    # Combine the two querysets: realtor 4 listings first, then the rest
-    combined_listings = realtor_4_listings | other_listings
-        # To ensure the correct order, we need to use a custom order that first shows the realtor 4 listings
-    combined_listings = sorted(combined_listings, key=lambda x: (x.realtor_id == 4, x.list_date), reverse=True)
+    # # Combine the two querysets: realtor 4 listings first, then the rest
+    # combined_listings = realtor_4_listings | other_listings
+    #     # To ensure the correct order, we need to use a custom order that first shows the realtor 4 listings
+    # combined_listings = sorted(combined_listings, key=lambda x: (x.realtor_id == 4, x.list_date), reverse=True)
     
     
     
     # Pagination
-    paginator = Paginator(combined_listings, 9)
+    # paginator = Paginator(combined_listings, 9)
+    paginator = Paginator(queryset_list, 9)
     page = request.GET.get('page')
     paged_listings = paginator.get_page(page)
 

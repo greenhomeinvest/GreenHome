@@ -16,6 +16,11 @@ from listings.choices import bedrooms_choices , price_choices,states_choices,cit
 # from listings.models.Listing import OPTION_CHOICES
 import requests
 import json
+from celery import shared_task
+import requests
+import os
+from django.core.cache import cache
+from django.db import IntegrityError, transaction
 # Your existing OPTION_CHOICES
 OPTION_CHOICES = [
     ('Гараж', 'Гараж'),
@@ -169,6 +174,184 @@ def get_matching_extras(extras):
 
 
 
+# def save_listing_from_json(json_data):
+#     data = json.loads(json_data)
+#     properties = data['properties']
+#     brokers = {broker['id']: broker for broker in data.get('brokers', [])}
+
+#     # Keep track of estate codes from the fetched data
+#     fetched_estate_codes = {property.get('code') for property in properties if property.get('code')}
+
+
+#     # Get all existing estate codes from the database
+#     existing_estate_codes = set(Listing.objects.values_list('estate_code', flat=True))
+
+
+#     # Identify estate codes that need to be deleted
+#     codes_to_delete = existing_estate_codes - fetched_estate_codes
+
+#     # Delete listings that are no longer available
+#     if codes_to_delete:
+
+#         deleted_count, _ = Listing.objects.filter(estate_code__in=codes_to_delete).delete()
+#         # print(f"Deleted {deleted_count} listings that are no longer available.")
+
+#     # Get the first 10 properties, or all if there are fewer than 10
+#     for property in properties:  # Slice to get the first 10 properties
+#         uid = property.get('uid')
+#         estate_code = property.get('code', None)
+
+#         # Skip if this listing already exists in the database
+       
+
+#         # Extract relevant data
+#         title = property.get('titleBG', 'No Title')
+#         description = property.get('DescriptionBG', 'No Description')
+#         price = property.get('price', 0)
+#         bathrooms = property.get('bathToiletCount', 1)
+#         sqft = property.get('space_m2', 0)
+#         toilet = property.get('toilet', 1)
+
+#         city = property.get('region_name', '')
+#         state = property.get('subregion_name') or 'Unknown'
+
+#         estate_type_name = property.get('estate_type_name', '')
+#         type_choice = get_type_choice(estate_type_name)
+        
+#         build_type_name = property.get('build_type_name', '')
+#         type_building = get_building_type(build_type_name)
+
+#         # Handle year of construction
+#         year_of_construction = property.get('build_year')
+#         if isinstance(year_of_construction, str):
+#             year_of_construction = int(year_of_construction)
+#         if isinstance(year_of_construction, int):
+#             year_of_construction = datetime(year_of_construction, 1, 1)
+#         elif year_of_construction is None:
+#             year_of_construction = datetime.now()
+
+#         currency_id = property.get('currency')
+#         currency = get_currency(currency_id)
+
+#         person_id = property.get('person_id')
+#         realtor = None
+
+#         # Check if a corresponding broker exists
+#         if person_id and person_id in brokers:
+#             broker_name = brokers[person_id]['name']
+#             try:
+#                 realtor = Realtor.objects.get(name=broker_name)
+#             except Realtor.DoesNotExist:
+#                 realtor = Realtor.objects.get(id=3)  # Default to some fallback realtor
+
+#         # Extract the extras from the property
+#         extras = property.get('extras', [])
+#         matching_extras = get_matching_extras(extras)
+#         if Listing.objects.filter(uid=uid).exists():
+#                     current_listing = Listing.objects.get(uid=uid)
+#                     # print(f'Listing {current_listing.title}')
+#                     if current_listing.price != price:
+#                         # Update the price and continue
+#                         current_listing.price = price
+#                         current_listing.save(update_fields=['price'])
+#                         print(f'Updated price for listing {current_listing.title} price {current_listing.price}')
+#                     if current_listing.title != title:
+#                         current_listing.title = title
+#                         current_listing.save(update_fields=['title'])
+#                         print(f'Updated title for listing {current_listing.title}')
+#                     if current_listing.description != description:
+#                         current_listing.description = description
+#                         current_listing.save(update_fields=['description'])
+#                         print(f'Updated desription for listing {current_listing.title}')
+#                     if current_listing.city != city:
+#                         current_listing.city = city
+#                         current_listing.save(update_fields=['city'])
+#                         print(f'Updated city for listing {current_listing.title}')
+#                     if current_listing.state != state:
+#                         current_listing.state = state
+#                         current_listing.save(update_fields=['state'])
+#                         print(f'Updated state for listing {current_listing.title}')
+#                     continue    
+#         # Create the Listing object
+#         listing = Listing(
+#             uid=uid,
+#             estate_code=estate_code,
+#             title=title,
+#             description=description,
+#             price=price,
+#             bathrooms=bathrooms,
+#             sqft=sqft,
+#             toilet=toilet,
+#             city=city,
+#             state=state,
+#             type_building=type_building,
+#             year_of_construction=year_of_construction,
+#             type_choice=type_choice,
+#             currency=currency,
+#             realtor=realtor,
+#             extra_options=matching_extras,
+#         )
+        
+#         # Save the listing to the database
+#         listing.save()
+
+#         # Save associated images
+#         for photo in property.get('photos', []):
+#             image_url = photo.get('url')
+#             save_image_from_url(image_url, listing)
+
+                
+# def listings(request):
+#     fetch_estate_assistance_listings()
+
+#     all_listings = Listing.objects.order_by('-list_date').filter(is_published=True)
+#     # queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
+
+#     # Apply filters from the utility function
+#     # queryset_list = apply_filters(queryset_list, request)
+#     listings_count = all_listings.count()
+#     paginator = Paginator(all_listings, 9)
+#     page = request.GET.get('page')
+#     paged_listings = paginator.get_page(page)
+#     # Extract choices
+#     type_choice = Listing.TYPE_CHOICES
+#     city = request.GET.get('city')
+#     city_choices = Listing.objects.values_list('city', flat=True).distinct()
+#     state_choices = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct() if city else []
+#     building_type_choices = Listing.BUILDING_TYPE_CHOICES  # Add this line
+#     context = {
+#         'listings': paged_listings,
+#         'city_choices': city_choices,
+#         'state_choices': state_choices,
+#         'building_type_choices': building_type_choices,  # Include building type choices
+#         'type_choice': type_choice,
+#         'listings_count': listings_count,
+#     }
+#     return render(request, 'listings/listings.html', context)
+
+# def fetch_estate_assistance_listings():
+#     # url = "http://exportdata.estateassistant.info/api/export/GetEstates/?token=a9f79df4-5570-4579-ac36-22196e1eeb6d-bdbfb59d-4757-42e4-8f77-d73b526f1edd"
+#     base_url = os.getenv('ESTATE_ASSISTANCE_URL')
+#     token = os.getenv('ESTATE_ASSISTANCE_TOKEN')
+
+#     # Construct the full URL with the token
+#     url = f"{base_url}?token={token}"
+#     try:
+#         response = requests.get(url)
+#         response.raise_for_status()  # Raise an exception for 4xx/5xx status codes
+#         # Parse the response to get the properties
+#         # data = response.json()  # Parsing the JSON response
+        
+#         # Check if 'properties' exists in the response data
+#         # if 'properties' in data:
+#         #     properties = data['properties']
+#         #     # Count the number of properties
+#         #     properties_count = len(properties)
+#         #     # print(f"Number of properties fetched: {properties_count}")
+#         save_listing_from_json(response.text)
+#     except requests.exceptions.RequestException as e:
+#         print(f"Error fetching estate assistance listings: {e}")
+
 def save_listing_from_json(json_data):
     data = json.loads(json_data)
     properties = data['properties']
@@ -177,27 +360,50 @@ def save_listing_from_json(json_data):
     # Keep track of estate codes from the fetched data
     fetched_estate_codes = {property.get('code') for property in properties if property.get('code')}
 
-
     # Get all existing estate codes from the database
     existing_estate_codes = set(Listing.objects.values_list('estate_code', flat=True))
-
 
     # Identify estate codes that need to be deleted
     codes_to_delete = existing_estate_codes - fetched_estate_codes
 
-    # Delete listings that are no longer available
+    # Delete listings that are no longer available in a bulk operation
     if codes_to_delete:
-
         deleted_count, _ = Listing.objects.filter(estate_code__in=codes_to_delete).delete()
-        # print(f"Deleted {deleted_count} listings that are no longer available.")
+        print(f"Deleted {deleted_count} listings that are no longer available.")
 
-    # Get the first 10 properties, or all if there are fewer than 10
-    for property in properties:  # Slice to get the first 10 properties
+    # Prepare bulk create and bulk update lists
+    listings_to_create = []
+    listings_to_update = []
+
+    for property in properties:
         uid = property.get('uid')
         estate_code = property.get('code', None)
 
         # Skip if this listing already exists in the database
-       
+        if Listing.objects.filter(uid=uid).exists():
+            current_listing = Listing.objects.get(uid=uid)
+            updated = False
+
+            # Update fields only if they have changed
+            if current_listing.price != property.get('price', 0):
+                current_listing.price = property.get('price', 0)
+                updated = True
+            if current_listing.title != property.get('titleBG', 'No Title'):
+                current_listing.title = property.get('titleBG', 'No Title')
+                updated = True
+            if current_listing.description != property.get('DescriptionBG', 'No Description'):
+                current_listing.description = property.get('DescriptionBG', 'No Description')
+                updated = True
+            if current_listing.city != property.get('region_name', ''):
+                current_listing.city = property.get('region_name', '')
+                updated = True
+            if current_listing.state != property.get('subregion_name', 'Unknown'):
+                current_listing.state = property.get('subregion_name', 'Unknown')
+                updated = True
+
+            if updated:
+                listings_to_update.append(current_listing)
+            continue  # Skip to the next property
 
         # Extract relevant data
         title = property.get('titleBG', 'No Title')
@@ -212,7 +418,7 @@ def save_listing_from_json(json_data):
 
         estate_type_name = property.get('estate_type_name', '')
         type_choice = get_type_choice(estate_type_name)
-        
+
         build_type_name = property.get('build_type_name', '')
         type_building = get_building_type(build_type_name)
 
@@ -242,31 +448,7 @@ def save_listing_from_json(json_data):
         # Extract the extras from the property
         extras = property.get('extras', [])
         matching_extras = get_matching_extras(extras)
-        if Listing.objects.filter(uid=uid).exists():
-                    current_listing = Listing.objects.get(uid=uid)
-                    # print(f'Listing {current_listing.title}')
-                    if current_listing.price != price:
-                        # Update the price and continue
-                        current_listing.price = price
-                        current_listing.save(update_fields=['price'])
-                        print(f'Updated price for listing {current_listing.title} price {current_listing.price}')
-                    if current_listing.title != title:
-                        current_listing.title = title
-                        current_listing.save(update_fields=['title'])
-                        print(f'Updated title for listing {current_listing.title}')
-                    if current_listing.description != description:
-                        current_listing.description = description
-                        current_listing.save(update_fields=['description'])
-                        print(f'Updated desription for listing {current_listing.title}')
-                    if current_listing.city != city:
-                        current_listing.city = city
-                        current_listing.save(update_fields=['city'])
-                        print(f'Updated city for listing {current_listing.title}')
-                    if current_listing.state != state:
-                        current_listing.state = state
-                        current_listing.save(update_fields=['state'])
-                        print(f'Updated state for listing {current_listing.title}')
-                    continue    
+
         # Create the Listing object
         listing = Listing(
             uid=uid,
@@ -287,66 +469,71 @@ def save_listing_from_json(json_data):
             extra_options=matching_extras,
         )
         
-        # Save the listing to the database
-        listing.save()
+        listings_to_create.append(listing)
 
-        # Save associated images
+        # Save associated images (you can handle images in bulk as well)
         for photo in property.get('photos', []):
             image_url = photo.get('url')
             save_image_from_url(image_url, listing)
 
-                
+    # Perform bulk operations
+    try:
+        with transaction.atomic():
+            if listings_to_create:
+                Listing.objects.bulk_create(listings_to_create)
+                print(f"Created {len(listings_to_create)} new listings.")
+            if listings_to_update:
+                Listing.objects.bulk_update(listings_to_update, fields=['price', 'title', 'description', 'city', 'state'])
+                print(f"Updated {len(listings_to_update)} existing listings.")
+    except IntegrityError as e:
+        print(f"Error saving listings: {e}")
+
 def listings(request):
-    fetch_estate_assistance_listings()
+    # Cache key based on the current page
+    cache_key = f"listings_page_{request.GET.get('page', 1)}"
+    paged_listings = cache.get(cache_key)
+    
+    if not paged_listings:
+        # Get all published listings, ordered by the listing date
+        all_listings = Listing.objects.order_by('-list_date').filter(is_published=True)
+        
+        # Count the total number of listings
+        listings_count = all_listings.count()
+        type_choice = Listing.TYPE_CHOICES
+        city = request.GET.get('city')
+        city_choices = Listing.objects.values_list('city', flat=True).distinct()
+        state_choices = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct() if city else []
+        building_type_choices = Listing.BUILDING_TYPE_CHOICES  # Add this line
+        # Set up pagination for 9 listings per page
+        paginator = Paginator(all_listings, 9)
+        page = request.GET.get('page')
+        paged_listings = paginator.get_page(page)
+        
+        # Cache the paginated listings for 5 minutes
+        cache.set(cache_key, paged_listings, timeout=300)
 
-    all_listings = Listing.objects.order_by('-list_date').filter(is_published=True)
-    # queryset_list = Listing.objects.order_by('-list_date').filter(is_published=True)
-
-    # Apply filters from the utility function
-    # queryset_list = apply_filters(queryset_list, request)
-    listings_count = all_listings.count()
-    paginator = Paginator(all_listings, 9)
-    page = request.GET.get('page')
-    paged_listings = paginator.get_page(page)
-    # Extract choices
-    type_choice = Listing.TYPE_CHOICES
-    city = request.GET.get('city')
-    city_choices = Listing.objects.values_list('city', flat=True).distinct()
-    state_choices = Listing.objects.filter(city__iexact=city).values_list('state', flat=True).distinct() if city else []
-    building_type_choices = Listing.BUILDING_TYPE_CHOICES  # Add this line
-    context = {
+    # Pass both paginated listings and listings count to the template
+    return render(request, 'listings/listings.html', {
         'listings': paged_listings,
         'city_choices': city_choices,
         'state_choices': state_choices,
         'building_type_choices': building_type_choices,  # Include building type choices
         'type_choice': type_choice,
         'listings_count': listings_count,
-    }
-    return render(request, 'listings/listings.html', context)
+    })
 
+@shared_task
 def fetch_estate_assistance_listings():
-    # url = "http://exportdata.estateassistant.info/api/export/GetEstates/?token=a9f79df4-5570-4579-ac36-22196e1eeb6d-bdbfb59d-4757-42e4-8f77-d73b526f1edd"
     base_url = os.getenv('ESTATE_ASSISTANCE_URL')
     token = os.getenv('ESTATE_ASSISTANCE_TOKEN')
-
-    # Construct the full URL with the token
     url = f"{base_url}?token={token}"
+
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Raise an exception for 4xx/5xx status codes
-        # Parse the response to get the properties
-        # data = response.json()  # Parsing the JSON response
-        
-        # Check if 'properties' exists in the response data
-        # if 'properties' in data:
-        #     properties = data['properties']
-        #     # Count the number of properties
-        #     properties_count = len(properties)
-        #     # print(f"Number of properties fetched: {properties_count}")
+        response.raise_for_status()
         save_listing_from_json(response.text)
     except requests.exceptions.RequestException as e:
-        print(f"Error fetching estate assistance listings: {e}")
-    
+        print(f"Error fetching listings: {e}")
 
 def current_listing(request,id):
     listing = get_object_or_404(Listing,pk=id)

@@ -22,8 +22,11 @@
      {% comment %} Canonical link 
     <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri|urlencode }}{% endblock %}"> {% endcomment %}
 
-    
-    <link rel="icon" href="{% static 'img/favicon/favicon-32x32.ico'%}" type="image/icon type">
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'img/favicon/favicon-48x48.ico'%}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'img/favicon/favicon-48x48.ico' %}" type="image/x-icon"> 
+
+    {% comment %} <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png'%}"> {% endcomment %}
     <!-- Font Awesome (From CDN) -->
     <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 

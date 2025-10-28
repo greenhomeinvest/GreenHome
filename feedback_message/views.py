@@ -6,7 +6,7 @@ from realtors.models import Realtor
 
 def feedback(request):
     if request.method == 'POST':
-        name = request.POST.get('name') or None  # Use None if name is empty
+        name = request.POST.get('customer_name') or None  # Use None if name is empty
         message = request.POST.get('message')
         listing_id = request.POST.get('listing')
         realtor_id = request.POST.get('realtor')
@@ -31,7 +31,7 @@ def feedback(request):
         )
         try:
             feedback_instance.save()
-            messages.success(request, 'Your feedback was successfully submitted.')
+            messages.success(request, 'Вашата оценка беше изпратена успешно')
             return redirect('home')
         except Exception as e:
             messages.error(request, f'Error saving feedback: {e}')

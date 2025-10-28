@@ -1,16 +1,34 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q4KPX2DZR1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-Q4KPX2DZR1');
+    </script>
+    
     <!--width=device-width, initial-scale=1.0-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content=" GreenHome, greenhome,real estate, апартамент, недвижими имоти, къща, имоти,  eco-friendly homes apartments,">
     
-    {% comment %} <link rel="icon" href="{% static 'img/favicon/GreenHome.ico'%}" type="image/icon type"> {% endcomment %}
+    {% block metadescription %}{% endblock %}
+
+     {% comment %} Canonical link 
+    <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri|urlencode }}{% endblock %}"> {% endcomment %}
+
+    <!-- Favicon -->
+    <link rel="icon" href="{% static 'favicon-48x48.ico'%}" type="image/x-icon">
+    <link rel="shortcut icon" href="{% static 'favicon-48x48.ico' %}" type="image/x-icon"> 
+
+    {% comment %} <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png'%}"> {% endcomment %}
     <!-- Font Awesome (From CDN) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet"  type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
 
     <!-- Local CSS Files -->
@@ -31,7 +49,9 @@
     <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/d85635d181d304bc0899b6b9/script.js"></script> 
     <!-- End cookieyes banner -->
 
-    <title>GreenHome {% block title %}{% endblock %}</title>
+    <title>
+        {% comment %} GreenHome  {% endcomment %}
+        {% block title %}{% endblock %}</title>
 </head>
 <body>
 

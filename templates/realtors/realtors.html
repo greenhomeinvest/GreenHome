@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
+{% block metadescription %}
+ <meta name="description" content="Подробна информация за всеки един от нашите брокери и канали за контакт. ">
+ <!-- Canonical Tag -->
+ <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+ {% endblock %}
 {% block title %}
-| Брокери
+GreenHome | Нашите брокери и как да се свържете с тях
 {% endblock %}
 
 {% block content %}
@@ -33,12 +38,12 @@
                           <img class="img-fluid-team" src="{{ realtor.photo.url }}" alt="">
                           <div class="team-social text-white p-4">
                               <p>
-                                  <a href="tel:+{{ realtor.phone }}" class="text-white">
+                                  <a href="tel:+{{ realtor.phone }}" class="text-white ">
                                       <i class="fas fa-phone"></i> +{{ realtor.phone }}
                                   </a>
                               </p>
                               <p>
-                                <a href="mailto:{{ realtor.email }}" class="text-white">
+                                <a href="mailto:{{ realtor.email }}" class="text-white d-flex flex-column align-items-center ">
                                   <i class="fas fa-envelope-open"></i> {{ realtor.email }}
                               </a>
                               </p>

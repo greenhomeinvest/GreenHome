@@ -2,10 +2,15 @@
 {% extends "base.html" %}
 {% load static%}
 {% load humanize %}
-{% block title %}| Запитване{% endblock %}
+{% block title %}| 404{% endblock %}
 {% block content %}
-{% comment %} <link rel="stylesheet" href="{% static 'css/cards_steps.css' %}"> {% endcomment %}
-  <!-- Showcase -->
+   <!-- Main message -->
+   <div class="col-md-12" style="padding-top: 15px; margin-top:250px; margin-bottom:250px">
+    <h1 class="text-center">Ooпс! Страницата не е намерена</h1>
+<p class="text-center">Моля проверете дали сте въвели правилно адреса на страницата, която търсите
+    или отидете на <a href="{% url 'home' %}"><b>началната страница.</b></a></p>
+ </div>
+  {% comment %} <!-- Showcase -->
   <section id="showcase" class='inquiry-showcase'>
     <!--Alerts-->
     {% include "partials/_alerts.html" %}
@@ -53,7 +58,7 @@
                     <textarea name="message" class="form-control" placeholder="Съобщение" rows="3" ></textarea>
                 </div>
             </div>
-{% comment %} UPLOAD MULTIPLE IMAGES {% endcomment %}
+
   <!-- Upload Multiple Images -->
   <div class="form-row position-relative file-input-container">
     <div class="col-md-12 mb-2">
@@ -203,7 +208,7 @@
         </div>
       </div>
     </div>
-  </section><br><br>
+  </section><br><br> {% endcomment %}
 
 
 {% endblock %}

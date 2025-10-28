@@ -940,82 +940,115 @@ img.img-about {
 
 
   /* owl carousel*/
-  .testimonial .testimonial-title{
-    display: inline-block;
+  .testimonial .testimonial-title {
+    display: block; /* Ensure title does not overlap */
     color: green;
-  }
-  .testimonial{
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 8px;
+}
+
+.testimonial {
     margin: 50px 30px;
     background-color: #fff;
     color: #000000;
     text-align: center;
     border-left: 10px solid #356148;
     border-right: 10px solid #356148;
-    box-shadow: 10px 10px 9px 1px rgb(0 0 0 / 20%);
-    padding: 40px 30px 40px;
+    box-shadow: 10px 10px 9px 1px rgba(0, 0, 0, 0.2);
+    padding: 40px 30px;
     position: relative;
-  }
-  .testimonial-content {
-    height: 100px;
+    min-height: 200px; /* Ensures all testimonials have enough space */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Ensuring text doesn't overflow */
+.testimonial-content {
+    min-height: 120px; /* Adjust based on content */
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  
-  .testimonial:before{
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Top and bottom borders */
+.testimonial:before {
     content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 50%;
     height: 10px;
-    background-color: #356148;;
-  }
-  .testimonial:after{
+    background-color: #356148;
+}
+
+.testimonial:after {
     content: "";
     position: absolute;
     bottom: 0;
     right: 0;
     width: 50%;
     height: 10px;
-    background-color:#356148;;
-  }
+    background-color: #356148;
+}
 
-  .checked {
+/* Star Rating */
+.checked {
     color: gold; /* Color for the filled stars */
     text-shadow: 1px 1px 1px rgba(53, 54, 53, 0.578);
 }
+
 .fa-star {
     font-size: 20px; /* Size of the stars */
     margin: 0 2px; /* Spacing between stars */
 }
 
-
+/* Quote Icons */
 .quote-left {
-  position: relative;
-  top: -5px;
-  color: #48752C; /* Adjust color as needed */
+    position: relative;
+    top: -5px;
+    color: #48752C; /* Adjust color as needed */
 }
 
 .quote-right {
-  position: relative;
-  bottom: -5px;
-  color: #48752C; /* Adjust color as needed */
+    position: relative;
+    bottom: -5px;
+    color: #48752C; /* Adjust color as needed */
 }
 
+/* Responsive Adjustments */
 @media (max-width: 900px) {
- .display-4{
-  font-size: 2.5rem;
-  font-weight: 300;
-  line-height: 1.2;
- }
-  }
+    .display-4 {
+        font-size: 2.5rem;
+        font-weight: 300;
+        line-height: 1.2;
+    }
+    
+    .testimonial {
+        padding: 30px 20px; /* Reduce padding for smaller screens */
+        margin: 30px 15px;
+    }
+    
+    .testimonial-content {
+        min-height: 140px; /* Allow extra space for mobile text */
+    }
+    
+    .testimonial-title {
+        font-size: 1rem; /* Reduce size for better mobile fit */
+    }
+}
 
-
+/* Prevent text from overlapping the author */
 .common-ellipsis {
-    white-space: nowrap;       /* Prevent text from wrapping to the next line */
-    overflow: hidden;          /* Hide overflowed text */
-    text-overflow: ellipsis;   /* Display ellipsis when text overflows */
-    width: 100%;              /* Adjust the width to limit the text, this can be changed as needed */
-    display: inline-block;     /* Ensure the width takes effect */
-  }
+    white-space: normal;      /* Allow text to wrap */
+    overflow: hidden;         /* Hide overflowed text */
+    text-overflow: ellipsis;  /* Display ellipsis when text overflows */
+    width: 100%;              /* Ensure full width usage */
+    display: block;           /* Ensure proper block display */
+}

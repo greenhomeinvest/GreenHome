@@ -67,5 +67,5 @@ def contact(request):
         email.send()
         
         messages.success(request,'Вашето запитване беше изпратено успешно.Брокер ще се свържи с вас скоро')
-        return redirect('/listings/'+ listing_id)
+        return redirect('/imoti-obiavi/'+ listing_id)
         

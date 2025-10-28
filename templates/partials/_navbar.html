@@ -3,7 +3,7 @@
  <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
     <div class="container">
       <a class="navbar-brand" href="{% url 'home' %}">
-        <img src="{% static "img/logo-ngd.png" %}" class="logo" alt="">
+        <img src="{% static "img/logo-ngd.png" %}" class="logo" alt="Имоти Варна">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup">
         <span class="navbar-toggler-icon"></span>
@@ -46,16 +46,18 @@
           </li> {% endcomment %}
           
       
-           <li
+           {% comment %} <li
           {% if 'listings' in request.path %}
             class="nav-item active mr-3"
           {% else %}
             class="nav-item mr-3"
           {% endif %}
         >
-          <a class="nav-link" href="{% url 'listings' %}">Обяви</a>
-        </li>
-
+          <a class="nav-link" href="{% url 'search' %}">Обяви</a>
+        </li> {% endcomment %}
+        <li class="nav-item mr-3 {% if 'search' in request.path %}active{% endif %}">
+          <a class="nav-link" href="{% url 'search' %}?{{ request.GET.urlencode }}">Обяви</a>
+      </li>
           <li
             {% if 'about' in request.path %}
               class="nav-item active mr-3"

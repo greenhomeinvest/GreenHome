@@ -1,0 +1,28 @@
+User-agent: *
+
+
+Allow: /*.css
+Allow: /*.js
+Disallow: /nezd-meg/
+
+User-agent: Googlebot-News
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+User-agent: Googlebot-Mobile
+Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
+User-agent: Adsbot-Google
+Allow: /
+
+
+#sitemap
+Sitemap: https://www.greenhomebg.com/sitemap.xml

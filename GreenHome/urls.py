@@ -11,12 +11,13 @@ admin.sites.AdminSite.site_title = 'Green Home'
 urlpatterns = [
     path('adminGH2022/', admin.site.urls),
     path('',include('pages.urls')),
-    path('listings/',include('listings.urls')),
+    path('imoti-obiavi/',include('listings.urls')),
     path('realtors/',include('realtors.urls')),
     path('accounts/',include('accounts.urls')),
     path('contact/',include('contacts.urls')),
     path('feedback/',include('feedback_message.urls')),
-    path('inquiry/',include('inquiry_message.urls')),
+    path('/',include('inquiry_message.urls')), 
+    # inquiry url
 ]
 # this is 
 # + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

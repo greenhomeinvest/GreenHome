@@ -77,27 +77,25 @@ class Listing(models.Model):
         ('Сглобяема конструкция', 'Сглобяема конструкция'),
     ]
     
-    uid = models.CharField(max_length=255, unique=True, null=True, blank=True)  # Add this line
-    estate_code  = models.IntegerField(null=True, blank=True)
-    realtor = models.ForeignKey(Realtor, on_delete=models.SET_DEFAULT, default=3, null=True, blank=True)
+    uid = models.CharField(max_length=255, unique=True, null=True, blank=True, db_index=True)
+    estate_code = models.IntegerField(null=True, blank=True, db_index=True)
+    realtor = models.ForeignKey(Realtor, on_delete=models.SET_DEFAULT, default=3, null=True, blank=True, db_index=True)
     title = models.CharField(max_length=255, blank=True, null=True)
-    type_choice = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=True, null=True)
-    city = models.CharField(max_length=200, blank=True, null=True)
+    type_choice = models.CharField(max_length=20, choices=TYPE_CHOICES, blank=True, null=True, db_index=True)
+    city = models.CharField(max_length=200, blank=True, null=True, db_index=True)
     state = models.CharField(max_length=200, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
-    price = models.IntegerField(blank=True, null=True)
-    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, blank=True, null=True)
+    price = models.IntegerField(blank=True, null=True, db_index=True)
+    currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, blank=True, null=True, db_index=True)
     bathrooms = models.IntegerField(blank=True, null=True)
     toilet = models.IntegerField(blank=True, null=True)
     sqft = models.IntegerField(blank=True, null=True)
     floors = models.IntegerField(blank=True, null=True)
     floors_max = models.IntegerField(blank=True, null=True)
-    type_building = models.CharField(max_length=30, choices=BUILDING_TYPE_CHOICES, blank=True, null=True)
+    type_building = models.CharField(max_length=30, choices=BUILDING_TYPE_CHOICES, blank=True, null=True, db_index=True)
     year_of_construction = models.DateField(default=datetime.now, blank=True, null=True)
-    # photo_main = models.ImageField(upload_to='photos/%Y/%m/%d/', blank=True, null=True)
-    is_published = models.BooleanField(default=True)
-    list_date = models.DateTimeField(auto_now_add=True, blank=True)
-    # more_options = models.ManyToManyField('MoreOptions', related_name='listings', blank=True)  # Changed related_name
+    is_published = models.BooleanField(default=True, db_index=True)
+    list_date = models.DateTimeField(auto_now_add=True, blank=True, db_index=True)
     side_view = models.CharField(max_length=50, choices=SIDE_CHOICES, blank=True, null=True)
     extra_options = MultiSelectField(choices=OPTION_CHOICES, blank=True, null=True)
     

@@ -31,8 +31,8 @@
     <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri|urlencode }}{% endblock %}"> {% endcomment %}
 
     <!-- Favicon -->
-    <link rel="icon" href="{% static 'favicon.ico'%}" type="image/x-icon">
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon"> 
+    <link rel="icon" href="{% static 'favicon.ico'%}" type="image/x-icon" sizes="96x96">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon" sizes="96x96"> 
 
     {% comment %} <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon/favicon-32x32.png'%}"> {% endcomment %}
     <!-- Font Awesome (From CDN) -->

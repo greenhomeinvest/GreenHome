@@ -198,7 +198,13 @@
             {% for photo in listing.photos.all %}
             <div class="item">
                 <a href="{{ photo.image.url }}" data-lightbox="property-images">
-                    <img src="{{ photo.image.url }}" alt="Photo {{ forloop.counter }}" class="img-fluid">
+                    <img
+                      src="{{ photo.image.url }}"
+                      alt="Photo {{ forloop.counter }} - {{ listing.title }}"
+                      class="img-fluid"
+                      decoding="async"
+                      {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                    >
                 </a>
             </div>
             {% endfor %}

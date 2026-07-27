@@ -156,6 +156,10 @@ AWS_S3_SIGNATURE_NAME = 's3v4'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_VERIFY = True
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'public, max-age=31536000, immutable',
+}
 
 
 # Static files settings
